@@ -1,4 +1,5 @@
 local api = require('love-api.love_api')
+local patch = require('patch')
 
 local function uniformType(t)
     return string.gsub(t, "%s+", "")
@@ -27,24 +28,24 @@ local function genArgClass(module_name, func_name, arg)
         local field_type = uniformType(field.type)
 
         if field_type == "table" then
-          local field_cls_name, field_cls_code = genArgClass(cls_name, field.name, field) 
+            local field_cls_name, field_cls_code = genArgClass(cls_name, field.name, field)
 
-          --- insert the field class to front
-          code = field_cls_code .. code
+            --- insert the field class to front
+            code = field_cls_code .. code
 
-          field_type = field_cls_name
+            field_type = field_cls_name
         end
 
         -- all fields are optional
         code = code .. "---@field " .. field.name .. "? " .. field_type .. " @" .. safeDesc(field.description) .. "\n"
     end
 
-    code = code .. "local " .. cls_var_name  .. "= {}\n\n"
+    code = code .. "local " .. cls_var_name .. "= {}\n\n"
 
     return cls_name, code
 end
 
-local function genReturns(variant)
+local function genReturns(moduleName, fun, variant)
     local returns = variant.returns
     local overload_code = ""
     local code = ""
@@ -52,12 +53,18 @@ local function genReturns(variant)
     if returns and #returns > 0 then
         num = #returns
         for i, ret in ipairs(returns) do
+            -- check if this return type need to be patched
             local ret_type = uniformType(ret.type)
+
+            local patch_ret_type = patch.genReturnPatch(moduleName, fun.name, ret.name)
+
+            if patch_ret_type then
+                ret_type = patch_ret_type
+            end
 
             if i == 1 then
                 overload_code = ret_type
                 code = code .. "---@return " .. ret_type .. " " .. ret.name .. " " .. safeDesc(ret.description)
-
             else
                 overload_code = overload_code .. ', ' .. ret_type
                 code = code .. "\n---@return " .. ret_type .. " " .. ret.name .. " " .. safeDesc(ret.description)
@@ -85,20 +92,35 @@ local function genFunction(moduleName, fun, static)
                     else
                         argList = argList .. ', ' .. argument.name
                     end
+
+                    local arg_type = uniformType(argument.type)
+
+                    local patch_arg_type = patch.genArgPatch(moduleName, fun.name, argument.name)
+                    if patch_arg_type then
+                        arg_type = patch_arg_type
+                    end
+
                     code = code ..
-                    '---@param ' .. argument.name .. ' ' .. uniformType(argument.type) .. ' @' .. argument.description .. '\n'
+                        '---@param ' .. argument.name .. ' ' .. arg_type .. ' @' .. argument.description .. '\n'
                 end
             else
                 code = code .. '---@overload fun('
                 for argIdx, argument in ipairs(arguments) do
+                    local arg_type = uniformType(argument.type)
+
+                    local patch_arg_type = patch.genArgPatch(moduleName, fun.name, argument.name)
+                    if patch_arg_type then
+                        arg_type = patch_arg_type
+                    end
+
                     if argIdx == 1 then
-                        code = code .. argument.name .. ':' .. uniformType(argument.type)
+                        code = code .. argument.name .. ':' .. arg_type
                     else
                         code = code .. ', '
-                        code = code .. argument.name .. ':' .. uniformType(argument.type)
+                        code = code .. argument.name .. ':' .. arg_type
                     end
                 end
-                local type, _, _ = genReturns(variant)
+                local type, _, _ = genReturns(moduleName, fun, variant)
 
                 code = code .. '):' .. type
                 code = code .. '\n'
@@ -106,7 +128,7 @@ local function genFunction(moduleName, fun, static)
         end
 
         if vIdx == 1 then
-            local _, num, return_code = genReturns(variant)
+            local _, num, return_code = genReturns(moduleName, fun, variant)
             if num > 0 then
                 code = code .. return_code .. '\n'
             end
@@ -234,6 +256,19 @@ local function genModule(name, api)
     f:close()
 end
 
+local function genPatch()
+    local f = assert(io.open("api/patch.lua", 'w'))
+
+    for i, d in ipairs(patch.definitions) do
+        f:write(d)
+        f:write("\n")
+    end
+
+    f:close()
+end
+
+-- additional definitions that not easy to generate automatically
+genPatch()
 genModule('love', api)
 
 print('--finished.')
