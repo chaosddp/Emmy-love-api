@@ -1,5 +1,4 @@
-
-local api = require('love_api')
+local api = require('love-api.love_api')
 
 local function safeDesc(src)
     return string.gsub(src, "\n", "\n---")
@@ -13,9 +12,9 @@ local function genReturns(variant)
         num = #returns
         for i, ret in ipairs(returns) do
             if i == 1 then
-                s = ret.type
+                s = string.gsub(ret.type, "%s+", "")
             else
-                s = s .. ', ' .. ret.type
+                s = s .. ', ' .. string.gsub(ret.type, "%s+", "")
             end
         end
     else
@@ -39,16 +38,17 @@ local function genFunction(moduleName, fun, static)
                     else
                         argList = argList .. ', ' .. argument.name
                     end
-                    code = code .. '---@param ' .. argument.name .. ' ' .. argument.type .. ' @' .. argument.description .. '\n'
+                    code = code ..
+                    '---@param ' .. argument.name .. ' ' .. string.gsub(argument.type, "%s+", "") .. ' @' .. argument.description .. '\n'
                 end
             else
                 code = code .. '---@overload fun('
                 for argIdx, argument in ipairs(arguments) do
                     if argIdx == 1 then
-                        code = code .. argument.name .. ':' .. argument.type
+                        code = code .. argument.name .. ':' .. string.gsub(argument.type, "%s+", "")
                     else
                         code = code .. ', '
-                        code = code .. argument.name .. ':' .. argument.type
+                        code = code .. argument.name .. ':' .. string.gsub(argument.type, "%s+", "")
                     end
                 end
                 code = code .. '):' .. genReturns(variant)
@@ -59,7 +59,7 @@ local function genFunction(moduleName, fun, static)
         if vIdx == 1 then
             local type, num = genReturns(variant)
             if num > 0 then
-                code = code .. '---@return ' .. type .. '\n'
+                code = code .. '---@return ' .. string.gsub(type, "%s+", "") .. '\n'
             end
         end
     end
@@ -76,7 +76,7 @@ local function genType(name, type)
     end
     code = code .. '\n'
     code = code .. '---' .. safeDesc(type.description) .. '\n'
-    code = code .. 'local ' .. name ..  ' = {}\n'
+    code = code .. 'local ' .. name .. ' = {}\n'
     -- functions
     if type.functions then
         for i, fun in ipairs(type.functions) do
@@ -87,25 +87,26 @@ local function genType(name, type)
     return code
 end
 
+-- we use alias instead previous enum, as we should only use the generate api as hinting, do reference them in final code.
 local function genEnum(enum)
     local code = '---' .. safeDesc(enum.description) .. '\n'
-    code = code .. enum.name .. ' = {\n'
+    code = code .. '---@alias ' .. enum.name .. '\n'
+
     for i, const in ipairs(enum.constants) do
-        code = code .. '\t---' .. safeDesc(const.description) .. '\n'
-        local name = const.name
-        if name == '\\' then
-            name = '\\\\'
-        elseif name == '\'' then
-            name = '\\\''
-        end
-        code = code .. '\t[\'' .. name .. '\'] = ' .. i .. ',\n'
+        code = code .. '---| ' .. "'" .. const.name .. "'" .. '\t#' .. safeDesc(const.description) .. '\n'
     end
-    code = code .. '}\n'
+
+    code = code .. '\n'
+
     return code
 end
 
 local function genModule(name, api)
     local f = assert(io.open("api/" .. name .. ".lua", 'w'))
+
+    -- add meta at begging, so it will not be parsed as executable code
+    f:write("---@meta " .. name .. "\n\n")
+
     f:write("---@class " .. name .. '\n')
     if api.description then
         f:write('---' .. safeDesc(api.description) .. '\n')
@@ -140,6 +141,31 @@ local function genModule(name, api)
     -- functions
     for i, fun in ipairs(api.functions) do
         f:write(genFunction('m', fun, true))
+    end
+
+    -- callbacks
+    if api.callbacks then
+        f:write("-- callbacks \n\n")
+
+        for i, callback in ipairs(api.callbacks) do
+            -- callback is same as function, but without body, only a type
+            f:write("---" .. safeDesc(callback.description) .. "\n")
+            f:write("---@type fun(")
+
+            -- callback only has one variant
+            if callback.variants[1].arguments and #callback.variants[1].arguments > 0 then
+                for argIdx, argument in ipairs(callback.variants[1].arguments) do
+                    if argIdx == 1 then
+                        f:write(argument.name .. ':' .. string.gsub(argument.type, "%s+", ""))
+                    else
+                        f:write(', ' .. argument.name .. ':' .. string.gsub(argument.type, "%s+", ""))
+                    end
+                end
+            end
+
+            f:write(")\n")
+            f:write("m." .. callback.name .. " = nil\n\n")
+        end
     end
 
     f:write("return m")
