@@ -11,7 +11,7 @@
 local m = {}
 
 --region Canvas
----@class Canvas
+---@class Canvas : Texture
 ---A Canvas is used for off-screen rendering. Think of it as an invisible screen that you can draw to, but that will not be visible until you draw it to the actual visible screen. It is also known as "render to texture".
 ---
 ---By drawing things that do not change position often (such as background items) to the Canvas, and then drawing the entire Canvas instead of each item,  you can reduce the number of draw operations performed each frame.
@@ -151,6 +151,7 @@ function Font:setFallbacks(fallbackfont1, ...) end
 ---@param min FilterMode @How to scale a font down.
 ---@param mag FilterMode @How to scale a font up.
 ---@param anisotropy number @Maximum amount of anisotropic filtering used.
+---@overload fun(min: FilterMode, mag: FilterMode)
 function Font:setFilter(min, mag, anisotropy) end
 
 ---Sets the line height.
@@ -1042,6 +1043,7 @@ function Texture:setDepthSampleMode(compare) end
 ---@param min FilterMode @Filter mode to use when minifying the texture (rendering it at a smaller size on-screen than its size in pixels).
 ---@param mag FilterMode @Filter mode to use when magnifying the texture (rendering it at a larger size on-screen than its size in pixels).
 ---@param anisotropy number @Maximum amount of anisotropic filtering to use.
+---@overload fun(min: FilterMode, mag: FilterMode)
 function Texture:setFilter(min, mag, anisotropy) end
 
 ---Sets the mipmap filter mode for a Texture. Prior to 11.0 this method only worked on Images.
@@ -1118,6 +1120,7 @@ function Video:seek(offset) end
 ---@param min FilterMode @The filter mode used when scaling the Video down.
 ---@param mag FilterMode @The filter mode used when scaling the Video up.
 ---@param anisotropy number @Maximum amount of anisotropic filtering used.
+---@overload fun(min: FilterMode, mag: FilterMode)
 function Video:setFilter(min, mag, anisotropy) end
 
 ---Sets the audio Source used for playing back the video's audio. The audio Source also controls playback speed and synchronization.
@@ -2018,6 +2021,7 @@ function m.setColorMask(red, green, blue, alpha) end
 ---@param min FilterMode @Filter mode used when scaling the image down.
 ---@param mag FilterMode @Filter mode used when scaling the image up.
 ---@param anisotropy number @Maximum amount of Anisotropic Filtering used.
+---@overload fun(min: FilterMode, mag: FilterMode)
 function m.setDefaultFilter(min, mag, anisotropy) end
 
 ---Configures depth testing and writing to the depth buffer.

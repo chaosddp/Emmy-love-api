@@ -219,7 +219,9 @@ function Source:setEffect(name, enable) end
 
 ---Sets a low-pass, high-pass, or band-pass filter to apply when playing the Source.
 ---@param settings table @The filter settings to use for this Source, with the following fields:
+---@overload fun(min: FilterMode, mag: FilterMode)
 ---@return boolean success Whether the filter was successfully applied to the Source.
+---@overload fun(min: FilterMode, mag: FilterMode)
 function Source:setFilter(settings) end
 
 ---Sets whether the Source should loop.

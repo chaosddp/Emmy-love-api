@@ -125,6 +125,13 @@ local function genFunction(moduleName, fun, static)
                 code = code .. '):' .. type
                 code = code .. '\n'
             end
+        end -- end of loop to parse arguments
+
+        -- check if we need to patch the overload functions
+        local patched_overload_code = patch.genOverloadPatch(moduleName, fun.name)
+
+        if patched_overload_code then
+            code = code .. patched_overload_code
         end
 
         if vIdx == 1 then
@@ -144,6 +151,13 @@ local function genType(name, type)
     local code = "---@class " .. type.name
     if type.parenttype then
         code = code .. ' : ' .. type.parenttype
+    else
+        -- if we need patch the base class?
+        local patch_base_cls = patch.getPatchBaseClass(name)
+
+        if patch_base_cls then
+            code = code .. ' : ' .. patch_base_cls
+        end
     end
     code = code .. '\n'
     code = code .. '---' .. safeDesc(type.description) .. '\n'

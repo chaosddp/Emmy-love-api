@@ -27,11 +27,16 @@ DisplayModeOptions = {
 }
 
 
+--- types:
+--- 1. table: used to map a table to a patched type
+--- 2. overload: used to add additional overloads to a function
+--- 3. base: used to specified a base type for a class
 local patch = {
     {
         name = "DisplayModeOptions",
         description = "",
         definitios = "",
+        type = "table",
         targets = {
             {
                 module = "love.window",
@@ -47,13 +52,67 @@ local patch = {
             }
         }
     },
+
+    {
+        name = "Canvas",
+        type = "base",
+        base_cls = "Texture"
+    },
+
+    {
+        name = "setDefaultFilter",
+        description = "",
+        type = "overload",
+        module = "love.graphics",
+        function_name = "setDefaultFilter",
+        overloads = {
+            {
+                arguments = {
+                    {
+                        name = "min",
+                        type = "FilterMode"
+                    },
+                    {
+                        name = "mag",
+                        type = "FilterMode"
+                    },
+                },
+                returns = {}
+            }
+        }
+    },
+
+    {
+        name = "setFilter",
+        description = "",
+        type = "overload",
+        module = "Canvas",
+        function_name = "setFilter",
+        overloads = {
+            {
+                arguments = {
+                    {
+                        name = "min",
+                        type = "FilterMode"
+                    },
+                    {
+                        name = "mag",
+                        type = "FilterMode"
+                    },
+                },
+                returns = {}
+            }
+        }
+    },
 }
 
 local function genArgPatch(module_name, function_name, argument)
     for _, p in ipairs(patch) do
-        for _, t in ipairs(p.targets) do
-            if t.function_name == function_name and t.argument == argument then
-                return t.type
+        if p.type == "table" then
+            for _, t in ipairs(p.targets) do
+                if t.function_name == function_name and t.argument == argument then
+                    return t.type
+                end
             end
         end
     end
@@ -61,11 +120,13 @@ local function genArgPatch(module_name, function_name, argument)
     return nil
 end
 
-local function genReturnPatch(module_name, function_name, return_name) 
+local function genReturnPatch(module_name, function_name, return_name)
     for _, p in ipairs(patch) do
-        for _, t in ipairs(p.targets) do
-            if t.function_name == function_name and t.return_name == return_name then
-                return t.type
+        if p.type == "table" then
+            for _, t in ipairs(p.targets) do
+                if t.function_name == function_name and t.return_name == return_name then
+                    return t.type
+                end
             end
         end
     end
@@ -74,4 +135,61 @@ local function genReturnPatch(module_name, function_name, return_name)
 end
 
 
-return { patch = patch, definitions = definitions, genArgPatch = genArgPatch, genReturnPatch = genReturnPatch }
+local function getPatchBaseClass(cls_name)
+    for _, p in ipairs(patch) do
+        if p.type == "base" and p.name == cls_name then
+            return p.base_cls
+        end
+    end
+
+    return nil
+end
+
+local function genOverloadPatch(module_name, function_name)
+    for _, p in ipairs(patch) do
+        if p.type == "overload" and p.function_name == function_name then
+            local code = ""
+
+            for _, o in ipairs(p.overloads) do
+                code = code .. "---@overload fun("
+
+                for i, a in ipairs(o.arguments) do
+                    if i == 1 then
+                        code = code .. a.name .. ": " .. a.type
+                    else
+                        code = code .. ", " .. a.name .. ": " .. a.type
+                    end
+                end
+
+                code = code .. ")"
+
+                if p.returns and #p.returns > 0 then
+                    code = code .. ": "
+
+                    for i, r in ipairs(p.returns) do
+                        if i == 1 then
+                            code = code .. r.type
+                        else
+                            code = code .. ", " .. r.type
+                        end
+                    end
+                end
+
+                code = code .. "\n"
+            end
+
+            return code
+        end
+    end
+
+    return nil
+end
+
+return {
+    patch = patch,
+    definitions = definitions,
+    genArgPatch = genArgPatch,
+    genReturnPatch = genReturnPatch,
+    getPatchBaseClass = getPatchBaseClass,
+    genOverloadPatch = genOverloadPatch
+}
