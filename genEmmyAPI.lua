@@ -1,26 +1,73 @@
 local api = require('love-api.love_api')
 
+local function uniformType(t)
+    return string.gsub(t, "%s+", "")
+end
+
+local function capitalize(str)
+    return string.upper(string.sub(str, 1, 1)) .. string.sub(str, 2)
+end
+
 local function safeDesc(src)
     return string.gsub(src, "\n", "\n---")
 end
 
+--- when a function argument is a table, we can try to generate a class for it (may be nested),
+--- named as ModuleNameFunctionNameArgumentName(ChildName ...), like: LoveConf {window: LoveConfWindow {}}
+local function genArgClass(module_name, func_name, arg)
+    local cls_name = capitalize(module_name) .. capitalize(func_name)
+    local cls_var_name = module_name:lower() .. "_" .. func_name
+
+    local code = "---" .. safeDesc(arg.description) .. "\n"
+
+    code = code .. "---@class " .. cls_name .. "\n"
+
+
+    for i, field in ipairs(arg.table) do
+        local field_type = uniformType(field.type)
+
+        if field_type == "table" then
+          local field_cls_name, field_cls_code = genArgClass(cls_name, field.name, field) 
+
+          --- insert the field class to front
+          code = field_cls_code .. code
+
+          field_type = field_cls_name
+        end
+
+        -- all fields are optional
+        code = code .. "---@field " .. field.name .. "? " .. field_type .. " @" .. safeDesc(field.description) .. "\n"
+    end
+
+    code = code .. "local " .. cls_var_name  .. "= {}\n\n"
+
+    return cls_name, code
+end
+
 local function genReturns(variant)
     local returns = variant.returns
-    local s = ""
+    local overload_code = ""
+    local code = ""
     local num = 0
     if returns and #returns > 0 then
         num = #returns
         for i, ret in ipairs(returns) do
+            local ret_type = uniformType(ret.type)
+
             if i == 1 then
-                s = string.gsub(ret.type, "%s+", "")
+                overload_code = ret_type
+                code = code .. "---@return " .. ret_type .. " " .. ret.name .. " " .. safeDesc(ret.description)
+
             else
-                s = s .. ', ' .. string.gsub(ret.type, "%s+", "")
+                overload_code = overload_code .. ', ' .. ret_type
+                code = code .. "\n---@return " .. ret_type .. " " .. ret.name .. " " .. safeDesc(ret.description)
             end
         end
     else
-        s = "void"
+        overload_code = "void"
+        code = overload_code
     end
-    return s, num
+    return overload_code, num, code
 end
 
 local function genFunction(moduleName, fun, static)
@@ -39,27 +86,29 @@ local function genFunction(moduleName, fun, static)
                         argList = argList .. ', ' .. argument.name
                     end
                     code = code ..
-                    '---@param ' .. argument.name .. ' ' .. string.gsub(argument.type, "%s+", "") .. ' @' .. argument.description .. '\n'
+                    '---@param ' .. argument.name .. ' ' .. uniformType(argument.type) .. ' @' .. argument.description .. '\n'
                 end
             else
                 code = code .. '---@overload fun('
                 for argIdx, argument in ipairs(arguments) do
                     if argIdx == 1 then
-                        code = code .. argument.name .. ':' .. string.gsub(argument.type, "%s+", "")
+                        code = code .. argument.name .. ':' .. uniformType(argument.type)
                     else
                         code = code .. ', '
-                        code = code .. argument.name .. ':' .. string.gsub(argument.type, "%s+", "")
+                        code = code .. argument.name .. ':' .. uniformType(argument.type)
                     end
                 end
-                code = code .. '):' .. genReturns(variant)
+                local type, _, _ = genReturns(variant)
+
+                code = code .. '):' .. type
                 code = code .. '\n'
             end
         end
 
         if vIdx == 1 then
-            local type, num = genReturns(variant)
+            local _, num, return_code = genReturns(variant)
             if num > 0 then
-                code = code .. '---@return ' .. string.gsub(type, "%s+", "") .. '\n'
+                code = code .. return_code .. '\n'
             end
         end
     end
@@ -149,22 +198,35 @@ local function genModule(name, api)
 
         for i, callback in ipairs(api.callbacks) do
             -- callback is same as function, but without body, only a type
-            f:write("---" .. safeDesc(callback.description) .. "\n")
-            f:write("---@type fun(")
+            local callback_code = "---" .. safeDesc(callback.description) .. "\n"
+            callback_code = callback_code .. "---@type fun("
 
             -- callback only has one variant
             if callback.variants[1].arguments and #callback.variants[1].arguments > 0 then
                 for argIdx, argument in ipairs(callback.variants[1].arguments) do
+                    local argument_type = uniformType(argument.type)
+
+                    if argument.type == "table" and argument.table then
+                        local argument_cls_code = nil
+
+                        argument_type, argument_cls_code = genArgClass(name, callback.name, argument)
+
+                        f:write(argument_cls_code)
+                        f:write("\n")
+                    end
+
                     if argIdx == 1 then
-                        f:write(argument.name .. ':' .. string.gsub(argument.type, "%s+", ""))
+                        callback_code = callback_code .. argument.name .. ':' .. argument_type
                     else
-                        f:write(', ' .. argument.name .. ':' .. string.gsub(argument.type, "%s+", ""))
+                        callback_code = callback_code .. ', ' .. argument.name .. ':' .. argument_type
                     end
                 end
             end
 
-            f:write(")\n")
-            f:write("m." .. callback.name .. " = nil\n\n")
+            callback_code = callback_code .. ")\n"
+            callback_code = callback_code .. "m." .. callback.name .. " = nil\n\n"
+
+            f:write(callback_code)
         end
     end
 
