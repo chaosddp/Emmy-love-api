@@ -169,7 +169,7 @@ function Font:setLineHeight(height) end
 
 --region Image
 
----@class Image
+---@class Image : Drawable
 ---Drawable image type.
 local Image = {}
 ---Gets whether the Image was created from CompressedData.

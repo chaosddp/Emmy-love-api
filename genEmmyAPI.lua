@@ -1,8 +1,7 @@
 local api = require('love-api.love_api')
 local patch = require('patch')
 
--- which love2d version we are targeting
-local TARGET_VERSION = "12.0"
+TARGET_VERSION = "12.0"
 
 --- uniform the type string, like remove spaces
 local function uniformType(t)
@@ -112,13 +111,6 @@ local function genFunction(module_name, module_var_name, fun, static)
     end
 
     local code = "---" .. safeDesc(fun.description) .. "\n"
-
-    local is_deprecated, deprecated_decl = patch.genDeprecatedPatch(module_name, fun.name, nil, TARGET_VERSION)
-
-    if is_deprecated then
-        code = code .. deprecated_decl .. "\n"
-    end
-
     local argList = ''
 
     for vIdx, variant in ipairs(fun.variants) do
