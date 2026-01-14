@@ -65,6 +65,12 @@ local patch = {
         base_cls = "Texture"
     },
 
+    {
+        name = "Image",
+        type = "base",
+        base_cls = "Drawable"
+    },
+
     -- {
     --     name = "setDefaultFilter",
     --     description = "",
