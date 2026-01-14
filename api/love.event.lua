@@ -83,7 +83,6 @@ function m.push(n, a, b, c, d, e, f, ...) end
 function m.quit(exitstatus) end
 
 ---Like love.event.poll(), but blocks until there is an event in the queue.
----@deprecated replaced with: love.event.pump
 ---@return Event n The name of event.
 ---@return Variant a First event argument.
 ---@return Variant b Second event argument.

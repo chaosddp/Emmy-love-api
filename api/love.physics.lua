@@ -19,7 +19,6 @@ local Body = {}
 ---Unlike the PolygonShape, the ChainShape does not have a vertices limit or has to form a convex shape, but self intersections are not supported.
 local ChainShape = {}
 ---Returns a child of the shape as an EdgeShape.
----@deprecated 
 ---@param index number @The index of the child.
 ---@return EdgeShape shape The child as an EdgeShape.
 function ChainShape:getChildEdge(index) end
@@ -108,7 +107,6 @@ local Contact = {}
 function Contact:getChildren() end
 
 ---Gets the two Fixtures that hold the shapes that are in contact.
----@deprecated replaced with: Contact:getShapes
 ---@return Fixture fixtureA The first Fixture.
 ---@return Fixture fixtureB The second Fixture.
 function Contact:getFixtures() end

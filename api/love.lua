@@ -180,7 +180,6 @@ local loveconf_modules= {}
 ---@field stencil number @Then number of bits per sample in the depth buffer (generally 8, default nil)
 ---@field msaa number @The number of samples to use with multi-sampled antialiasing.
 ---@field display number @The index of the display to show the window in, if multiple monitors are available.
----@deprecated replaced with: LoveConf.highdpi
 ---@field highdpi boolean @See love.window.getPixelScale, love.window.toPixels, and love.window.fromPixels. It is recommended to keep this option disabled if you can't test your game on a Mac or iOS system with a Retina display, because code will need tweaking to make sure things look correct.
 ---@field x number @Determines the position of the window on the user's screen. Alternatively love.window.setPosition can be used to change the position on the fly.
 ---@field y number @Determines the position of the window on the user's screen. Alternatively love.window.setPosition can be used to change the position on the fly.

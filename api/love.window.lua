@@ -25,7 +25,6 @@ local m = {}
 ---| 'error'	#Error dialog.
 
 ---Closes the window. It can be reopened with love.window.setMode.
----@deprecated 
 function m.close() end
 
 ---Converts a number from pixels to density-independent units.

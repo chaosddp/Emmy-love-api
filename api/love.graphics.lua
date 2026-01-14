@@ -37,7 +37,6 @@ function Canvas:getMSAA() end
 function Canvas:getMipmapMode() end
 
 ---Generates ImageData from the contents of the Canvas.
----@deprecated replaced with: love.graphics.readbackTexture
 ---@return ImageData data The new ImageData made from the Canvas' contents.
 ---@overload fun(slice:number, mipmap?:number, x:number, y:number, width:number, height:number):ImageData
 function Canvas:newImageData() end
@@ -1187,7 +1186,6 @@ function m.getBlendMode() end
 function m.getCanvas() end
 
 ---Gets the available Canvas formats, and whether each is supported.
----@deprecated replaced with: love.graphics.getTextureFormats
 ---@return table formats A table containing CanvasFormats as keys, and a boolean indicating whether the format is supported as values. Not all systems support all formats.
 ---@overload fun(readable:boolean):table
 function m.getCanvasFormats() end
@@ -1253,7 +1251,6 @@ function m.getFrontFaceWinding() end
 function m.getHeight() end
 
 ---Gets the raw and compressed pixel formats usable for Images, and whether each is supported.
----@deprecated replaced with: love.graphics.getTextureFormats
 ---@return table formats A table containing PixelFormats as keys, and a boolean indicating whether the format is supported as values. Not all systems support all formats.
 function m.getImageFormats() end
 
@@ -1330,7 +1327,6 @@ function m.getStats() end
 ---When stencil testing is enabled, the geometry of everything that is drawn afterward will be clipped / stencilled out based on a comparison between the arguments of this function and the stencil value of each pixel that the geometry touches. The stencil values of pixels are affected via love.graphics.stencil.
 ---
 ---Each Canvas has its own per-pixel stencil values.
----@deprecated replaced with: love.graphics.getStencilMode, love.graphics.getStencilState
 ---@return CompareMode comparemode The type of comparison that is made for each pixel. Will be 'always' if stencil testing is disabled.
 ---@return number comparevalue The value used when comparing with the stencil value of each pixel.
 function m.getStencilTest() end
@@ -1546,7 +1542,6 @@ function m.newShader(code) end
 function m.newSpriteBatch(image, maxsprites) end
 
 ---Creates a new drawable Text object.
----@deprecated replaced with: love.graphics.newTextBatch
 ---@param font Font @The font to use for the text.
 ---@param textstring? string @The initial string of text that the new Text object will contain. May be nil.
 ---@return Text text The new drawable Text object.
@@ -1791,7 +1786,6 @@ function m.setLineWidth(width) end
 function m.setMeshCullMode(mode) end
 
 ---Creates and sets a new Font.
----@deprecated replaced with: love.graphics.newFont, love.graphics.setFon
 ---@param size? number @The size of the font.
 ---@return Font font The new font.
 ---@overload fun(filename:string, size?:number):Font
@@ -1824,7 +1818,6 @@ function m.setShader(shader) end
 ---Configures or disables stencil testing.
 ---
 ---When stencil testing is enabled, the geometry of everything that is drawn afterward will be clipped / stencilled out based on a comparison between the arguments of this function and the stencil value of each pixel that the geometry touches. The stencil values of pixels are affected via love.graphics.stencil.
----@deprecated replaced with: love.graphics.setStencilMode, love.graphics.setStencilState
 ---@param comparemode CompareMode @The type of comparison to make for each pixel.
 ---@param comparevalue number @The value to use when comparing with the stencil value of each pixel. Must be between 0 and 255.
 ---@overload fun()
