@@ -5,13 +5,16 @@
 local m = {}
 
 --region DroppedFile
+
 ---@class DroppedFile
 ---Represents a file dropped onto the window.
 ---
 ---Note that the DroppedFile type can only be obtained from love.filedropped callback, and can't be constructed manually by the user.
 local DroppedFile = {}
 --endregion DroppedFile
+
 --region File
+
 ---@class File
 ---Represents a file on the filesystem. A function that takes a file path can also take a File.
 local File = {}
@@ -60,10 +63,10 @@ function File:lines() end
 function File:open(mode) end
 
 ---Read a number of bytes from a file.
----@param bytes number @The number of bytes to read.
+---@param bytes? number @The number of bytes to read.
 ---@return string contents The contents of the read bytes.
 ---@return number size How many bytes have been read.
----@overload fun(container:ContainerType, bytes:number):FileDataorstring, number
+---@overload fun(container:ContainerType, bytes?:number):FileDataorstring, number
 function File:read(bytes) end
 
 ---Seek to a position in a file
@@ -75,7 +78,7 @@ function File:seek(pos) end
 ---
 ---File:flush will force any buffered data to be written to the disk.
 ---@param mode BufferMode @The buffer mode to use.
----@param size number @The maximum size in bytes of the file's buffer.
+---@param size? number @The maximum size in bytes of the file's buffer.
 ---@return boolean success Whether the buffer mode was successfully set.
 ---@return string errorstr The error string, if the buffer mode could not be set and an error occurred.
 function File:setBuffer(mode, size) end
@@ -86,14 +89,16 @@ function File:tell() end
 
 ---Write data to a file.
 ---@param data string @The string data to write.
----@param size number @How many bytes to write.
+---@param size? number @How many bytes to write.
 ---@return boolean success Whether the operation was successful.
 ---@return string err The error string if an error occurred.
----@overload fun(data:Data, size:number):boolean, string
+---@overload fun(data:Data, size?:number):boolean, string
 function File:write(data, size) end
 
 --endregion File
+
 --region FileData
+
 ---@class FileData
 ---Data representing the contents of a file.
 local FileData = {}
@@ -106,6 +111,7 @@ function FileData:getExtension() end
 function FileData:getFilename() end
 
 --endregion FileData
+
 ---Buffer modes for File objects.
 ---@alias BufferMode
 ---| 'none'	#No buffering. The result of write and append operations appears immediately.
@@ -134,10 +140,10 @@ function FileData:getFilename() end
 ---Append data to an existing file.
 ---@param name string @The name (and path) of the file.
 ---@param data string @The string data to append to the file.
----@param size number @How many bytes to write.
+---@param size? number @How many bytes to write.
 ---@return boolean success True if the operation was successful, or nil if there was an error.
 ---@return string errormsg The error message on failure.
----@overload fun(name:string, data:Data, size:number):boolean, string
+---@overload fun(name:string, data:Data, size?:number):boolean, string
 function m.append(name, data, size) end
 
 ---Gets whether love.filesystem follows symbolic links.
@@ -179,7 +185,7 @@ function m.getIdentity() end
 
 ---Gets information about the specified file or directory.
 ---@param path string @The file or directory path to check.
----@param filtertype FileType @If supplied, this parameter causes getInfo to only return the info table if the item at the given path matches the specified file type.
+---@param filtertype? FileType @If supplied, this parameter causes getInfo to only return the info table if the item at the given path matches the specified file type.
 ---@return table info A table containing information about the specified path, or nil if nothing exists at the path. The table contains the following fields:
 ---@overload fun(path:string, info:table):table
 ---@overload fun(path:string, filtertype:FileType, info:table):table
@@ -254,10 +260,10 @@ function m.load(name) end
 ---It is also possible to mount love.filesystem.getSourceBaseDirectory if the game is in fused mode.
 ---@param archive string @The folder or zip file in the game's save directory to mount.
 ---@param mountpoint string @The new path the archive will be mounted to.
----@param appendToPath boolean @Whether the archive will be searched when reading a filepath before or after already-mounted archives. This includes the game's source and save directories.
+---@param appendToPath? boolean @Whether the archive will be searched when reading a filepath before or after already-mounted archives. This includes the game's source and save directories.
 ---@return boolean success True if the archive was successfully mounted, false otherwise.
----@overload fun(filedata:FileData, mountpoint:string, appendToPath:boolean):boolean
----@overload fun(data:Data, archivename:string, mountpoint:string, appendToPath:boolean):boolean
+---@overload fun(filedata:FileData, mountpoint:string, appendToPath?:boolean):boolean
+---@overload fun(data:Data, archivename:string, mountpoint:string, appendToPath?:boolean):boolean
 function m.mount(archive, mountpoint, appendToPath) end
 
 ---Creates a new File object. 
@@ -278,12 +284,12 @@ function m.newFileData(contents, name) end
 
 ---Read the contents of a file.
 ---@param name string @The name (and path) of the file.
----@param size number @How many bytes to read.
+---@param size? number @How many bytes to read.
 ---@return string contents The file contents.
 ---@return number size How many bytes have been read.
 ---@return nil contents returns nil as content.
 ---@return string error returns an error message.
----@overload fun(container:ContainerType, name:string, size:number):FileDataorstring, number, nil, string
+---@overload fun(container:ContainerType, name:string, size?:number):FileDataorstring, number, nil, string
 function m.read(name, size) end
 
 ---Removes a file or empty directory.
@@ -330,10 +336,10 @@ function m.unmount(archive) end
 ---Write data to a file in the save directory. If the file existed already, it will be completely replaced by the new contents.
 ---@param name string @The name (and path) of the file.
 ---@param data string @The string data to write to the file.
----@param size number @How many bytes to write.
+---@param size? number @How many bytes to write.
 ---@return boolean success If the operation was successful.
 ---@return string message Error message if operation was unsuccessful.
----@overload fun(name:string, data:Data, size:number):boolean, string
+---@overload fun(name:string, data:Data, size?:number):boolean, string
 function m.write(name, data, size) end
 
 return m

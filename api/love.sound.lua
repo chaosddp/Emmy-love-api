@@ -5,6 +5,7 @@
 local m = {}
 
 --region Decoder
+
 ---@class Decoder
 ---An object which can gradually decode a sound file.
 local Decoder = {}
@@ -39,7 +40,9 @@ function Decoder:getSampleRate() end
 function Decoder:seek(offset) end
 
 --endregion Decoder
+
 --region SoundData
+
 ---@class SoundData
 ---Contains raw audio samples.
 ---
@@ -78,11 +81,12 @@ function SoundData:getSampleRate() end
 function SoundData:setSample(i, sample) end
 
 --endregion SoundData
+
 ---Attempts to find a decoder for the encoded sound data in the specified file.
 ---@param file File @The file with encoded sound data.
----@param buffer number @The size of each decoded chunk, in bytes.
+---@param buffer? number @The size of each decoded chunk, in bytes.
 ---@return Decoder decoder A new Decoder object.
----@overload fun(filename:string, buffer:number):Decoder
+---@overload fun(filename:string, buffer?:number):Decoder
 function m.newDecoder(file, buffer) end
 
 ---Creates new SoundData from a filepath, File, or Decoder. It's also possible to create SoundData with a custom sample rate, channel and bit depth.
@@ -92,7 +96,7 @@ function m.newDecoder(file, buffer) end
 ---@return SoundData soundData A new SoundData object.
 ---@overload fun(file:File):SoundData
 ---@overload fun(decoder:Decoder):SoundData
----@overload fun(samples:number, rate:number, bits:number, channels:number):SoundData
+---@overload fun(samples:number, rate?:number, bits?:number, channels?:number):SoundData
 function m.newSoundData(filename) end
 
 return m

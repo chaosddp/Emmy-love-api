@@ -53,64 +53,122 @@ local patch = {
         }
     },
 
+
+    {
+        name = "Texture",
+        type = "base",
+        base_cls = "Drawable"
+    },
     {
         name = "Canvas",
         type = "base",
         base_cls = "Texture"
     },
 
-    {
-        name = "setDefaultFilter",
-        description = "",
-        type = "overload",
-        module = "love.graphics",
-        function_name = "setDefaultFilter",
-        overloads = {
-            {
-                arguments = {
-                    {
-                        name = "min",
-                        type = "FilterMode"
-                    },
-                    {
-                        name = "mag",
-                        type = "FilterMode"
-                    },
-                },
-                returns = {}
-            }
-        }
-    },
+    -- {
+    --     name = "setDefaultFilter",
+    --     description = "",
+    --     type = "overload",
+    --     module = "love.graphics",
+    --     function_name = "setDefaultFilter",
+    --     overloads = {
+    --         {
+    --             arguments = {
+    --                 {
+    --                     name = "min",
+    --                     type = "FilterMode"
+    --                 },
+    --                 {
+    --                     name = "mag",
+    --                     type = "FilterMode"
+    --                 },
+    --             },
+    --             returns = {}
+    --         }
+    --     }
+    -- },
 
-    {
-        name = "setFilter",
-        description = "",
-        type = "overload",
-        module = "Canvas",
-        function_name = "setFilter",
-        overloads = {
-            {
-                arguments = {
-                    {
-                        name = "min",
-                        type = "FilterMode"
-                    },
-                    {
-                        name = "mag",
-                        type = "FilterMode"
-                    },
-                },
-                returns = {}
-            }
-        }
-    },
+    -- {
+    --     name = "setFilter",
+    --     description = "",
+    --     type = "overload",
+    --     module = { "Texture", "Font", "Video" },
+    --     function_name = "setFilter",
+    --     overloads = {
+    --         {
+    --             arguments = {
+    --                 {
+    --                     name = "min",
+    --                     type = "FilterMode"
+    --                 },
+    --                 {
+    --                     name = "mag",
+    --                     type = "FilterMode"
+    --                 },
+    --             },
+    --             returns = {}
+    --         }
+    --     }
+    -- },
+
+    -- {
+    --     name = "love.graphics.clear",
+    --     description = "",
+    --     type = "overload",
+    --     module = "love.graphics",
+    --     function_name = "clear",
+    --     overloads = {
+    --         {
+    --             arguments = {
+    --                 {
+    --                     name = "r",
+    --                     type = "number"
+    --                 },
+    --                 {
+    --                     name = "g",
+    --                     type = "number"
+    --                 },
+    --                 {
+    --                     name = "b",
+    --                     type = "number"
+    --                 }
+    --             }
+    --         }
+    --     }
+    -- },
+
+    -- {
+    --     name = "love.graphics.print",
+    --     description = "",
+    --     type = "overload",
+    --     module = "love.graphics",
+    --     function_name = "print",
+    --     overloads = {
+    --         {
+    --             arguments = {
+    --                 {
+    --                     name = "text",
+    --                     type = "string"
+    --                 },
+    --                 {
+    --                     name = "x",
+    --                     type = "number"
+    --                 },
+    --                 {
+    --                     name = "y",
+    --                     type = "number"
+    --                 },
+    --             }
+    --         }
+    --     }
+    -- }
 }
 
 local function genArgPatch(module_name, function_name, argument)
     for _, p in ipairs(patch) do
         if p.type == "table" then
             for _, t in ipairs(p.targets) do
-                if t.function_name == function_name and t.argument == argument then
+                if t.function_name == function_name and t.module == module_name and t.argument == argument then
                     return t.type
                 end
             end
@@ -124,7 +182,7 @@ local function genReturnPatch(module_name, function_name, return_name)
     for _, p in ipairs(patch) do
         if p.type == "table" then
             for _, t in ipairs(p.targets) do
-                if t.function_name == function_name and t.return_name == return_name then
+                if t.function_name == function_name and t.module == module_name and t.return_name == return_name then
                     return t.type
                 end
             end
@@ -148,34 +206,48 @@ end
 local function genOverloadPatch(module_name, function_name)
     for _, p in ipairs(patch) do
         if p.type == "overload" and p.function_name == function_name then
+            local modules = {}
+
+            -- modules to patch
+            if type(module_name) == "table" then
+                for _, m in ipairs(module_name) do
+                    table.insert(modules, m)
+                end
+            else
+                table.insert(modules, module_name)
+            end
             local code = ""
 
-            for _, o in ipairs(p.overloads) do
-                code = code .. "---@overload fun("
+            for _, module in ipairs(modules) do
+                if module == module_name then
+                    for _, o in ipairs(p.overloads) do
+                        code = code .. "---@overload fun("
 
-                for i, a in ipairs(o.arguments) do
-                    if i == 1 then
-                        code = code .. a.name .. ": " .. a.type
-                    else
-                        code = code .. ", " .. a.name .. ": " .. a.type
-                    end
-                end
-
-                code = code .. ")"
-
-                if p.returns and #p.returns > 0 then
-                    code = code .. ": "
-
-                    for i, r in ipairs(p.returns) do
-                        if i == 1 then
-                            code = code .. r.type
-                        else
-                            code = code .. ", " .. r.type
+                        for i, a in ipairs(o.arguments) do
+                            if i == 1 then
+                                code = code .. a.name .. ": " .. a.type
+                            else
+                                code = code .. ", " .. a.name .. ": " .. a.type
+                            end
                         end
+
+                        code = code .. ")"
+
+                        if p.returns and #p.returns > 0 then
+                            code = code .. ": "
+
+                            for i, r in ipairs(p.returns) do
+                                if i == 1 then
+                                    code = code .. r.type
+                                else
+                                    code = code .. ", " .. r.type
+                                end
+                            end
+                        end
+
+                        code = code .. "\n"
                     end
                 end
-
-                code = code .. "\n"
             end
 
             return code

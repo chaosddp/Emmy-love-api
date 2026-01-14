@@ -5,6 +5,7 @@
 local m = {}
 
 --region Body
+
 ---@class Body
 ---Bodies are objects with velocity and position.
 local Body = {}
@@ -440,7 +441,9 @@ function Body:setX(x) end
 function Body:setY(y) end
 
 --endregion Body
+
 --region ChainShape
+
 ---@class ChainShape
 ---A ChainShape consists of multiple line segments. It can be used to create the boundaries of your terrain. The shape does not have volume and can only collide with PolygonShape and CircleShape.
 ---
@@ -497,7 +500,9 @@ function ChainShape:setNextVertex(x, y) end
 function ChainShape:setPreviousVertex(x, y) end
 
 --endregion ChainShape
+
 --region CircleShape
+
 ---@class CircleShape
 ---Circle extends Shape and adds a radius and a local position.
 local CircleShape = {}
@@ -520,7 +525,9 @@ function CircleShape:setPoint(x, y) end
 function CircleShape:setRadius(radius) end
 
 --endregion CircleShape
+
 --region Contact
+
 ---@class Contact
 ---Contacts are objects created to manage collisions in worlds.
 local Contact = {}
@@ -584,7 +591,9 @@ function Contact:setFriction(friction) end
 function Contact:setRestitution(restitution) end
 
 --endregion Contact
+
 --region DistanceJoint
+
 ---@class DistanceJoint
 ---Keeps two bodies at the same distance.
 local DistanceJoint = {}
@@ -613,7 +622,9 @@ function DistanceJoint:setFrequency(Hz) end
 function DistanceJoint:setLength(l) end
 
 --endregion DistanceJoint
+
 --region EdgeShape
+
 ---@class EdgeShape
 ---A EdgeShape is a line segment. They can be used to create the boundaries of your terrain. The shape does not have volume and can only collide with PolygonShape and CircleShape.
 local EdgeShape = {}
@@ -653,7 +664,9 @@ function EdgeShape:setNextVertex(x, y) end
 function EdgeShape:setPreviousVertex(x, y) end
 
 --endregion EdgeShape
+
 --region Fixture
+
 ---@class Fixture
 ---Fixtures attach shapes to bodies.
 local Fixture = {}
@@ -665,7 +678,7 @@ function Fixture:destroy() end
 function Fixture:getBody() end
 
 ---Returns the points of the fixture bounding box. In case the fixture has multiple children a 1-based index can be specified. For example, a fixture will have multiple children with a chain shape.
----@param index number @A bounding box of the fixture.
+---@param index? number @A bounding box of the fixture.
 ---@return number topLeftX The x position of the top-left point.
 ---@return number topLeftY The y position of the top-left point.
 ---@return number bottomRightX The x position of the bottom-right point.
@@ -743,7 +756,7 @@ function Fixture:isSensor() end
 ---@param x2 number @The x position of the input line end point.
 ---@param y2 number @The y position of the input line end point.
 ---@param maxFraction number @Ray length parameter.
----@param childIndex number @The index of the child the ray gets cast against.
+---@param childIndex? number @The index of the child the ray gets cast against.
 ---@return number xn The x component of the normal vector of the edge where the ray hit the shape.
 ---@return number yn The y component of the normal vector of the edge where the ray hit the shape.
 ---@return number fraction The position on the input line where the intersection happened as a factor of the line length.
@@ -816,7 +829,9 @@ function Fixture:setUserData(value) end
 function Fixture:testPoint(x, y) end
 
 --endregion Fixture
+
 --region FrictionJoint
+
 ---@class FrictionJoint
 ---A FrictionJoint applies friction to a body.
 local FrictionJoint = {}
@@ -837,7 +852,9 @@ function FrictionJoint:setMaxForce(maxForce) end
 function FrictionJoint:setMaxTorque(torque) end
 
 --endregion FrictionJoint
+
 --region GearJoint
+
 ---@class GearJoint
 ---Keeps bodies together in such a way that they act like gears.
 local GearJoint = {}
@@ -855,7 +872,9 @@ function GearJoint:getRatio() end
 function GearJoint:setRatio(ratio) end
 
 --endregion GearJoint
+
 --region Joint
+
 ---@class Joint
 ---Attach multiple bodies together to interact in unique ways.
 local Joint = {}
@@ -912,7 +931,9 @@ function Joint:isDestroyed() end
 function Joint:setUserData(value) end
 
 --endregion Joint
+
 --region MotorJoint
+
 ---@class MotorJoint
 ---Controls the relative motion between two Bodies. Position and rotation offsets can be specified, as well as the maximum motor force and torque that will be applied to reach the target offsets.
 local MotorJoint = {}
@@ -935,7 +956,9 @@ function MotorJoint:setAngularOffset(angleoffset) end
 function MotorJoint:setLinearOffset(x, y) end
 
 --endregion MotorJoint
+
 --region MouseJoint
+
 ---@class MouseJoint
 ---For controlling objects with the mouse.
 local MouseJoint = {}
@@ -974,7 +997,9 @@ function MouseJoint:setMaxForce(f) end
 function MouseJoint:setTarget(x, y) end
 
 --endregion MouseJoint
+
 --region PolygonShape
+
 ---@class PolygonShape
 ---A PolygonShape is a convex polygon with up to 8 vertices.
 local PolygonShape = {}
@@ -988,7 +1013,9 @@ local PolygonShape = {}
 function PolygonShape:getPoints() end
 
 --endregion PolygonShape
+
 --region PrismaticJoint
+
 ---@class PrismaticJoint
 ---Restricts relative motion between Bodies to one shared axis.
 local PrismaticJoint = {}
@@ -1073,7 +1100,9 @@ function PrismaticJoint:setMotorSpeed(s) end
 function PrismaticJoint:setUpperLimit(upper) end
 
 --endregion PrismaticJoint
+
 --region PulleyJoint
+
 ---@class PulleyJoint
 ---Allows you to simulate bodies connected through pulleys.
 local PulleyJoint = {}
@@ -1123,7 +1152,9 @@ function PulleyJoint:setMaxLengths(max1, max2) end
 function PulleyJoint:setRatio(ratio) end
 
 --endregion PulleyJoint
+
 --region RevoluteJoint
+
 ---@class RevoluteJoint
 ---Allow two Bodies to revolve around a shared point.
 local RevoluteJoint = {}
@@ -1206,7 +1237,9 @@ function RevoluteJoint:setMotorSpeed(s) end
 function RevoluteJoint:setUpperLimit(upper) end
 
 --endregion RevoluteJoint
+
 --region RopeJoint
+
 ---@class RopeJoint
 ---The RopeJoint enforces a maximum distance between two points on two bodies. It has no other effect.
 local RopeJoint = {}
@@ -1219,7 +1252,9 @@ function RopeJoint:getMaxLength() end
 function RopeJoint:setMaxLength(maxLength) end
 
 --endregion RopeJoint
+
 --region Shape
+
 ---@class Shape
 ---Shapes are solid 2d geometrical objects which handle the mass and collision of a Body in love.physics.
 ---
@@ -1231,7 +1266,7 @@ local Shape = {}
 ---@param tx number @The translation of the shape on the x-axis.
 ---@param ty number @The translation of the shape on the y-axis.
 ---@param tr number @The shape rotation.
----@param childIndex number @The index of the child to compute the bounding box of.
+---@param childIndex? number @The index of the child to compute the bounding box of.
 ---@return number topLeftX The x position of the top-left point.
 ---@return number topLeftY The y position of the top-left point.
 ---@return number bottomRightX The x position of the bottom-right point.
@@ -1277,7 +1312,7 @@ function Shape:getType() end
 ---@param tx number @The translation of the shape on the x-axis.
 ---@param ty number @The translation of the shape on the y-axis.
 ---@param tr number @The shape rotation.
----@param childIndex number @The index of the child the ray gets cast against.
+---@param childIndex? number @The index of the child the ray gets cast against.
 ---@return number xn The x component of the normal vector of the edge where the ray hit the shape.
 ---@return number yn The y component of the normal vector of the edge where the ray hit the shape.
 ---@return number fraction The position on the input line where the intersection happened as a factor of the line length.
@@ -1293,7 +1328,9 @@ function Shape:rayCast(x1, y1, x2, y2, maxFraction, tx, ty, tr, childIndex) end
 function Shape:testPoint(tx, ty, tr, x, y) end
 
 --endregion Shape
+
 --region WeldJoint
+
 ---@class WeldJoint
 ---A WeldJoint essentially glues two bodies together.
 local WeldJoint = {}
@@ -1318,7 +1355,9 @@ function WeldJoint:setDampingRatio(ratio) end
 function WeldJoint:setFrequency(freq) end
 
 --endregion WeldJoint
+
 --region WheelJoint
+
 ---@class WheelJoint
 ---Restricts a point on the second body to a line on the first body.
 local WheelJoint = {}
@@ -1381,7 +1420,9 @@ function WheelJoint:setSpringDampingRatio(ratio) end
 function WheelJoint:setSpringFrequency(freq) end
 
 --endregion WheelJoint
+
 --region World
+
 ---@class World
 ---A world is an object that contains all bodies and joints.
 local World = {}
@@ -1469,8 +1510,8 @@ function World:rayCast(x1, y1, x2, y2, callback) end
 ---If you are interested to know when exactly each callback is called, consult a Box2d manual
 ---@param beginContact function @Gets called when two fixtures begin to overlap.
 ---@param endContact function @Gets called when two fixtures cease to overlap. This will also be called outside of a world update, when colliding objects are destroyed.
----@param preSolve function @Gets called before a collision gets resolved.
----@param postSolve function @Gets called after the collision has been resolved.
+---@param preSolve? function @Gets called before a collision gets resolved.
+---@param postSolve? function @Gets called after the collision has been resolved.
 function World:setCallbacks(beginContact, endContact, preSolve, postSolve) end
 
 ---Sets a function for collision filtering.
@@ -1495,11 +1536,12 @@ function World:translateOrigin(x, y) end
 
 ---Update the state of the world.
 ---@param dt number @The time (in seconds) to advance the physics simulation.
----@param velocityiterations number @The maximum number of steps used to determine the new velocities when resolving a collision.
----@param positioniterations number @The maximum number of steps used to determine the new positions when resolving a collision.
+---@param velocityiterations? number @The maximum number of steps used to determine the new velocities when resolving a collision.
+---@param positioniterations? number @The maximum number of steps used to determine the new positions when resolving a collision.
 function World:update(dt, velocityiterations, positioniterations) end
 
 --endregion World
+
 ---The types of a Body. 
 ---@alias BodyType
 ---| 'static'	#Static bodies do not move.
@@ -1555,9 +1597,9 @@ function m.getMeter() end
 ---
 ---The mass of the body gets calculated when a Fixture is attached or removed, but can be changed at any time with Body:setMass or Body:resetMassData.
 ---@param world World @The world to create the body in.
----@param x number @The x position of the body.
----@param y number @The y position of the body.
----@param type BodyType @The type of the body.
+---@param x? number @The x position of the body.
+---@param y? number @The y position of the body.
+---@param type? BodyType @The type of the body.
 ---@return Body body A new body.
 function m.newBody(world, x, y, type) end
 
@@ -1587,7 +1629,7 @@ function m.newCircleShape(radius) end
 ---@param y1 number @The y position of the first anchor point (world space).
 ---@param x2 number @The x position of the second anchor point (world space).
 ---@param y2 number @The y position of the second anchor point (world space).
----@param collideConnected boolean @Specifies whether the two bodies should collide with each other.
+---@param collideConnected? boolean @Specifies whether the two bodies should collide with each other.
 ---@return DistanceJoint joint The new distance joint.
 function m.newDistanceJoint(body1, body2, x1, y1, x2, y2, collideConnected) end
 
@@ -1604,7 +1646,7 @@ function m.newEdgeShape(x1, y1, x2, y2) end
 ---Note that the Shape object is copied rather than kept as a reference when the Fixture is created. To get the Shape object that the Fixture owns, use Fixture:getShape.
 ---@param body Body @The body which gets the fixture attached.
 ---@param shape Shape @The shape to be copied to the fixture.
----@param density number @The density of the fixture.
+---@param density? number @The density of the fixture.
 ---@return Fixture fixture The new fixture.
 function m.newFixture(body, shape, density) end
 
@@ -1613,9 +1655,9 @@ function m.newFixture(body, shape, density) end
 ---@param body2 Body @The second body to attach to the joint.
 ---@param x number @The x position of the anchor point.
 ---@param y number @The y position of the anchor point.
----@param collideConnected boolean @Specifies whether the two bodies should collide with each other.
+---@param collideConnected? boolean @Specifies whether the two bodies should collide with each other.
 ---@return FrictionJoint joint The new FrictionJoint.
----@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, collideConnected:boolean):FrictionJoint
+---@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, collideConnected?:boolean):FrictionJoint
 function m.newFrictionJoint(body1, body2, x, y, collideConnected) end
 
 ---Create a GearJoint connecting two Joints.
@@ -1625,8 +1667,8 @@ function m.newFrictionJoint(body1, body2, x, y, collideConnected) end
 ---The gear joint has a ratio the determines how the angular or distance values of the connected joints relate to each other. The formula coordinate1 + ratio * coordinate2 always has a constant value that is set when the gear joint is created.
 ---@param joint1 Joint @The first joint to connect with a gear joint.
 ---@param joint2 Joint @The second joint to connect with a gear joint.
----@param ratio number @The gear ratio.
----@param collideConnected boolean @Specifies whether the two bodies should collide with each other.
+---@param ratio? number @The gear ratio.
+---@param collideConnected? boolean @Specifies whether the two bodies should collide with each other.
 ---@return GearJoint joint The new gear joint.
 function m.newGearJoint(joint1, joint2, ratio, collideConnected) end
 
@@ -1635,9 +1677,9 @@ function m.newGearJoint(joint1, joint2, ratio, collideConnected) end
 ---Position and rotation offsets can be specified once the MotorJoint has been created, as well as the maximum motor force and torque that will be be applied to reach the target offsets.
 ---@param body1 Body @The first body to attach to the joint.
 ---@param body2 Body @The second body to attach to the joint.
----@param correctionFactor number @The joint's initial position correction factor, in the range of 1.
+---@param correctionFactor? number @The joint's initial position correction factor, in the range of 1.
 ---@return MotorJoint joint The new MotorJoint.
----@overload fun(body1:Body, body2:Body, correctionFactor:number, collideConnected:boolean):MotorJoint
+---@overload fun(body1:Body, body2:Body, correctionFactor?:number, collideConnected?:boolean):MotorJoint
 function m.newMotorJoint(body1, body2, correctionFactor) end
 
 ---Create a joint between a body and the mouse.
@@ -1674,10 +1716,10 @@ function m.newPolygonShape(x1, y1, x2, y2, x3, y3, ...) end
 ---@param y number @The y coordinate of the anchor point.
 ---@param ax number @The x coordinate of the axis vector.
 ---@param ay number @The y coordinate of the axis vector.
----@param collideConnected boolean @Specifies whether the two bodies should collide with each other.
+---@param collideConnected? boolean @Specifies whether the two bodies should collide with each other.
 ---@return PrismaticJoint joint The new prismatic joint.
----@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, ax:number, ay:number, collideConnected:boolean):PrismaticJoint
----@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, ax:number, ay:number, collideConnected:boolean, referenceAngle:number):PrismaticJoint
+---@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, ax:number, ay:number, collideConnected?:boolean):PrismaticJoint
+---@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, ax:number, ay:number, collideConnected?:boolean, referenceAngle?:number):PrismaticJoint
 function m.newPrismaticJoint(body1, body2, x, y, ax, ay, collideConnected) end
 
 ---Creates a PulleyJoint to join two bodies to each other and the ground.
@@ -1695,8 +1737,8 @@ function m.newPrismaticJoint(body1, body2, x, y, ax, ay, collideConnected) end
 ---@param y1 number @The y coordinate of the pulley joint anchor in the first body.
 ---@param x2 number @The x coordinate of the pulley joint anchor in the second body.
 ---@param y2 number @The y coordinate of the pulley joint anchor in the second body.
----@param ratio number @The joint ratio.
----@param collideConnected boolean @Specifies whether the two bodies should collide with each other.
+---@param ratio? number @The joint ratio.
+---@param collideConnected? boolean @Specifies whether the two bodies should collide with each other.
 ---@return PulleyJoint joint The new pulley joint.
 function m.newPulleyJoint(body1, body2, gx1, gy1, gx2, gy2, x1, y1, x2, y2, ratio, collideConnected) end
 
@@ -1706,7 +1748,7 @@ function m.newPulleyJoint(body1, body2, gx1, gy1, gx2, gy2, x1, y1, x2, y2, rati
 ---@param width number @The width of the rectangle.
 ---@param height number @The height of the rectangle.
 ---@return PolygonShape shape A new PolygonShape.
----@overload fun(x:number, y:number, width:number, height:number, angle:number):PolygonShape
+---@overload fun(x:number, y:number, width:number, height:number, angle?:number):PolygonShape
 function m.newRectangleShape(width, height) end
 
 ---Creates a pivot joint between two bodies.
@@ -1716,9 +1758,9 @@ function m.newRectangleShape(width, height) end
 ---@param body2 Body @The second body.
 ---@param x number @The x position of the connecting point.
 ---@param y number @The y position of the connecting point.
----@param collideConnected boolean @Specifies whether the two bodies should collide with each other.
+---@param collideConnected? boolean @Specifies whether the two bodies should collide with each other.
 ---@return RevoluteJoint joint The new revolute joint.
----@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, collideConnected:boolean, referenceAngle:number):RevoluteJoint
+---@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, collideConnected?:boolean, referenceAngle?:number):RevoluteJoint
 function m.newRevoluteJoint(body1, body2, x, y, collideConnected) end
 
 ---Creates a joint between two bodies. Its only function is enforcing a max distance between these bodies.
@@ -1729,7 +1771,7 @@ function m.newRevoluteJoint(body1, body2, x, y, collideConnected) end
 ---@param x2 number @The x position of the second anchor point.
 ---@param y2 number @The y position of the second anchor point.
 ---@param maxLength number @The maximum distance for the bodies.
----@param collideConnected boolean @Specifies whether the two bodies should collide with each other.
+---@param collideConnected? boolean @Specifies whether the two bodies should collide with each other.
 ---@return RopeJoint joint The new RopeJoint.
 function m.newRopeJoint(body1, body2, x1, y1, x2, y2, maxLength, collideConnected) end
 
@@ -1738,10 +1780,10 @@ function m.newRopeJoint(body1, body2, x1, y1, x2, y2, maxLength, collideConnecte
 ---@param body2 Body @The second body to attach to the joint.
 ---@param x number @The x position of the anchor point (world space).
 ---@param y number @The y position of the anchor point (world space).
----@param collideConnected boolean @Specifies whether the two bodies should collide with each other.
+---@param collideConnected? boolean @Specifies whether the two bodies should collide with each other.
 ---@return WeldJoint joint The new WeldJoint.
----@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, collideConnected:boolean):WeldJoint
----@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, collideConnected:boolean, referenceAngle:number):WeldJoint
+---@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, collideConnected?:boolean):WeldJoint
+---@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, collideConnected?:boolean, referenceAngle?:number):WeldJoint
 function m.newWeldJoint(body1, body2, x, y, collideConnected) end
 
 ---Creates a wheel joint.
@@ -1751,15 +1793,15 @@ function m.newWeldJoint(body1, body2, x, y, collideConnected) end
 ---@param y number @The y position of the anchor point.
 ---@param ax number @The x position of the axis unit vector.
 ---@param ay number @The y position of the axis unit vector.
----@param collideConnected boolean @Specifies whether the two bodies should collide with each other.
+---@param collideConnected? boolean @Specifies whether the two bodies should collide with each other.
 ---@return WheelJoint joint The new WheelJoint.
----@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, ax:number, ay:number, collideConnected:boolean):WheelJoint
+---@overload fun(body1:Body, body2:Body, x1:number, y1:number, x2:number, y2:number, ax:number, ay:number, collideConnected?:boolean):WheelJoint
 function m.newWheelJoint(body1, body2, x, y, ax, ay, collideConnected) end
 
 ---Creates a new World.
----@param xg number @The x component of gravity.
----@param yg number @The y component of gravity.
----@param sleep boolean @Whether the bodies in this world are allowed to sleep.
+---@param xg? number @The x component of gravity.
+---@param yg? number @The y component of gravity.
+---@param sleep? boolean @Whether the bodies in this world are allowed to sleep.
 ---@return World world A brave new World.
 function m.newWorld(xg, yg, sleep) end
 

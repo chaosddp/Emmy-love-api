@@ -11,6 +11,7 @@
 local m = {}
 
 --region Channel
+
 ---@class Channel
 ---An object which can be used to send and receive data between different threads.
 local Channel = {}
@@ -72,7 +73,9 @@ function Channel:push(value) end
 function Channel:supply(value) end
 
 --endregion Channel
+
 --region Thread
+
 ---@class Thread
 ---A Thread is a chunk of code that can run in parallel with other threads. Data can be sent between different threads with Channel objects.
 local Thread = {}
@@ -98,6 +101,7 @@ function Thread:start() end
 function Thread:wait() end
 
 --endregion Thread
+
 ---Creates or retrieves a named thread channel.
 ---@param name string @The name of the channel you want to create or retrieve.
 ---@return Channel channel The Channel object associated with the name.

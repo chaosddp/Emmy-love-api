@@ -5,13 +5,16 @@
 local m = {}
 
 --region ByteData
+
 ---@class ByteData
 ---Data object containing arbitrary bytes in an contiguous memory.
 ---
 ---There are currently no LÖVE functions provided for manipulating the contents of a ByteData, but Data:getPointer can be used with LuaJIT's FFI to access and write to the contents directly.
 local ByteData = {}
 --endregion ByteData
+
 --region CompressedData
+
 ---@class CompressedData
 ---Represents byte data compressed using a specific algorithm.
 ---
@@ -22,6 +25,7 @@ local CompressedData = {}
 function CompressedData:getFormat() end
 
 --endregion CompressedData
+
 ---Compressed data formats.
 ---@alias CompressedDataFormat
 ---| 'lz4'	#The LZ4 compression format. Compresses and decompresses very quickly, but the compression ratio is not the best. LZ4-HC is used when compression level 9 is specified. Some benchmarks are available here.
@@ -52,9 +56,9 @@ function CompressedData:getFormat() end
 ---@param container ContainerType @What type to return the compressed data as.
 ---@param format CompressedDataFormat @The format to use when compressing the string.
 ---@param rawstring string @The raw (un-compressed) string to compress.
----@param level number @The level of compression to use, between 0 and 9. -1 indicates the default level. The meaning of this argument depends on the compression format being used.
+---@param level? number @The level of compression to use, between 0 and 9. -1 indicates the default level. The meaning of this argument depends on the compression format being used.
 ---@return CompressedDataorstring compressedData CompressedData/string which contains the compressed version of rawstring.
----@overload fun(container:ContainerType, format:CompressedDataFormat, data:Data, level:number):CompressedDataorstring
+---@overload fun(container:ContainerType, format:CompressedDataFormat, data:Data, level?:number):CompressedDataorstring
 function m.compress(container, format, rawstring, level) end
 
 ---Decode Data or a string from any of the EncodeFormats to Data or string.
@@ -77,9 +81,9 @@ function m.decompress(container, compressedData) end
 ---@param container ContainerType @What type to return the encoded data as.
 ---@param format EncodeFormat @The format of the output data.
 ---@param sourceString string @The raw data to encode.
----@param linelength number @The maximum line length of the output. Only supported for base64, ignored if 0.
+---@param linelength? number @The maximum line length of the output. Only supported for base64, ignored if 0.
 ---@return ByteDataorstring encoded ByteData/string which contains the encoded version of source.
----@overload fun(container:ContainerType, format:EncodeFormat, sourceData:Data, linelength:number):ByteDataorstring
+---@overload fun(container:ContainerType, format:EncodeFormat, sourceData:Data, linelength?:number):ByteDataorstring
 function m.encode(container, format, sourceString, linelength) end
 
 ---Gets the size in bytes that a given format used with love.data.pack will use.
@@ -101,7 +105,7 @@ function m.hash(hashFunction, string) end
 ---Data:getPointer along with LuaJIT's FFI can be used to manipulate the contents of the ByteData object after it has been created.
 ---@param datastring string @The byte string to copy.
 ---@return ByteData bytedata The new Data object.
----@overload fun(Data:Data, offset:number, size:number):ByteData
+---@overload fun(Data:Data, offset?:number, size?:number):ByteData
 ---@overload fun(size:number):ByteData
 function m.newByteData(datastring) end
 
@@ -127,11 +131,11 @@ function m.pack(container, format, v1, ...) end
 ---This function behaves the same as Lua 5.3's string.unpack.
 ---@param format string @A string determining how the values were packed. Follows the rules of Lua 5.3's string.pack format strings.
 ---@param datastring string @A string containing the packed (serialized) data.
----@param pos number @Where to start reading in the string. Negative values can be used to read relative from the end of the string.
+---@param pos? number @Where to start reading in the string. Negative values can be used to read relative from the end of the string.
 ---@return numberorbooleanorstring v1 The first value (number, boolean, or string) that was unpacked.
 ---@return numberorbooleanorstring ... Additional unpacked values.
 ---@return number index The index of the first unread byte in the data string.
----@overload fun(format:string, data:Data, pos:number):numberorbooleanorstring, numberorbooleanorstring, number
+---@overload fun(format:string, data:Data, pos?:number):numberorbooleanorstring, numberorbooleanorstring, number
 function m.unpack(format, datastring, pos) end
 
 return m

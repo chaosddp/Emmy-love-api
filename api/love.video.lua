@@ -7,6 +7,7 @@
 local m = {}
 
 --region VideoStream
+
 ---@class VideoStream
 ---An object which decodes, streams, and controls Videos.
 local VideoStream = {}
@@ -36,6 +37,7 @@ function VideoStream:seek(offset) end
 function VideoStream:tell() end
 
 --endregion VideoStream
+
 ---Creates a new VideoStream. Currently only Ogg Theora video files are supported. VideoStreams can't draw videos, see love.graphics.newVideo for that.
 ---@param filename string @The file path to the Ogg Theora video file.
 ---@return VideoStream videostream A new VideoStream.

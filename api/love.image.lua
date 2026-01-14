@@ -5,6 +5,7 @@
 local m = {}
 
 --region CompressedImageData
+
 ---@class CompressedImageData
 ---Represents compressed image data designed to stay compressed in RAM.
 ---
@@ -37,7 +38,9 @@ function CompressedImageData:getMipmapCount() end
 function CompressedImageData:getWidth() end
 
 --endregion CompressedImageData
+
 --region ImageData
+
 ---@class ImageData
 ---Raw (decoded) image data.
 ---
@@ -45,7 +48,7 @@ function CompressedImageData:getWidth() end
 local ImageData = {}
 ---Encodes the ImageData and optionally writes it to the save directory.
 ---@param format ImageFormat @The format to encode the image as.
----@param filename string @The filename to write the file to. If nil, no file will be written but the FileData will still be returned.
+---@param filename? string @The filename to write the file to. If nil, no file will be written but the FileData will still be returned.
 ---@return FileData filedata The encoded image as a new FileData object.
 ---@overload fun(outFile:string):void
 ---@overload fun(outFile:string, format:ImageFormat):void
@@ -97,10 +100,10 @@ function ImageData:getWidth() end
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 ---@param pixelFunction function @Function to apply to every pixel.
----@param x number @The x-axis of the top-left corner of the area within the ImageData to apply the function to.
----@param y number @The y-axis of the top-left corner of the area within the ImageData to apply the function to.
----@param width number @The width of the area within the ImageData to apply the function to.
----@param height number @The height of the area within the ImageData to apply the function to.
+---@param x? number @The x-axis of the top-left corner of the area within the ImageData to apply the function to.
+---@param y? number @The y-axis of the top-left corner of the area within the ImageData to apply the function to.
+---@param width? number @The width of the area within the ImageData to apply the function to.
+---@param height? number @The height of the area within the ImageData to apply the function to.
 function ImageData:mapPixel(pixelFunction, x, y, width, height) end
 
 ---Paste into ImageData from another source ImageData.
@@ -132,6 +135,7 @@ function ImageData:setPixel(x, y, r, g, b, a) end
 function ImageData:getFormat() end
 
 --endregion ImageData
+
 ---Compressed image data formats. Here and here are a couple overviews of many of the formats.
 ---
 ---Unlike traditional PNG or jpeg, these formats stay compressed in RAM and in the graphics card's VRAM. This is good for saving memory space as well as improving performance, since the graphics card will be able to keep more of the image's pixels in its fast-access cache when drawing it.
@@ -263,7 +267,7 @@ function m.newCompressedData(filename) end
 ---@param width number @The width of the ImageData.
 ---@param height number @The height of the ImageData.
 ---@return ImageData imageData The new blank ImageData object. Each pixel's color values, (including the alpha values!) will be set to zero.
----@overload fun(width:number, height:number, format:PixelFormat, data:string):ImageData
+---@overload fun(width:number, height:number, format?:PixelFormat, data?:string):ImageData
 ---@overload fun(width:number, height:number, data:string):ImageData
 ---@overload fun(filename:string):ImageData
 ---@overload fun(filedata:FileData):ImageData

@@ -50,7 +50,7 @@ function m.fromPixels(pixelvalue) end
 function m.getDPIScale() end
 
 ---Gets the width and height of the desktop.
----@param displayindex number @The index of the display, if multiple monitors are available.
+---@param displayindex? number @The index of the display, if multiple monitors are available.
 ---@return number width The width of the desktop.
 ---@return number height The height of the desktop.
 function m.getDesktopDimensions(displayindex) end
@@ -60,12 +60,12 @@ function m.getDesktopDimensions(displayindex) end
 function m.getDisplayCount() end
 
 ---Gets the name of a display.
----@param displayindex number @The index of the display to get the name of.
+---@param displayindex? number @The index of the display to get the name of.
 ---@return string name The name of the specified display.
 function m.getDisplayName(displayindex) end
 
 ---Gets current device display orientation.
----@param displayindex number @Display index to get its display orientation, or nil for default display index.
+---@param displayindex? number @Display index to get its display orientation, or nil for default display index.
 ---@return DisplayOrientation orientation Current device display orientation.
 function m.getDisplayOrientation(displayindex) end
 
@@ -75,7 +75,7 @@ function m.getDisplayOrientation(displayindex) end
 function m.getFullscreen() end
 
 ---Gets a list of supported fullscreen modes.
----@param displayindex number @The index of the display, if multiple monitors are available.
+---@param displayindex? number @The index of the display, if multiple monitors are available.
 ---@return table modes A table of width/height pairs. (Note that this may not be in order.)
 function m.getFullscreenModes(displayindex) end
 
@@ -157,7 +157,7 @@ function m.minimize() end
 ---Causes the window to request the attention of the user if it is not in the foreground.
 ---
 ---In Windows the taskbar icon will flash, and in OS X the dock icon will bounce.
----@param continuous boolean @Whether to continuously request attention until the window becomes active, or to do it only once.
+---@param continuous? boolean @Whether to continuously request attention until the window becomes active, or to do it only once.
 function m.requestAttention(continuous) end
 
 ---Restores the size and position of the window if it was minimized or maximized.
@@ -196,7 +196,7 @@ function m.setMode(width, height, flags) end
 ---The window position is in the coordinate space of the specified display.
 ---@param x number @The x-coordinate of the window's position.
 ---@param y number @The y-coordinate of the window's position.
----@param displayindex number @The index of the display that the new window position is relative to.
+---@param displayindex? number @The index of the display that the new window position is relative to.
 function m.setPosition(x, y, displayindex) end
 
 ---Sets the window title.
@@ -210,10 +210,10 @@ function m.setVSync(vsync) end
 ---Displays a message box dialog above the love window. The message box contains a title, optional text, and buttons.
 ---@param title string @The title of the message box.
 ---@param message string @The text inside the message box.
----@param type MessageBoxType @The type of the message box.
----@param attachtowindow boolean @Whether the message box should be attached to the love window or free-floating.
+---@param type? MessageBoxType @The type of the message box.
+---@param attachtowindow? boolean @Whether the message box should be attached to the love window or free-floating.
 ---@return boolean success Whether the message box was successfully displayed.
----@overload fun(title:string, message:string, buttonlist:table, type:MessageBoxType, attachtowindow:boolean):number
+---@overload fun(title:string, message:string, buttonlist:table, type?:MessageBoxType, attachtowindow?:boolean):number
 function m.showMessageBox(title, message, type, attachtowindow) end
 
 ---Converts a number from density-independent units to pixels.
