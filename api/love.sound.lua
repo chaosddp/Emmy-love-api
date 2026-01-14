@@ -9,36 +9,6 @@ local m = {}
 ---@class Decoder
 ---An object which can gradually decode a sound file.
 local Decoder = {}
----Creates a new copy of current decoder.
----
----The new decoder will start decoding from the beginning of the audio stream.
----@return Decoder decoder New copy of the decoder.
-function Decoder:clone() end
-
----Decodes the audio and returns a SoundData object containing the decoded audio data.
----@return SoundData soundData Decoded audio data.
-function Decoder:decode() end
-
----Returns the number of bits per sample.
----@return number bitDepth Either 8, or 16.
-function Decoder:getBitDepth() end
-
----Returns the number of channels in the stream.
----@return number channels 1 for mono, 2 for stereo.
-function Decoder:getChannelCount() end
-
----Gets the duration of the sound file. It may not always be sample-accurate, and it may return -1 if the duration cannot be determined at all.
----@return number duration The duration of the sound file in seconds, or -1 if it cannot be determined.
-function Decoder:getDuration() end
-
----Returns the sample rate of the Decoder.
----@return number rate Number of samples per second.
-function Decoder:getSampleRate() end
-
----Sets the currently playing position of the Decoder.
----@param offset number @The position to seek to, in seconds.
-function Decoder:seek(offset) end
-
 --endregion Decoder
 
 --region SoundData
@@ -98,5 +68,22 @@ function m.newDecoder(file, buffer) end
 ---@overload fun(decoder:Decoder):SoundData
 ---@overload fun(samples:number, rate?:number, bits?:number, channels?:number):SoundData
 function m.newSoundData(filename) end
+
+
+
+--love12 patch begin
+
+
+---Copies the specified section of the given SoundData into this one.\
+---@param sourcedata SoundData The SoundData to copy from.
+---@param sourcestart number The first sample in the source SoundData to copy from.
+---@param samplecount number The total number of samples to copy.
+---@param deststart number The first sample in the destination SoundData to copy to.
+function SoundData:copyFrom(sourcedata, sourcestart, samplecount, deststart) end
+
+function SoundData:slice() end
+
+
+--love12 patch end
 
 return m

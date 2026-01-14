@@ -180,6 +180,7 @@ local loveconf_modules= {}
 ---@field stencil number @Then number of bits per sample in the depth buffer (generally 8, default nil)
 ---@field msaa number @The number of samples to use with multi-sampled antialiasing.
 ---@field display number @The index of the display to show the window in, if multiple monitors are available.
+---@deprecated replaced with: LoveConf.highdpi
 ---@field highdpi boolean @See love.window.getPixelScale, love.window.toPixels, and love.window.fromPixels. It is recommended to keep this option disabled if you can't test your game on a Mac or iOS system with a Retina display, because code will need tweaking to make sure things look correct.
 ---@field x number @Determines the position of the window on the user's screen. Alternatively love.window.setPosition can be used to change the position on the fly.
 ---@field y number @Determines the position of the window on the user's screen. Alternatively love.window.setPosition can be used to change the position on the fly.
@@ -217,7 +218,6 @@ local loveconf_audio= {}
 ---@field appendidentity boolean @This flag determines if game directory should be searched first then save directory (true) or otherwise (false)
 ---@field version string @t.version should be a string, representing the version of LÖVE for which your game was made. It should be formatted as "X.Y.Z" where X is the major release number, Y the minor, and Z the patch level. It allows LÖVE to display a warning if it isn't compatible. Its default is the version of LÖVE running.
 ---@field console boolean @Determines whether a console should be opened alongside the game window (Windows only) or not. Note: On OSX you can get console output by running LÖVE through the terminal.
----@field accelerometerjoystick boolean @Sets whether the device accelerometer on iOS and Android should be exposed as a 3-axis Joystick. Disabling the accelerometer when it's not used may reduce CPU usage.
 ---@field externalstorage boolean @Sets whether files are saved in external storage (true) or internal storage (false) on Android.
 ---@field gammacorrect boolean @Determines whether gamma-correct rendering is enabled, when the system supports it.
 ---@field audio LoveConfAudio @Audio options.
@@ -375,5 +375,60 @@ m.visible = nil
 ---Callback function triggered when the mouse wheel is moved.
 ---@type fun(x:number, y:number)
 m.wheelmoved = nil
+
+
+
+--love12 patch begin
+
+---Callback function triggered when the user's system locale preferences have changed.
+---@type fun():void
+m.localechanged = nil
+
+---Callback function triggered when a file or folder is first dragged onto the window, before the user drops it.
+---
+---This can be used to change the cursor to something indicating a drag-and-drop operation, for example.
+---@type fun(): void
+m.dropbegan = nil
+
+---Callback function triggered when an in-progress file or folder drag-and-drop operation changes position within the window.
+---@type fun(x: number, y: number):void
+m.dropmoved = nil
+
+---Callback function triggered when a file or folder is done being dragged and dropped into the window.
+---@type fun(x: number, y: number):void
+m.dropcompleted = nil
+
+---Called when the active audio device is disconnected (e.g. physically unplugging headphones).
+---
+---All audio are stopped and loses their playback position when this callback is called.
+---@type fun(sources:Source[]):void
+m.audiodisconnected = nil
+
+---Called when the in-device sensor is updated with new values.
+---Only sensors enabled with love.sensor.setEnabled will trigger this event.
+---@type fun(sensorType:SensorType, x: number, y: number, z: number):void
+m.sensorupdated = nil
+
+---Called when a Joystick's sensor is updated with new values.
+---
+---Only Joystick sensors enabled with Joystick:setSensorEnabled will trigger this event.
+---@type fun(joystick: Joystick, sensorType: SensorType, x: number, y: number, z: number):void
+m.joysticksensorupdated = nil
+
+---Callback function triggered when the window is completely covered by other windows.
+---
+---An occluded window is distinct from a window which is not visible.
+---
+---If the window is uncovered after being covered, the love.exposed callback will be called.
+---@type fun():void
+m.occluded = nil
+
+---Callback function triggered when the window is uncovered.
+---
+---If the window is covered after being uncovered, the love.occluded callback will be called.
+---@type fun():void
+m.exposed = nil
+
+--love12 patch end
 
 return m

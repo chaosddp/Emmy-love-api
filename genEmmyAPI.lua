@@ -31,25 +31,29 @@ local function genArgClass(module_name, func_name, arg)
 
 
     for _, field in ipairs(arg.table) do
-        local field_type = uniformType(field.type)
+        local is_removed = patch.isRemoved(cls_name, nil, field.name, TARGET_VERSION)
 
-        -- the field may need to be a class too
-        if field_type == "table" then
-            local field_cls_name, field_cls_code = genArgClass(cls_name, field.name, field)
+        if not is_removed then
+            local field_type = uniformType(field.type)
 
-            --- insert the field class to the front
-            code = field_cls_code .. code
+            -- the field may need to be a class too
+            if field_type == "table" then
+                local field_cls_name, field_cls_code = genArgClass(cls_name, field.name, field)
 
-            field_type = field_cls_name
+                --- insert the field class to the front
+                code = field_cls_code .. code
+
+                field_type = field_cls_name
+            end
+
+            local is_deprecated, deprecated_decl = patch.genDeprecatedPatch(cls_name, nil, field.name, TARGET_VERSION)
+
+            if is_deprecated then
+                code = code .. deprecated_decl .. "\n"
+            end
+
+            code = code .. "---@field " .. field.name .. " " .. field_type .. " @" .. safeDesc(field.description) .. "\n"
         end
-
-        local is_deprecated, deprecated_decl = patch.genDeprecatedPatch(cls_name, nil, field.name, TARGET_VERSION)
-
-        if is_deprecated then
-            code = code .. deprecated_decl .. "\n"
-        end
-
-        code = code .. "---@field " .. field.name .. " " .. field_type .. " @" .. safeDesc(field.description) .. "\n"
     end
 
     code = code .. "local " .. cls_var_name .. "= {}\n\n"
@@ -101,6 +105,12 @@ end
 --- @param fun table function definition
 --- @param static boolean whether the function is static
 local function genFunction(module_name, module_var_name, fun, static)
+    local is_removed = patch.isRemoved(module_name, fun.name, nil, TARGET_VERSION)
+
+    if is_removed then
+        return ""
+    end
+
     local code = "---" .. safeDesc(fun.description) .. "\n"
 
     local is_deprecated, deprecated_decl = patch.genDeprecatedPatch(module_name, fun.name, nil, TARGET_VERSION)
@@ -200,6 +210,14 @@ end
 
 local function genType(cls_var_name, type)
     local code = "---@class " .. type.name
+
+    -- TODO: need to replace removed type, not just remove them
+    -- local is_removed = patch.isRemoved(type.name, nil, nil, TARGET_VERSION)
+
+    -- if is_removed then
+    --     return ""
+    -- end
+
     if type.parenttype then
         code = code .. ' : ' .. type.parenttype
     else
@@ -320,6 +338,16 @@ local function genModule(name, api)
         end
     end
 
+    -- check if we have love12 patch for this module
+    local pf = io.open("love12/" .. name .. ".lua", 'r')
+
+    if pf then
+        f:write("\n\n--love12 patch begin\n\n")
+        f:write(pf:read('*a'))
+        pf:close()
+        f:write("\n\n--love12 patch end\n\n")
+    end
+
     f:write("return m")
     f:close()
 end
@@ -338,5 +366,16 @@ end
 -- additional definitions that not easy to generate automatically
 genPatch()
 genModule('love', api)
+
+-- write love.https.lua and love.sensor.lua to api folder
+for _, file in ipairs({ "love.https.lua", "love.sensor.lua" }) do
+    local f = assert(io.open("love12/" .. file, 'r'))
+    local code = f:read('*a')
+    f:close()
+
+    f = assert(io.open("api/" .. file, 'w'))
+    f:write(code)
+    f:close()
+end
 
 print('--finished.')

@@ -1,0 +1,26 @@
+
+---Restarts the game without relaunching the executable, by adding a quit event with a "restart" parameter to the queue. 
+---This cleanly shuts down the main Lua state instance and creates a brand new one.
+---
+---Example:
+---
+---local restartcount = tonumber(love.restart) or 0
+---
+---function love.keypressed(k)
+---
+---   if k == "r" then
+--- 
+---      love.event.restart(restartcount + 1)
+--- 
+---   end
+--- 
+---end
+--- 
+---function love.draw()
+---
+---   love.graphics.print("Restarted " .. restartcount .. " times.", 8, 8)
+---     
+---end
+---@param restartarg? any A value which will appear in the love.restart table field after restarting. Can be a table containing multiple Lua values.
+---@return void
+function m.restart(restartarg) end

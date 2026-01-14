@@ -32,6 +32,7 @@ DisplayModeOptions = {
 --- 2. overload: used to add additional overloads to a function
 --- 3. base: used to specified a base type for a class
 --- 4. deprecated: used to mark a function as deprecated, with an optional replacement
+--- 5. remove: a function, class or field is removed
 local patch = {
     {
         name = "DisplayModeOptions",
@@ -215,6 +216,161 @@ local patch = {
         function_name = "newImageData",
         replacement = { "love.graphics.readbackTexture" }
     },
+
+    {
+        name = "LoveConf.accelerometerjoystick",
+        version = "12.0",
+        type = "remove",
+        module = "LoveConf",
+        field_name = "accelerometerjoystick"
+    },
+    {
+        name = "Fixture",
+        version = "12.0",
+        type = "remove",
+        module = "Fixture",
+    },
+    {
+        name = "love.audio.getSourceCount",
+        version = "12.0",
+        type = "remove",
+        module = "love.audio",
+        function_name = "getSourceCount"
+    },
+    {
+        name = "Source:getChannels",
+        version = "12.0",
+        type = "remove",
+        module = "Source",
+        function_name = "getChannels"
+    },
+    {
+        name = "Decoder:getChannels",
+        version = "12.0",
+        type = "remove",
+        module = "Decoder",
+        function_name = "getChannels"
+    },
+    {
+        name = "love.filesystem.isDirectory",
+        version = "12.0",
+        type = "remove",
+        module = "love.filesystem",
+        function_name = "isDirectory"
+    },
+    {
+        name = "love.filesystem.isFile",
+        version = "12.0",
+        type = "remove",
+        module = "love.filesystem",
+        function_name = "isFile"
+    },
+    {
+        name = "love.filesystem.isSymlink",
+        version = "12.0",
+        type = "remove",
+        module = "love.filesystem",
+        function_name = "isSymlink"
+    },
+    {
+        name = "love.filesystem.getLastModified",
+        version = "12.0",
+        type = "remove",
+        module = "love.filesystem",
+        function_name = "getLastModified"
+    },
+    {
+        name = "love.filesystem.getSize",
+        version = "12.0",
+        type = "remove",
+        module = "love.filesystem",
+        function_name = "getSize"
+    },
+    {
+        name = "ParticleSystem:setAreaSpread",
+        version = "12.0",
+        type = "remove",
+        module = "ParticleSystem",
+        function_name = "setAreaSpread"
+    },
+    {
+        name = "ParticleSystem:getAreaSpread",
+        version = "12.0",
+        type = "remove",
+        module = "ParticleSystem",
+        function_name = "getAreaSpread"
+    },
+    {
+        name = "love.math.compress",
+        version = "12.0",
+        type = "remove",
+        module = "love.math",
+        function_name = "compress"
+    },
+    {
+        name = "love.math.decompress",
+        version = "12.0",
+        type = "remove",
+        module = "love.math",
+        function_name = "decompress"
+    },
+    {
+        name = "World:getBodyLists",
+        version = "12.0",
+        type = "remove",
+        module = "World",
+        function_name = "getBodyLists"
+    },
+    {
+        name = "World:getBodyLists",
+        version = "12.0",
+        type = "remove",
+        module = "World",
+        function_name = "getJointList"
+    },
+    {
+        name = "World:getContactList",
+        version = "12.0",
+        type = "remove",
+        module = "World",
+        function_name = "getContactList"
+    },
+    {
+        name = "Body:getFixtureList",
+        version = "12.0",
+        type = "remove",
+        module = "Body",
+        function_name = "getFixtureList"
+    },
+    {
+        name = "Body:getJointList",
+        version = "12.0",
+        type = "remove",
+        module = "Body",
+        function_name = "getJointList"
+    },
+    {
+        name = "Body:getContactList",
+        version = "12.0",
+        type = "remove",
+        module = "Body",
+        function_name = "getContactList"
+    },
+    {
+        name = "PrismaticJoint:hasLimitsEnabled",
+        version = "12.0",
+        type = "remove",
+        module = "PrismaticJoint",
+        function_name = "hasLimitsEnabled"
+    },
+    {
+        name = "RevoluteJoint:hasLimitsEnabled",
+        version = "12.0",
+        type = "remove",
+        module = "RevoluteJoint",
+        function_name = "hasLimitsEnabled"
+    },
+
     -- {
     --     name = "setDefaultFilter",
     --     description = "",
@@ -420,9 +576,8 @@ local function genDeprecatedPatch(module_name, function_name, field_name, versio
 
             if p.replacement ~= nil then
                 replacements = "replaced with: "
-                
-                replacements = replacements .. table.concat(p.replacement, ", ")
 
+                replacements = replacements .. table.concat(p.replacement, ", ")
             end
 
             if function_name ~= nil and function_name == p.function_name then
@@ -446,6 +601,29 @@ local function genDeprecatedPatch(module_name, function_name, field_name, versio
     return is_deprecated, deprecated_decleration
 end
 
+local function isRemoved(module_name, function_name, field_name, version)
+    for _, p in ipairs(patch) do
+        if p.type == "remove" and p.module == module_name and (p.version == nil or p.version == version) then
+            -- remove the function
+            if function_name ~= nil and function_name == p.function_name then
+                return true
+            else
+                -- remove the field
+                if field_name ~= nil and field_name == p.field_name then
+                    return true
+                else
+                    -- remove the module/type
+                    if field_name == nil and p.field_name == nil then
+                        return true
+                    end
+                end
+            end
+        end
+    end
+
+    return false
+end
+
 return {
     patch = patch,
     definitions = definitions,
@@ -453,5 +631,6 @@ return {
     genReturnPatch = genReturnPatch,
     getPatchBaseClass = getPatchBaseClass,
     genOverloadPatch = genOverloadPatch,
-    genDeprecatedPatch = genDeprecatedPatch
+    genDeprecatedPatch = genDeprecatedPatch,
+    isRemoved = isRemoved
 }

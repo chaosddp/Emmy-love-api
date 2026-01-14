@@ -83,6 +83,7 @@ function m.push(n, a, b, c, d, e, f, ...) end
 function m.quit(exitstatus) end
 
 ---Like love.event.poll(), but blocks until there is an event in the queue.
+---@deprecated replaced with: love.event.pump
 ---@return Event n The name of event.
 ---@return Variant a First event argument.
 ---@return Variant b Second event argument.
@@ -92,5 +93,38 @@ function m.quit(exitstatus) end
 ---@return Variant f Sixth event argument.
 ---@return Variant ... Further event arguments may follow.
 function m.wait() end
+
+
+
+--love12 patch begin
+
+
+---Restarts the game without relaunching the executable, by adding a quit event with a "restart" parameter to the queue. 
+---This cleanly shuts down the main Lua state instance and creates a brand new one.
+---
+---Example:
+---
+---local restartcount = tonumber(love.restart) or 0
+---
+---function love.keypressed(k)
+---
+---   if k == "r" then
+--- 
+---      love.event.restart(restartcount + 1)
+--- 
+---   end
+--- 
+---end
+--- 
+---function love.draw()
+---
+---   love.graphics.print("Restarted " .. restartcount .. " times.", 8, 8)
+---     
+---end
+---@param restartarg? any A value which will appear in the love.restart table field after restarting. Can be a table containing multiple Lua values.
+---@return void
+function m.restart(restartarg) end
+
+--love12 patch end
 
 return m
