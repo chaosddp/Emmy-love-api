@@ -104,7 +104,7 @@ end
 --- @param fun table function definition
 --- @param static boolean whether the function is static
 local function genFunction(module_name, module_var_name, fun, static)
-    local is_removed = patch.isRemoved(module_name, fun.name, nil, TARGET_VERSION)
+    local is_removed = patch.isRemoved(module_name, fun.name, fun.name, TARGET_VERSION)
 
     if is_removed then
         return ""
