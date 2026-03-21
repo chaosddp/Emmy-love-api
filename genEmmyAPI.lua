@@ -51,9 +51,10 @@ local module_annotation_template = table.concat({
 --- @class Enum
 --- @field name string @name of enum
 --- @field description string @description of enum
---- @field contants EnumField[] @ fields of enum
+--- @field constants EnumField[] @ fields of enum
 
 --- @class Module
+--- @field name? string @name of module
 --- @field version? string @love version
 --- @field description? string @description of love
 --- @field modules? Module[] @modules of love
@@ -100,11 +101,11 @@ end
 --- @return string @generated enum annotation
 local function genEnum(enum)
     local annotation_list = {
-        string.format("--- %s\n", safeDesc(enum.description)),
-        string.format("--- @alias %s\n", enum.name),
+        string.format("--- %s", safeDesc(enum.description)),
+        string.format("--- @alias %s", enum.name),
     } -- all the part of annotation
 
-    for _, field in ipairs(enum.contants) do
+    for _, field in ipairs(enum.constants) do
         local field_name = field.name
         local field_description = field.description
 
@@ -128,9 +129,9 @@ end
 --- @return string @generated internal type annotation
 --- @return string[]? @generated nested internal type annotations
 local function genInternalType(name, fields)
-    local field_annotation_list = {} -- field of current type
+    local field_annotation_list = {}       -- field of current type
     local nested_type_annotation_list = {} -- nested type annotation
-    local type_name = capitalize(name) -- type name of current type
+    local type_name = capitalize(name)     -- type name of current type
 
     for _, field in ipairs(fields) do
         local field_type = field.type
@@ -146,7 +147,8 @@ local function genInternalType(name, fields)
             field_type = type_name .. capitalize(field_name)
 
             -- generate nested types
-            local _, sub_field_internal_annotation, nested_fields_internal_annotations = genInternalType(field_type, field_table)
+            local _, sub_field_internal_annotation, nested_fields_internal_annotations = genInternalType(field_type,
+                field_table)
 
             table.insert(nested_type_annotation_list, sub_field_internal_annotation)
 
@@ -272,11 +274,12 @@ local function genModule(type_name, module_name, definition, output_dir)
 
     -- generate module annotation if there are any
     if definition.modules then
-        for _, module in ipairs(definition.modules) do
-            local module_name = module.name
-            local module_annotation = genModule(module_name, module_name, module, output_dir)
-
-            table.insert(class_annotation_list, module_annotation)
+        for _, sub_module in ipairs(definition.modules) do
+            if sub_module.name then
+                local sub_module_name = module_name .. "." .. sub_module.name
+                -- submodule has same name and module path
+                genModule(sub_module_name, sub_module_name, sub_module, output_dir)
+            end
         end
     end
 

@@ -79,13 +79,9 @@ local m = {}
 m.conf = nil
 
 
-
-
 --- Callback function triggered when a directory is dragged and dropped onto the window.
 --- @type fun(path: string):void
 m.directorydropped = nil
-
-
 
 
 --- Called when the device display orientation changed, for example, user rotated their phone 180 degrees.
@@ -93,13 +89,9 @@ m.directorydropped = nil
 m.displayrotated = nil
 
 
-
-
 --- Callback function used to draw on the screen every frame.
 --- @type fun():void
 m.draw = nil
-
-
 
 
 --- The error handler, used to display error messages.
@@ -107,13 +99,9 @@ m.draw = nil
 m.errorhandler = nil
 
 
-
-
 --- Callback function triggered when a file is dragged and dropped onto the window.
 --- @type fun(file: DroppedFile):void
 m.filedropped = nil
-
-
 
 
 --- Callback function triggered when window receives or loses focus.
@@ -121,13 +109,9 @@ m.filedropped = nil
 m.focus = nil
 
 
-
-
 --- Called when a Joystick's virtual gamepad axis is moved.
 --- @type fun(joystick: Joystick, axis: GamepadAxis, value: number):void
 m.gamepadaxis = nil
-
-
 
 
 --- Called when a Joystick's virtual gamepad button is pressed.
@@ -135,13 +119,9 @@ m.gamepadaxis = nil
 m.gamepadpressed = nil
 
 
-
-
 --- Called when a Joystick's virtual gamepad button is released.
 --- @type fun(joystick: Joystick, button: GamepadButton):void
 m.gamepadreleased = nil
-
-
 
 
 --- Called when a Joystick is connected.
@@ -149,13 +129,9 @@ m.gamepadreleased = nil
 m.joystickadded = nil
 
 
-
-
 --- Called when a joystick axis moves.
 --- @type fun(joystick: Joystick, axis: number, value: number):void
 m.joystickaxis = nil
-
-
 
 
 --- Called when a joystick hat direction changes.
@@ -163,13 +139,9 @@ m.joystickaxis = nil
 m.joystickhat = nil
 
 
-
-
 --- Called when a joystick button is pressed.
 --- @type fun(joystick: Joystick, button: number):void
 m.joystickpressed = nil
-
-
 
 
 --- Called when a joystick button is released.
@@ -177,13 +149,9 @@ m.joystickpressed = nil
 m.joystickreleased = nil
 
 
-
-
 --- Called when a Joystick is disconnected.
 --- @type fun(joystick: Joystick):void
 m.joystickremoved = nil
-
-
 
 
 --- Callback function triggered when a key is pressed.
@@ -191,20 +159,14 @@ m.joystickremoved = nil
 m.keypressed = nil
 
 
-
-
 --- Callback function triggered when a keyboard key is released.
 --- @type fun(key: KeyConstant, scancode: Scancode):void
 m.keyreleased = nil
 
 
-
-
 --- This function is called exactly once at the beginning of the game.
 --- @type fun(arg: table, unfilteredArg: table):void
 m.load = nil
-
-
 
 
 --- Callback function triggered when the system is running out of memory on mobile devices.
@@ -214,13 +176,9 @@ m.load = nil
 m.lowmemory = nil
 
 
-
-
 --- Callback function triggered when window receives or loses mouse focus.
 --- @type fun(focus: boolean):void
 m.mousefocus = nil
-
-
 
 
 --- Callback function triggered when the mouse is moved.
@@ -228,13 +186,9 @@ m.mousefocus = nil
 m.mousemoved = nil
 
 
-
-
 --- Callback function triggered when a mouse button is pressed.
 --- @type fun(x: number, y: number, button: number, istouch: boolean, presses: number):void
 m.mousepressed = nil
-
-
 
 
 --- Callback function triggered when a mouse button is released.
@@ -242,13 +196,9 @@ m.mousepressed = nil
 m.mousereleased = nil
 
 
-
-
 --- Callback function triggered when the game is closed.
 --- @type fun():void
 m.quit = nil
-
-
 
 
 --- Called when the window is resized, for example if the user resizes the window, or if love.window.setMode is called with an unsupported width or height in fullscreen and the window chooses the closest appropriate size.
@@ -256,13 +206,9 @@ m.quit = nil
 m.resize = nil
 
 
-
-
 --- The main function, containing the main loop. A sensible default is used when left out.
 --- @type fun():void
 m.run = nil
-
-
 
 
 --- Called when the candidate text for an IME (Input Method Editor) has changed.
@@ -272,13 +218,9 @@ m.run = nil
 m.textedited = nil
 
 
-
-
 --- Called when text has been entered by the user. For example if shift-2 is pressed on an American keyboard layout, the text '@' will be generated.
 --- @type fun(text: string):void
 m.textinput = nil
-
-
 
 
 --- Callback function triggered when a Thread encounters an error.
@@ -286,13 +228,9 @@ m.textinput = nil
 m.threaderror = nil
 
 
-
-
 --- Callback function triggered when a touch press moves inside the touch screen.
 --- @type fun(id: light userdata, x: number, y: number, dx: number, dy: number, pressure: number):void
 m.touchmoved = nil
-
-
 
 
 --- Callback function triggered when the touch screen is touched.
@@ -300,13 +238,9 @@ m.touchmoved = nil
 m.touchpressed = nil
 
 
-
-
 --- Callback function triggered when the touch screen stops being touched.
 --- @type fun(id: light userdata, x: number, y: number, dx: number, dy: number, pressure: number):void
 m.touchreleased = nil
-
-
 
 
 --- Callback function used to update the state of the game every frame.
@@ -314,20 +248,14 @@ m.touchreleased = nil
 m.update = nil
 
 
-
-
 --- Callback function triggered when window is minimized/hidden or unminimized by the user.
 --- @type fun(visible: boolean):void
 m.visible = nil
 
 
-
-
 --- Callback function triggered when the mouse wheel is moved.
 --- @type fun(x: number, y: number):void
 m.wheelmoved = nil
-
-
 
 
 
