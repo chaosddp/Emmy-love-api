@@ -17,6 +17,8 @@ local module_annotation_template = table.concat({
     "\n",
     "%s",            -- field annotations
     "\n",
+    "%s",            -- love12 patch
+    "\n",
     "return m",      -- return the module table
 }, "\n")
 
@@ -127,6 +129,22 @@ local function writeFile(content, file)
     local f = assert(io.open(file, "w"))
     f:write(content)
     f:close()
+end
+
+--- read content from file
+--- @param file string @file to read
+--- @return string @content
+local function readFile(file)
+    local f = io.open(file, "r")
+
+    if f == nil then
+        return ""
+    end
+
+    local content = f:read("a")
+    f:close()
+
+    return content
 end
 
 
@@ -489,6 +507,7 @@ local function genModule(type_name, module_name, definition, output_dir)
     local enum_annotation_str = table.concat(enum_annotation_list, "\n")
     local class_annotation_str = table.concat(class_annotation_list, "\n")
     local field_annotation_str = table.concat(fields_annotation_list, "\n")
+    local module_patch = readFile("love12/" .. module_name .. ".lua")
 
     local module_annotation_str = string.format(
         module_annotation_template,
@@ -498,16 +517,25 @@ local function genModule(type_name, module_name, definition, output_dir)
         class_annotation_str,
         callback_annotation_str,
         function_annotation_str,
-        field_annotation_str
+        field_annotation_str,
+        module_patch
     )
 
     -- write to file
     writeFile(module_annotation_str, output_dir .. "/" .. module_name .. ".lua")
+
+    print("Generated " .. module_name .. ".lua")
 end
 
-
-
-
+local out_dir = "api"
 
 -- generating start here
-genModule("love", "love", love_api, "api")
+genModule("love", "love", love_api, out_dir)
+
+-- additional patch files
+for _, file in ipairs({ "love.https", "love.sensor" }) do
+    local patch_file = "love12/" .. file .. ".lua"
+    local patch_content = readFile(patch_file)
+
+    writeFile(patch_content, out_dir .. "/" .. file .. ".lua")
+end

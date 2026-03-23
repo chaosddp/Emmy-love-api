@@ -195,4 +195,7 @@ function m.newTrueTypeRasterizer(size, hinting, dpiscale) end
 
 
 
+
+
+
 return m
