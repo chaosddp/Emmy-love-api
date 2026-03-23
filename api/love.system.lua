@@ -50,8 +50,12 @@ function m.getProcessorCount() end
 
 --- Gets whether another application on the system is playing music in the background.
 ---
+---
+---
 ---Currently this is implemented on iOS and Android, and will always return false on other operating systems. The t.audio.mixwithsystem flag in love.conf can be used to configure whether background audio / music from other apps should play while LÖVE is open.
 --- Gets whether another application on the system is playing music in the background.
+---
+---
 ---
 ---Currently this is implemented on iOS and Android, and will always return false on other operating systems. The t.audio.mixwithsystem flag in love.conf can be used to configure whether background audio / music from other apps should play while LÖVE is open.
 --- @return boolean @True if the user is playing music in the background via another app, false otherwise.

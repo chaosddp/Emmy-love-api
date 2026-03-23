@@ -43,16 +43,28 @@ function m.close() end
 
 --- Converts a number from pixels to density-independent units.
 ---
+---
+---
 ---The pixel density inside the window might be greater (or smaller) than the 'size' of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.fromPixels(1600) would return 800 in that case.
 ---
+---
+---
 ---This function converts coordinates from pixels to the size users are expecting them to display at onscreen. love.window.toPixels does the opposite. The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.
+---
+---
 ---
 ---Most LÖVE functions return values and expect arguments in terms of pixels rather than density-independent units.
 --- Converts a number from pixels to density-independent units.
 ---
+---
+---
 ---The pixel density inside the window might be greater (or smaller) than the 'size' of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.fromPixels(1600) would return 800 in that case.
 ---
+---
+---
 ---This function converts coordinates from pixels to the size users are expecting them to display at onscreen. love.window.toPixels does the opposite. The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.
+---
+---
 ---
 ---Most LÖVE functions return values and expect arguments in terms of pixels rather than density-independent units.
 --- @param pixelvalue number @A number in pixels to convert to density-independent units.
@@ -63,16 +75,28 @@ function m.fromPixels(pixelvalue) end
 
 --- Gets the DPI scale factor associated with the window.
 ---
+---
+---
 ---The pixel density inside the window might be greater (or smaller) than the 'size' of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.getDPIScale() would return 2.0 in that case.
 ---
+---
+---
 ---The love.window.fromPixels and love.window.toPixels functions can also be used to convert between units.
+---
+---
 ---
 ---The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.
 --- Gets the DPI scale factor associated with the window.
 ---
+---
+---
 ---The pixel density inside the window might be greater (or smaller) than the 'size' of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.getDPIScale() would return 2.0 in that case.
 ---
+---
+---
 ---The love.window.fromPixels and love.window.toPixels functions can also be used to convert between units.
+---
+---
 ---
 ---The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.
 --- @return number @The pixel scale factor associated with the window.
@@ -137,8 +161,12 @@ function m.getMode() end
 
 --- Gets the position of the window on the screen.
 ---
+---
+---
 ---The window position is in the coordinate space of the display it is currently in.
 --- Gets the position of the window on the screen.
+---
+---
 ---
 ---The window position is in the coordinate space of the display it is currently in.
 --- @return number @The x-coordinate of the window's position.
@@ -182,8 +210,12 @@ function m.hasMouseFocus() end
 
 --- Gets whether the display is allowed to sleep while the program is running.
 ---
+---
+---
 ---Display sleep is disabled by default. Some types of input (e.g. joystick button presses) might not prevent the display from sleeping, if display sleep is allowed.
 --- Gets whether the display is allowed to sleep while the program is running.
+---
+---
 ---
 ---Display sleep is disabled by default. Some types of input (e.g. joystick button presses) might not prevent the display from sleeping, if display sleep is allowed.
 --- @return boolean @True if system display sleep is enabled / allowed, false otherwise.
@@ -192,8 +224,12 @@ function m.isDisplaySleepEnabled() end
 
 --- Gets whether the Window is currently maximized.
 ---
+---
+---
 ---The window can be maximized if it is not fullscreen and is resizable, and either the user has pressed the window's Maximize button or love.window.maximize has been called.
 --- Gets whether the Window is currently maximized.
+---
+---
 ---
 ---The window can be maximized if it is not fullscreen and is resizable, and either the user has pressed the window's Maximize button or love.window.maximize has been called.
 --- @return boolean @True if the window is currently maximized in windowed mode, false otherwise.
@@ -214,8 +250,12 @@ function m.isOpen() end
 
 --- Checks if the game window is visible.
 ---
+---
+---
 ---The window is considered visible if it's not minimized and the program isn't hidden.
 --- Checks if the game window is visible.
+---
+---
 ---
 ---The window is considered visible if it's not minimized and the program isn't hidden.
 --- @return boolean @True if the window is visible or false if not.
@@ -224,8 +264,12 @@ function m.isVisible() end
 
 --- Makes the window as large as possible.
 ---
+---
+---
 ---This function has no effect if the window isn't resizable, since it essentially programmatically presses the window's 'maximize' button.
 --- Makes the window as large as possible.
+---
+---
 ---
 ---This function has no effect if the window isn't resizable, since it essentially programmatically presses the window's 'maximize' button.
 function m.maximize() end
@@ -238,8 +282,12 @@ function m.minimize() end
 
 --- Causes the window to request the attention of the user if it is not in the foreground.
 ---
+---
+---
 ---In Windows the taskbar icon will flash, and in OS X the dock icon will bounce.
 --- Causes the window to request the attention of the user if it is not in the foreground.
+---
+---
 ---
 ---In Windows the taskbar icon will flash, and in OS X the dock icon will bounce.
 --- @param continuous boolean @Whether to continuously request attention until the window becomes active, or to do it only once.
@@ -253,8 +301,12 @@ function m.restore() end
 
 --- Sets whether the display is allowed to sleep while the program is running.
 ---
+---
+---
 ---Display sleep is disabled by default. Some types of input (e.g. joystick button presses) might not prevent the display from sleeping, if display sleep is allowed.
 --- Sets whether the display is allowed to sleep while the program is running.
+---
+---
 ---
 ---Display sleep is disabled by default. Some types of input (e.g. joystick button presses) might not prevent the display from sleeping, if display sleep is allowed.
 --- @param enable boolean @True to enable system display sleep, false to disable it.
@@ -278,12 +330,20 @@ function m.setIcon(imagedata) end
 
 --- Sets the display mode and properties of the window.
 ---
+---
+---
 ---If width or height is 0, setMode will use the width and height of the desktop. 
+---
+---
 ---
 ---Changing the display mode may have side effects: for example, canvases will be cleared and values sent to shaders with canvases beforehand or re-draw to them afterward if you need to.
 --- Sets the display mode and properties of the window.
 ---
+---
+---
 ---If width or height is 0, setMode will use the width and height of the desktop. 
+---
+---
 ---
 ---Changing the display mode may have side effects: for example, canvases will be cleared and values sent to shaders with canvases beforehand or re-draw to them afterward if you need to.
 --- @param width number @Display width.
@@ -295,8 +355,12 @@ function m.setMode(width, height, flags) end
 
 --- Sets the position of the window on the screen.
 ---
+---
+---
 ---The window position is in the coordinate space of the specified display.
 --- Sets the position of the window on the screen.
+---
+---
 ---
 ---The window position is in the coordinate space of the specified display.
 --- @param x number @The x-coordinate of the window's position.
@@ -330,16 +394,28 @@ function m.showMessageBox(title, message, type, attachtowindow) end
 
 --- Converts a number from density-independent units to pixels.
 ---
+---
+---
 ---The pixel density inside the window might be greater (or smaller) than the 'size' of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.toPixels(800) would return 1600 in that case.
 ---
+---
+---
 ---This is used to convert coordinates from the size users are expecting them to display at onscreen to pixels. love.window.fromPixels does the opposite. The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.
+---
+---
 ---
 ---Most LÖVE functions return values and expect arguments in terms of pixels rather than density-independent units.
 --- Converts a number from density-independent units to pixels.
 ---
+---
+---
 ---The pixel density inside the window might be greater (or smaller) than the 'size' of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.toPixels(800) would return 1600 in that case.
 ---
+---
+---
 ---This is used to convert coordinates from the size users are expecting them to display at onscreen to pixels. love.window.fromPixels does the opposite. The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.
+---
+---
 ---
 ---Most LÖVE functions return values and expect arguments in terms of pixels rather than density-independent units.
 --- @param value number @A number in density-independent units to convert to pixels.
@@ -350,12 +426,20 @@ function m.toPixels(value) end
 
 --- Sets the display mode and properties of the window, without modifying unspecified properties.
 ---
+---
+---
 ---If width or height is 0, updateMode will use the width and height of the desktop. 
+---
+---
 ---
 ---Changing the display mode may have side effects: for example, canvases will be cleared. Make sure to save the contents of canvases beforehand or re-draw to them afterward if you need to.
 --- Sets the display mode and properties of the window, without modifying unspecified properties.
 ---
+---
+---
 ---If width or height is 0, updateMode will use the width and height of the desktop. 
+---
+---
 ---
 ---Changing the display mode may have side effects: for example, canvases will be cleared. Make sure to save the contents of canvases beforehand or re-draw to them afterward if you need to.
 --- @param width number @Window width.

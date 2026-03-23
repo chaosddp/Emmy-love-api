@@ -16,13 +16,19 @@ local m = {}
 --- @class BezierCurve: Object
 --- A Bézier curve object that can evaluate and render Bézier curves of arbitrary degree.
 ---
+---
+---
 ---For more information on Bézier curves check this great article on Wikipedia.
 local BezierCurve = {}
 
 --- Evaluate Bézier curve at parameter t. The parameter must be between 0 and 1 (inclusive).
 ---
+---
+---
 ---This function can be used to move objects along paths or tween parameters. However it should not be used to render the curve, see BezierCurve:render for that purpose.
 --- Evaluate Bézier curve at parameter t. The parameter must be between 0 and 1 (inclusive).
+---
+---
 ---
 ---This function can be used to move objects along paths or tween parameters. However it should not be used to render the curve, see BezierCurve:render for that purpose.
 --- @param t number @Where to evaluate the curve.
@@ -53,8 +59,12 @@ function BezierCurve:getDegree() end
 
 --- Get the derivative of the Bézier curve.
 ---
+---
+---
 ---This function can be used to rotate sprites moving along a curve in the direction of the movement and compute the direction perpendicular to the curve at some parameter t.
 --- Get the derivative of the Bézier curve.
+---
+---
 ---
 ---This function can be used to rotate sprites moving along a curve in the direction of the movement and compute the direction perpendicular to the curve at some parameter t.
 --- @return BezierCurve @The derivative curve.
@@ -85,12 +95,20 @@ function BezierCurve:removeControlPoint(index) end
 
 --- Get a list of coordinates to be used with love.graphics.line.
 ---
+---
+---
 ---This function samples the Bézier curve using recursive subdivision. You can control the recursion depth using the depth parameter.
+---
+---
 ---
 ---If you are just interested to know the position on the curve given a parameter, use BezierCurve:evaluate.
 --- Get a list of coordinates to be used with love.graphics.line.
 ---
+---
+---
 ---This function samples the Bézier curve using recursive subdivision. You can control the recursion depth using the depth parameter.
+---
+---
 ---
 ---If you are just interested to know the position on the curve given a parameter, use BezierCurve:evaluate.
 --- @param depth number @Number of recursive subdivision steps.
@@ -100,12 +118,20 @@ function BezierCurve:render(depth) end
 
 --- Get a list of coordinates on a specific part of the curve, to be used with love.graphics.line.
 ---
+---
+---
 ---This function samples the Bézier curve using recursive subdivision. You can control the recursion depth using the depth parameter.
+---
+---
 ---
 ---If you are just need to know the position on the curve given a parameter, use BezierCurve:evaluate.
 --- Get a list of coordinates on a specific part of the curve, to be used with love.graphics.line.
 ---
+---
+---
 ---This function samples the Bézier curve using recursive subdivision. You can control the recursion depth using the depth parameter.
+---
+---
 ---
 ---If you are just need to know the position on the curve given a parameter, use BezierCurve:evaluate.
 --- @param startpoint number @The starting point along the curve. Must be between 0 and 1.
@@ -152,8 +178,12 @@ local RandomGenerator = {}
 
 --- Gets the seed of the random number generator object.
 ---
+---
+---
 ---The seed is split into two numbers due to Lua's use of doubles for all number values - doubles can't accurately represent integer  values above 2^53, but the seed value is an integer number in the range of 2^64 - 1.
 --- Gets the seed of the random number generator object.
+---
+---
 ---
 ---The seed is split into two numbers due to Lua's use of doubles for all number values - doubles can't accurately represent integer  values above 2^53, but the seed value is an integer number in the range of 2^64 - 1.
 --- @return number @Integer number representing the lower 32 bits of the RandomGenerator's 64 bit seed value.
@@ -163,8 +193,12 @@ function RandomGenerator:getSeed() end
 
 --- Gets the current state of the random number generator. This returns an opaque string which is only useful for later use with RandomGenerator:setState in the same major version of LÖVE.
 ---
+---
+---
 ---This is different from RandomGenerator:getSeed in that getState gets the RandomGenerator's current state, whereas getSeed gets the previously set seed number.
 --- Gets the current state of the random number generator. This returns an opaque string which is only useful for later use with RandomGenerator:setState in the same major version of LÖVE.
+---
+---
 ---
 ---This is different from RandomGenerator:getSeed in that getState gets the RandomGenerator's current state, whereas getSeed gets the previously set seed number.
 --- @return string @The current state of the RandomGenerator object, represented as a string.
@@ -196,8 +230,12 @@ function RandomGenerator:setSeed(seed) end
 
 --- Sets the current state of the random number generator. The value used as an argument for this function is an opaque string and should only originate from a previous call to RandomGenerator:getState in the same major version of LÖVE.
 ---
+---
+---
 ---This is different from RandomGenerator:setSeed in that setState directly sets the RandomGenerator's current implementation-dependent state, whereas setSeed gives it a new seed value.
 --- Sets the current state of the random number generator. The value used as an argument for this function is an opaque string and should only originate from a previous call to RandomGenerator:getState in the same major version of LÖVE.
+---
+---
 ---
 ---This is different from RandomGenerator:setSeed in that setState directly sets the RandomGenerator's current implementation-dependent state, whereas setSeed gives it a new seed value.
 --- @param state string @The new state of the RandomGenerator object, represented as a string. This should originate from a previous call to RandomGenerator:getState.
@@ -207,13 +245,19 @@ function RandomGenerator:setState(state) end
 --- @class Transform: Object
 --- Object containing a coordinate system transformation.
 ---
+---
+---
 ---The love.graphics module has several functions and function variants which accept Transform objects.
 local Transform = {}
 
 --- Applies the given other Transform object to this one.
 ---
+---
+---
 ---This effectively multiplies this Transform's internal transformation matrix with the other Transform's (i.e. self * other), and stores the result in this object.
 --- Applies the given other Transform object to this one.
+---
+---
 ---
 ---This effectively multiplies this Transform's internal transformation matrix with the other Transform's (i.e. self * other), and stores the result in this object.
 --- @param other Transform @The other Transform object to apply to this Transform.
@@ -256,12 +300,20 @@ function Transform:inverse() end
 
 --- Applies the reverse of the Transform object's transformation to the given 2D position.
 ---
+---
+---
 ---This effectively converts the given position from the local coordinate space of the Transform into global coordinates.
+---
+---
 ---
 ---One use of this method can be to convert a screen-space mouse position into global world coordinates, if the given Transform has transformations applied that are used for a camera system in-game.
 --- Applies the reverse of the Transform object's transformation to the given 2D position.
 ---
+---
+---
 ---This effectively converts the given position from the local coordinate space of the Transform into global coordinates.
+---
+---
 ---
 ---One use of this method can be to convert a screen-space mouse position into global world coordinates, if the given Transform has transformations applied that are used for a camera system in-game.
 --- @param localX number @The x component of the position with the transform applied.
@@ -348,8 +400,12 @@ function Transform:shear(kx, ky) end
 
 --- Applies the Transform object's transformation to the given 2D position.
 ---
+---
+---
 ---This effectively converts the given position from global coordinates into the local coordinate space of the Transform.
 --- Applies the Transform object's transformation to the given 2D position.
+---
+---
 ---
 ---This effectively converts the given position from global coordinates into the local coordinate space of the Transform.
 --- @param globalX number @The x component of the position in global coordinates.
@@ -400,12 +456,20 @@ function m.colorToBytes(r, g, b, a) end
 
 --- Converts a color from gamma-space (sRGB) to linear-space (RGB). This is useful when doing gamma-correct rendering and you need to do math in linear RGB in the few cases where LÖVE doesn't handle conversions automatically.
 ---
+---
+---
 ---Read more about gamma-correct rendering here, here, and here.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- Converts a color from gamma-space (sRGB) to linear-space (RGB). This is useful when doing gamma-correct rendering and you need to do math in linear RGB in the few cases where LÖVE doesn't handle conversions automatically.
 ---
+---
+---
 ---Read more about gamma-correct rendering here, here, and here.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param r number @The red channel of the sRGB color to convert.
@@ -421,8 +485,12 @@ function m.gammaToLinear(r, g, b) end
 
 --- Gets the seed of the random number generator.
 ---
+---
+---
 ---The seed is split into two numbers due to Lua's use of doubles for all number values - doubles can't accurately represent integer  values above 2^53, but the seed can be an integer value up to 2^64.
 --- Gets the seed of the random number generator.
+---
+---
 ---
 ---The seed is split into two numbers due to Lua's use of doubles for all number values - doubles can't accurately represent integer  values above 2^53, but the seed can be an integer value up to 2^64.
 --- @return number @Integer number representing the lower 32 bits of the random number generator's 64 bit seed value.
@@ -432,8 +500,12 @@ function m.getRandomSeed() end
 
 --- Gets the current state of the random number generator. This returns an opaque implementation-dependent string which is only useful for later use with love.math.setRandomState or RandomGenerator:setState.
 ---
+---
+---
 ---This is different from love.math.getRandomSeed in that getRandomState gets the random number generator's current state, whereas getRandomSeed gets the previously set seed number.
 --- Gets the current state of the random number generator. This returns an opaque implementation-dependent string which is only useful for later use with love.math.setRandomState or RandomGenerator:setState.
+---
+---
 ---
 ---This is different from love.math.getRandomSeed in that getRandomState gets the random number generator's current state, whereas getRandomSeed gets the previously set seed number.
 --- @return string @The current state of the random number generator, represented as a string.
@@ -442,8 +514,12 @@ function m.getRandomState() end
 
 --- Checks whether a polygon is convex.
 ---
+---
+---
 ---PolygonShapes in love.physics, some forms of Meshes, and polygons drawn with love.graphics.polygon must be simple convex polygons.
 --- Checks whether a polygon is convex.
+---
+---
 ---
 ---PolygonShapes in love.physics, some forms of Meshes, and polygons drawn with love.graphics.polygon must be simple convex polygons.
 --- @param vertices table @The vertices of the polygon as a table in the form of {x1, y1, x2, y2, x3, y3, ...}.
@@ -454,16 +530,28 @@ function m.isConvex(vertices) end
 
 --- Converts a color from linear-space (RGB) to gamma-space (sRGB). This is useful when storing linear RGB color values in an image, because the linear RGB color space has less precision than sRGB for dark colors, which can result in noticeable color banding when drawing.
 ---
+---
+---
 ---In general, colors chosen based on what they look like on-screen are already in gamma-space and should not be double-converted. Colors calculated using math are often in the linear RGB space.
 ---
+---
+---
 ---Read more about gamma-correct rendering here, here, and here.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- Converts a color from linear-space (RGB) to gamma-space (sRGB). This is useful when storing linear RGB color values in an image, because the linear RGB color space has less precision than sRGB for dark colors, which can result in noticeable color banding when drawing.
 ---
+---
+---
 ---In general, colors chosen based on what they look like on-screen are already in gamma-space and should not be double-converted. Colors calculated using math are often in the linear RGB space.
 ---
+---
+---
 ---Read more about gamma-correct rendering here, here, and here.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param lr number @The red channel of the linear RGB color to convert.
@@ -479,8 +567,12 @@ function m.linearToGamma(lr, lg, lb) end
 
 --- Creates a new BezierCurve object.
 ---
+---
+---
 ---The number of vertices in the control polygon determines the degree of the curve, e.g. three vertices define a quadratic (degree 2) Bézier curve, four vertices define a cubic (degree 3) Bézier curve, etc.
 --- Creates a new BezierCurve object.
+---
+---
 ---
 ---The number of vertices in the control polygon determines the degree of the curve, e.g. three vertices define a quadratic (degree 2) Bézier curve, four vertices define a cubic (degree 3) Bézier curve, etc.
 --- @param vertices table @The vertices of the control polygon as a table in the form of {x1, y1, x2, y2, x3, y3, ...}.
@@ -506,12 +598,20 @@ function m.newTransform() end
 
 --- Generates a Simplex or Perlin noise value in 1-4 dimensions. The return value will always be the same, given the same arguments.
 ---
+---
+---
 ---Simplex noise is closely related to Perlin noise. It is widely used for procedural content generation.
+---
+---
 ---
 ---There are many webpages which discuss Perlin and Simplex noise in detail.
 --- Generates a Simplex or Perlin noise value in 1-4 dimensions. The return value will always be the same, given the same arguments.
 ---
+---
+---
 ---Simplex noise is closely related to Perlin noise. It is widely used for procedural content generation.
+---
+---
 ---
 ---There are many webpages which discuss Perlin and Simplex noise in detail.
 --- @param x number @The number used to generate the noise value.
@@ -547,8 +647,12 @@ function m.setRandomSeed(seed) end
 
 --- Sets the current state of the random number generator. The value used as an argument for this function is an opaque implementation-dependent string and should only originate from a previous call to love.math.getRandomState.
 ---
+---
+---
 ---This is different from love.math.setRandomSeed in that setRandomState directly sets the random number generator's current implementation-dependent state, whereas setRandomSeed gives it a new seed value.
 --- Sets the current state of the random number generator. The value used as an argument for this function is an opaque implementation-dependent string and should only originate from a previous call to love.math.getRandomState.
+---
+---
 ---
 ---This is different from love.math.setRandomSeed in that setRandomState directly sets the random number generator's current implementation-dependent state, whereas setRandomSeed gives it a new seed value.
 --- @param state string @The new state of the random number generator, represented as a string. This should originate from a previous call to love.math.getRandomState.

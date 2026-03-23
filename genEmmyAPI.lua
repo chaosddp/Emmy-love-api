@@ -119,7 +119,7 @@ end
 --- @param src string @string may contains multiple lines
 --- @return string @safe description
 local function safeDesc(src)
-    return string.gsub(src, "\n", "\n---")
+    return string.gsub(src, "\n", "\n---\n---")
 end
 
 --- write content to file

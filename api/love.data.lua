@@ -40,11 +40,15 @@ local m = {}
 --- @class ByteData: Object, Data
 --- Data object containing arbitrary bytes in an contiguous memory.
 ---
+---
+---
 ---There are currently no LÖVE functions provided for manipulating the contents of a ByteData, but Data:getPointer can be used with LuaJIT's FFI to access and write to the contents directly.
 local ByteData = {}
 
 --- @class CompressedData: Data, Object
 --- Represents byte data compressed using a specific algorithm.
+---
+---
 ---
 ---love.data.decompress can be used to de-compress the data (or love.math.decompress in 0.10.2 or earlier).
 local CompressedData = {}
@@ -104,8 +108,12 @@ function m.encode(container, format, sourceString, linelength) end
 
 --- Gets the size in bytes that a given format used with love.data.pack will use.
 ---
+---
+---
 ---This function behaves the same as Lua 5.3's string.packsize.
 --- Gets the size in bytes that a given format used with love.data.pack will use.
+---
+---
 ---
 ---This function behaves the same as Lua 5.3's string.packsize.
 --- @param format string @A string determining how the values are packed. Follows the rules of Lua 5.3's string.pack format strings.
@@ -124,8 +132,12 @@ function m.hash(hashFunction, string) end
 
 --- Creates a new Data object containing arbitrary bytes.
 ---
+---
+---
 ---Data:getPointer along with LuaJIT's FFI can be used to manipulate the contents of the ByteData object after it has been created.
 --- Creates a new Data object containing arbitrary bytes.
+---
+---
 ---
 ---Data:getPointer along with LuaJIT's FFI can be used to manipulate the contents of the ByteData object after it has been created.
 --- @param datastring string @The byte string to copy.
@@ -146,8 +158,12 @@ function m.newDataView(data, offset, size) end
 
 --- Packs (serializes) simple Lua values.
 ---
+---
+---
 ---This function behaves the same as Lua 5.3's string.pack.
 --- Packs (serializes) simple Lua values.
+---
+---
 ---
 ---This function behaves the same as Lua 5.3's string.pack.
 --- @param container ContainerType @What type to return the encoded data as.
@@ -160,8 +176,12 @@ function m.pack(container, format, v1, ...) end
 
 --- Unpacks (deserializes) a byte-string or Data into simple Lua values.
 ---
+---
+---
 ---This function behaves the same as Lua 5.3's string.unpack.
 --- Unpacks (deserializes) a byte-string or Data into simple Lua values.
+---
+---
 ---
 ---This function behaves the same as Lua 5.3's string.unpack.
 --- @param format string @A string determining how the values were packed. Follows the rules of Lua 5.3's string.pack format strings.

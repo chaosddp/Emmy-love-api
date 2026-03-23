@@ -55,16 +55,22 @@ local m = {}
 --- Different types of per-pixel stencil test and depth test comparisons. The pixels of an object will be drawn if the comparison succeeds, for each pixel that the object touches.
 --- @alias CompareMode
 ---| 'equal' #* stencil tests: the stencil value of the pixel must be equal to the supplied value.
+---
 ---* depth tests: the depth value of the drawn object at that pixel must be equal to the existing depth value of that pixel.
 ---| 'notequal' #* stencil tests: the stencil value of the pixel must not be equal to the supplied value.
+---
 ---* depth tests: the depth value of the drawn object at that pixel must not be equal to the existing depth value of that pixel.
 ---| 'less' #* stencil tests: the stencil value of the pixel must be less than the supplied value.
+---
 ---* depth tests: the depth value of the drawn object at that pixel must be less than the existing depth value of that pixel.
 ---| 'lequal' #* stencil tests: the stencil value of the pixel must be less than or equal to the supplied value.
+---
 ---* depth tests: the depth value of the drawn object at that pixel must be less than or equal to the existing depth value of that pixel.
 ---| 'gequal' #* stencil tests: the stencil value of the pixel must be greater than or equal to the supplied value.
+---
 ---* depth tests: the depth value of the drawn object at that pixel must be greater than or equal to the existing depth value of that pixel.
 ---| 'greater' #* stencil tests: the stencil value of the pixel must be greater than the supplied value.
+---
 ---* depth tests: the depth value of the drawn object at that pixel must be greater than the existing depth value of that pixel.
 ---| 'never' #Objects will never be drawn.
 ---| 'always' #Objects will always be drawn. Effectively disables the depth or stencil test.
@@ -187,6 +193,8 @@ local m = {}
 
 --- The frequency at which a vertex shader fetches the vertex attribute's data from the Mesh when it's drawn.
 ---
+---
+---
 ---Per-instance attributes can be used to render a Mesh many times with different positions, colors, or other attributes via a single love.graphics.drawInstanced call, without using the love_InstanceID vertex shader variable.
 --- @alias VertexAttributeStep
 ---| 'pervertex' #The vertex attribute will have a unique value for each vertex in the Mesh.
@@ -212,19 +220,31 @@ local m = {}
 --- @class Canvas: Texture, Drawable, Object
 --- A Canvas is used for off-screen rendering. Think of it as an invisible screen that you can draw to, but that will not be visible until you draw it to the actual visible screen. It is also known as "render to texture".
 ---
+---
+---
 ---By drawing things that do not change position often (such as background items) to the Canvas, and then drawing the entire Canvas instead of each item,  you can reduce the number of draw operations performed each frame.
+---
+---
 ---
 ---In versions prior to love.graphics.isSupported("canvas") could be used to check for support at runtime.
 local Canvas = {}
 
 --- Generates mipmaps for the Canvas, based on the contents of the highest-resolution mipmap level.
 ---
+---
+---
 ---The Canvas must be created with mipmaps set to a MipmapMode other than 'none' for this function to work. It should only be called while the Canvas is not the active render target.
+---
+---
 ---
 ---If the mipmap mode is set to 'auto', this function is automatically called inside love.graphics.setCanvas when switching from this Canvas to another Canvas or to the main screen.
 --- Generates mipmaps for the Canvas, based on the contents of the highest-resolution mipmap level.
 ---
+---
+---
 ---The Canvas must be created with mipmaps set to a MipmapMode other than 'none' for this function to work. It should only be called while the Canvas is not the active render target.
+---
+---
 ---
 ---If the mipmap mode is set to 'auto', this function is automatically called inside love.graphics.setCanvas when switching from this Canvas to another Canvas or to the main screen.
 function Canvas:generateMipmaps() end
@@ -232,8 +252,12 @@ function Canvas:generateMipmaps() end
 
 --- Gets the number of multisample antialiasing (MSAA) samples used when drawing to the Canvas.
 ---
+---
+---
 ---This may be different than the number used as an argument to love.graphics.newCanvas if the system running LÖVE doesn't support that number.
 --- Gets the number of multisample antialiasing (MSAA) samples used when drawing to the Canvas.
+---
+---
 ---
 ---This may be different than the number used as an argument to love.graphics.newCanvas if the system running LÖVE doesn't support that number.
 --- @return number @The number of multisample antialiasing samples used by the canvas when drawing to it.
@@ -255,28 +279,52 @@ function Canvas:newImageData() end
 
 --- Render to the Canvas using a function.
 ---
+---
+---
 ---This is a shortcut to love.graphics.setCanvas:
+---
+---
 ---
 ---canvas:renderTo( func )
 ---
+---
+---
 ---is the same as
+---
+---
 ---
 ---love.graphics.setCanvas( canvas )
 ---
+---
+---
 ---func()
+---
+---
 ---
 ---love.graphics.setCanvas()
 --- Render to the Canvas using a function.
 ---
+---
+---
 ---This is a shortcut to love.graphics.setCanvas:
+---
+---
 ---
 ---canvas:renderTo( func )
 ---
+---
+---
 ---is the same as
+---
+---
 ---
 ---love.graphics.setCanvas( canvas )
 ---
+---
+---
 ---func()
+---
+---
 ---
 ---love.graphics.setCanvas()
 --- @param func function @A function performing drawing operations.
@@ -294,8 +342,12 @@ local Font = {}
 
 --- Gets the ascent of the Font.
 ---
+---
+---
 ---The ascent spans the distance between the baseline and the top of the glyph that reaches farthest from the baseline.
 --- Gets the ascent of the Font.
+---
+---
 ---
 ---The ascent spans the distance between the baseline and the top of the glyph that reaches farthest from the baseline.
 --- @return number @The ascent of the Font in pixels.
@@ -304,8 +356,12 @@ function Font:getAscent() end
 
 --- Gets the baseline of the Font.
 ---
+---
+---
 ---Most scripts share the notion of a baseline: an imaginary horizontal line on which characters rest. In some scripts, parts of glyphs lie below the baseline.
 --- Gets the baseline of the Font.
+---
+---
 ---
 ---Most scripts share the notion of a baseline: an imaginary horizontal line on which characters rest. In some scripts, parts of glyphs lie below the baseline.
 --- @return number @The baseline of the Font in pixels.
@@ -314,12 +370,20 @@ function Font:getBaseline() end
 
 --- Gets the DPI scale factor of the Font.
 ---
+---
+---
 ---The DPI scale factor represents relative pixel density. A DPI scale factor of 2 means the font's glyphs have twice the pixel density in each dimension (4 times as many pixels in the same area) compared to a font with a DPI scale factor of 1.
+---
+---
 ---
 ---The font size of TrueType fonts is scaled internally by the font's specified DPI scale factor. By default, LÖVE uses the screen's DPI scale factor when creating TrueType fonts.
 --- Gets the DPI scale factor of the Font.
 ---
+---
+---
 ---The DPI scale factor represents relative pixel density. A DPI scale factor of 2 means the font's glyphs have twice the pixel density in each dimension (4 times as many pixels in the same area) compared to a font with a DPI scale factor of 1.
+---
+---
 ---
 ---The font size of TrueType fonts is scaled internally by the font's specified DPI scale factor. By default, LÖVE uses the screen's DPI scale factor when creating TrueType fonts.
 --- @return number @The DPI scale factor of the Font.
@@ -328,8 +392,12 @@ function Font:getDPIScale() end
 
 --- Gets the descent of the Font.
 ---
+---
+---
 ---The descent spans the distance between the baseline and the lowest descending glyph in a typeface.
 --- Gets the descent of the Font.
+---
+---
 ---
 ---The descent spans the distance between the baseline and the lowest descending glyph in a typeface.
 --- @return number @The descent of the Font in pixels.
@@ -346,8 +414,12 @@ function Font:getFilter() end
 
 --- Gets the height of the Font.
 ---
+---
+---
 ---The height of the font is the size including any spacing; the height which it will need.
 --- Gets the height of the Font.
+---
+---
 ---
 ---The height of the font is the size including any spacing; the height which it will need.
 --- @return number @The height of the Font in pixels.
@@ -356,8 +428,12 @@ function Font:getHeight() end
 
 --- Gets the kerning between two characters in the Font.
 ---
+---
+---
 ---Kerning is normally handled automatically in love.graphics.print, Text objects, Font:getWidth, Font:getWrap, etc. This function is useful when stitching text together manually.
 --- Gets the kerning between two characters in the Font.
+---
+---
 ---
 ---Kerning is normally handled automatically in love.graphics.print, Text objects, Font:getWidth, Font:getWrap, etc. This function is useful when stitching text together manually.
 --- @param leftchar string @The left character.
@@ -369,8 +445,12 @@ function Font:getKerning(leftchar, rightchar) end
 
 --- Gets the line height.
 ---
+---
+---
 ---This will be the value previously set by Font:setLineHeight, or 1.0 by default.
 --- Gets the line height.
+---
+---
 ---
 ---This will be the value previously set by Font:setLineHeight, or 1.0 by default.
 --- @return number @The current line height.
@@ -386,8 +466,12 @@ function Font:getWidth(text) end
 
 --- Gets formatting information for text, given a wrap limit.
 ---
+---
+---
 ---This function accounts for newlines correctly (i.e. '\n').
 --- Gets formatting information for text, given a wrap limit.
+---
+---
 ---
 ---This function accounts for newlines correctly (i.e. '\n').
 --- @param text string @The text that will be wrapped.
@@ -424,8 +508,12 @@ function Font:setFilter(min, mag, anisotropy) end
 
 --- Sets the line height.
 ---
+---
+---
 ---When rendering the font in lines the actual height will be determined by the line height multiplied by the height of the font. The default is 1.0.
 --- Sets the line height.
+---
+---
 ---
 ---When rendering the font in lines the actual height will be determined by the line height multiplied by the height of the font. The default is 1.0.
 --- @param height number @The new line height.
@@ -438,8 +526,12 @@ local Image = {}
 
 --- Gets whether the Image was created from CompressedData.
 ---
+---
+---
 ---Compressed images take up less space in VRAM, and drawing a compressed image will generally be more efficient than drawing one created from raw pixel data.
 --- Gets whether the Image was created from CompressedData.
+---
+---
 ---
 ---Compressed images take up less space in VRAM, and drawing a compressed image will generally be more efficient than drawing one created from raw pixel data.
 --- @return boolean @Whether the Image is stored as a compressed texture on the GPU.
@@ -448,8 +540,12 @@ function Image:isCompressed() end
 
 --- Gets whether the Image was created with the linear (non-gamma corrected) flag set to true.
 ---
+---
+---
 ---This method always returns false when gamma-correct rendering is not enabled.
 --- Gets whether the Image was created with the linear (non-gamma corrected) flag set to true.
+---
+---
 ---
 ---This method always returns false when gamma-correct rendering is not enabled.
 --- @return boolean @Whether the Image's internal pixel format is linear (not gamma corrected), when gamma-correct rendering is enabled.
@@ -488,12 +584,20 @@ function Mesh:detachAttribute(name) end
 
 --- Immediately sends all modified vertex data in the Mesh to the graphics card.
 ---
+---
+---
 ---Normally it isn't necessary to call this method as love.graphics.draw(mesh, ...) will do it automatically if needed, but explicitly using **Mesh:flush** gives more control over when the work happens.
+---
+---
 ---
 ---If this method is used, it generally shouldn't be called more than once (at most) between love.graphics.draw(mesh, ...) calls.
 --- Immediately sends all modified vertex data in the Mesh to the graphics card.
 ---
+---
+---
 ---Normally it isn't necessary to call this method as love.graphics.draw(mesh, ...) will do it automatically if needed, but explicitly using **Mesh:flush** gives more control over when the work happens.
+---
+---
 ---
 ---If this method is used, it generally shouldn't be called more than once (at most) between love.graphics.draw(mesh, ...) calls.
 function Mesh:flush() end
@@ -520,8 +624,12 @@ function Mesh:getTexture() end
 
 --- Gets the properties of a vertex in the Mesh.
 ---
+---
+---
 ---In versions prior to 11.0, color and byte component values were within the range of 0 to 255 instead of 0 to 1.
 --- Gets the properties of a vertex in the Mesh.
+---
+---
 ---
 ---In versions prior to 11.0, color and byte component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param index number @The one-based index of the vertex you want to retrieve the information for.
@@ -533,8 +641,12 @@ function Mesh:getVertex(index) end
 
 --- Gets the properties of a specific attribute within a vertex in the Mesh.
 ---
+---
+---
 ---Meshes without a custom vertex format specified in love.graphics.newMesh have position as their first attribute, texture coordinates as their second attribute, and color as their third attribute.
 --- Gets the properties of a specific attribute within a vertex in the Mesh.
+---
+---
 ---
 ---Meshes without a custom vertex format specified in love.graphics.newMesh have position as their first attribute, texture coordinates as their second attribute, and color as their third attribute.
 --- @param vertexindex number @The index of the the vertex you want to retrieve the attribute for (one-based).
@@ -559,8 +671,12 @@ function Mesh:getVertexFormat() end
 
 --- Gets the vertex map for the Mesh. The vertex map describes the order in which the vertices are used when the Mesh is drawn. The vertices, vertex map, and mesh draw mode work together to determine what exactly is displayed on the screen.
 ---
+---
+---
 ---If no vertex map has been set previously via Mesh:setVertexMap, then this function will return nil in LÖVE 0.10.0+, or an empty table in 0.9.2 and older.
 --- Gets the vertex map for the Mesh. The vertex map describes the order in which the vertices are used when the Mesh is drawn. The vertices, vertex map, and mesh draw mode work together to determine what exactly is displayed on the screen.
+---
+---
 ---
 ---If no vertex map has been set previously via Mesh:setVertexMap, then this function will return nil in LÖVE 0.10.0+, or an empty table in 0.9.2 and older.
 --- @return table @A table containing the list of vertex indices used when drawing.
@@ -604,8 +720,12 @@ function Mesh:setTexture(texture) end
 
 --- Sets the properties of a vertex in the Mesh.
 ---
+---
+---
 ---In versions prior to 11.0, color and byte component values were within the range of 0 to 255 instead of 0 to 1.
 --- Sets the properties of a vertex in the Mesh.
+---
+---
 ---
 ---In versions prior to 11.0, color and byte component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param index number @The index of the the vertex you want to modify (one-based).
@@ -619,8 +739,12 @@ function Mesh:setVertex(index, attributecomponent, ...) end
 
 --- Sets the properties of a specific attribute within a vertex in the Mesh.
 ---
+---
+---
 ---Meshes without a custom vertex format specified in love.graphics.newMesh have position as their first attribute, texture coordinates as their second attribute, and color as their third attribute.
 --- Sets the properties of a specific attribute within a vertex in the Mesh.
+---
+---
 ---
 ---Meshes without a custom vertex format specified in love.graphics.newMesh have position as their first attribute, texture coordinates as their second attribute, and color as their third attribute.
 --- @param vertexindex number @The index of the the vertex to be modified (one-based).
@@ -633,8 +757,12 @@ function Mesh:setVertexAttribute(vertexindex, attributeindex, value1, value2, ..
 
 --- Sets the vertex map for the Mesh. The vertex map describes the order in which the vertices are used when the Mesh is drawn. The vertices, vertex map, and mesh draw mode work together to determine what exactly is displayed on the screen.
 ---
+---
+---
 ---The vertex map allows you to re-order or reuse vertices when drawing without changing the actual vertex parameters or duplicating vertices. It is especially useful when combined with different Mesh Draw Modes.
 --- Sets the vertex map for the Mesh. The vertex map describes the order in which the vertices are used when the Mesh is drawn. The vertices, vertex map, and mesh draw mode work together to determine what exactly is displayed on the screen.
+---
+---
 ---
 ---The vertex map allows you to re-order or reuse vertices when drawing without changing the actual vertex parameters or duplicating vertices. It is especially useful when combined with different Mesh Draw Modes.
 --- @param map table @A table containing a list of vertex indices to use when drawing. Values must be in the range of Mesh:getVertexCount().
@@ -656,7 +784,11 @@ function Mesh:setVertices(vertices, startvertex, count) end
 --- @class ParticleSystem: Drawable, Object
 --- A ParticleSystem can be used to create particle effects like fire or smoke.
 ---
+---
+---
 ---The particle system has to be created using update it in the update callback to see any changes in the particles emitted.
+---
+---
 ---
 ---The particle system won't create any particles unless you call setParticleLifetime and setEmissionRate.
 local ParticleSystem = {}
@@ -681,8 +813,12 @@ function ParticleSystem:getBufferSize() end
 
 --- Gets the series of colors applied to the particle sprite.
 ---
+---
+---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- Gets the series of colors applied to the particle sprite.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- @return number @First color, red component (0-1).
@@ -742,8 +878,12 @@ function ParticleSystem:getInsertMode() end
 
 --- Gets the linear acceleration (acceleration along the x and y axes) for particles.
 ---
+---
+---
 ---Every particle created will accelerate along the x and y axes between xmin,ymin and xmax,ymax.
 --- Gets the linear acceleration (acceleration along the x and y axes) for particles.
+---
+---
 ---
 ---Every particle created will accelerate along the x and y axes between xmin,ymin and xmax,ymax.
 --- @return number @The minimum acceleration along the x axis.
@@ -904,12 +1044,20 @@ function ParticleSystem:setBufferSize(size) end
 
 --- Sets a series of colors to apply to the particle sprite. The particle system will interpolate between each color evenly over the particle's lifetime.
 ---
+---
+---
 ---Arguments can be passed in groups of four, representing the components of the desired RGBA value, or as tables of RGBA component values, with a default alpha value of 1 if only three values are given. At least one color must be specified. A maximum of eight may be used.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- Sets a series of colors to apply to the particle sprite. The particle system will interpolate between each color evenly over the particle's lifetime.
 ---
+---
+---
 ---Arguments can be passed in groups of four, representing the components of the desired RGBA value, or as tables of RGBA component values, with a default alpha value of 1 if only three values are given. At least one color must be specified. A maximum of eight may be used.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param r1 number @First color, red component (0-1).
@@ -957,8 +1105,12 @@ function ParticleSystem:setInsertMode(mode) end
 
 --- Sets the linear acceleration (acceleration along the x and y axes) for particles.
 ---
+---
+---
 ---Every particle created will accelerate along the x and y axes between xmin,ymin and xmax,ymax.
 --- Sets the linear acceleration (acceleration along the x and y axes) for particles.
+---
+---
 ---
 ---Every particle created will accelerate along the x and y axes between xmin,ymin and xmax,ymax.
 --- @param xmin number @The minimum acceleration along the x axis.
@@ -977,8 +1129,12 @@ function ParticleSystem:setLinearDamping(min, max) end
 
 --- Set the offset position which the particle sprite is rotated around.
 ---
+---
+---
 ---If this function is not used, the particles rotate around their center.
 --- Set the offset position which the particle sprite is rotated around.
+---
+---
 ---
 ---If this function is not used, the particles rotate around their center.
 --- @param x number @The x coordinate of the rotation offset.
@@ -1036,8 +1192,12 @@ function ParticleSystem:setSizeVariation(variation) end
 
 --- Sets a series of sizes by which to scale a particle sprite. 1.0 is normal size. The particle system will interpolate between each size evenly over the particle's lifetime.
 ---
+---
+---
 ---At least one size must be specified. A maximum of eight may be used.
 --- Sets a series of sizes by which to scale a particle sprite. 1.0 is normal size. The particle system will interpolate between each size evenly over the particle's lifetime.
+---
+---
 ---
 ---At least one size must be specified. A maximum of eight may be used.
 --- @param size1 number @The first size.
@@ -1104,6 +1264,8 @@ function ParticleSystem:update(dt) end
 --- @class Quad: Object
 --- A quadrilateral (a polygon with four sides and four corners) with texture coordinate information.
 ---
+---
+---
 ---Quads can be used to select part of a texture to draw. In this way, one large texture atlas can be loaded, and then split up into sub-images.
 local Quad = {}
 
@@ -1137,6 +1299,8 @@ function Quad:setViewport(x, y, w, h, sw, sh) end
 --- @class Shader: Object
 --- A Shader is used for advanced hardware-accelerated pixel or vertex manipulation. These effects are written in a language based on GLSL (OpenGL Shading Language) with a few things simplified for easier coding.
 ---
+---
+---
 ---Potential uses for shaders include HDR/bloom, motion blur, grayscale/invert/sepia/any kind of color effect, reflection/refraction, distortions, bump mapping, and much more! Here is a collection of basic shaders and good starting point to learn: https://github.com/vrld/moonshine
 local Shader = {}
 
@@ -1148,8 +1312,12 @@ function Shader:getWarnings() end
 
 --- Gets whether a uniform / extern variable exists in the Shader.
 ---
+---
+---
 ---If a graphics driver's shader compiler determines that a uniform / extern variable doesn't affect the final output of the shader, it may optimize the variable out. This function will return false in that case.
 --- Gets whether a uniform / extern variable exists in the Shader.
+---
+---
 ---
 ---If a graphics driver's shader compiler determines that a uniform / extern variable doesn't affect the final output of the shader, it may optimize the variable out. This function will return false in that case.
 --- @param name string @The name of the uniform variable.
@@ -1159,40 +1327,76 @@ function Shader:hasUniform(name) end
 
 --- Sends one or more values to a special (''uniform'') variable inside the shader. Uniform variables have to be marked using the ''uniform'' or ''extern'' keyword, e.g.
 ---
+---
+---
 ---uniform float time;  // 'float' is the typical number type used in GLSL shaders.
+---
+---
 ---
 ---uniform float varsvec2 light_pos;
 ---
+---
+---
 ---uniform vec4 colors[4;
+---
+---
 ---
 ---The corresponding send calls would be
 ---
+---
+---
 ---shader:send('time', t)
+---
+---
 ---
 ---shader:send('vars',a,b)
 ---
+---
+---
 ---shader:send('light_pos', {light_x, light_y})
 ---
+---
+---
 ---shader:send('colors', {r1, g1, b1, a1},  {r2, g2, b2, a2},  {r3, g3, b3, a3},  {r4, g4, b4, a4})
+---
+---
 ---
 ---Uniform / extern variables are read-only in the shader code and remain constant until modified by a Shader:send call. Uniform variables can be accessed in both the Vertex and Pixel components of a shader, as long as the variable is declared in each.
 --- Sends one or more values to a special (''uniform'') variable inside the shader. Uniform variables have to be marked using the ''uniform'' or ''extern'' keyword, e.g.
 ---
+---
+---
 ---uniform float time;  // 'float' is the typical number type used in GLSL shaders.
+---
+---
 ---
 ---uniform float varsvec2 light_pos;
 ---
+---
+---
 ---uniform vec4 colors[4;
+---
+---
 ---
 ---The corresponding send calls would be
 ---
+---
+---
 ---shader:send('time', t)
+---
+---
 ---
 ---shader:send('vars',a,b)
 ---
+---
+---
 ---shader:send('light_pos', {light_x, light_y})
 ---
+---
+---
 ---shader:send('colors', {r1, g1, b1, a1},  {r2, g2, b2, a2},  {r3, g3, b3, a3},  {r4, g4, b4, a4})
+---
+---
 ---
 ---Uniform / extern variables are read-only in the shader code and remain constant until modified by a Shader:send call. Uniform variables can be accessed in both the Vertex and Pixel components of a shader, as long as the variable is declared in each.
 --- @param name string @Name of the number to send to the shader.
@@ -1211,28 +1415,52 @@ function Shader:send(name, number, ...) end
 
 --- Sends one or more colors to a special (''extern'' / ''uniform'') vec3 or vec4 variable inside the shader. The color components must be in the range of 1. The colors are gamma-corrected if global gamma-correction is enabled.
 ---
+---
+---
 ---Extern variables must be marked using the ''extern'' keyword, e.g.
+---
+---
 ---
 ---extern vec4 Color;
 ---
+---
+---
 ---The corresponding sendColor call would be
+---
+---
 ---
 ---shader:sendColor('Color', {r, g, b, a})
 ---
+---
+---
 ---Extern variables can be accessed in both the Vertex and Pixel stages of a shader, as long as the variable is declared in each.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- Sends one or more colors to a special (''extern'' / ''uniform'') vec3 or vec4 variable inside the shader. The color components must be in the range of 1. The colors are gamma-corrected if global gamma-correction is enabled.
 ---
+---
+---
 ---Extern variables must be marked using the ''extern'' keyword, e.g.
+---
+---
 ---
 ---extern vec4 Color;
 ---
+---
+---
 ---The corresponding sendColor call would be
+---
+---
 ---
 ---shader:sendColor('Color', {r, g, b, a})
 ---
+---
+---
 ---Extern variables can be accessed in both the Vertex and Pixel stages of a shader, as long as the variable is declared in each.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param name string @The name of the color extern variable to send to in the shader.
@@ -1243,6 +1471,8 @@ function Shader:sendColor(name, color, ...) end
 
 --- @class SpriteBatch: Drawable, Object
 --- Using a single image, draw any number of identical copies of the image using a single call to love.graphics.draw(). This can be used, for example, to draw repeating copies of a single background image with high performance.
+---
+---
 ---
 ---A SpriteBatch can be even more useful when the underlying image is a texture atlas (a single image file containing many independent images); by adding Quads to the batch, different sub-images from within the atlas can be drawn.
 local SpriteBatch = {}
@@ -1284,8 +1514,12 @@ function SpriteBatch:addLayer(layerindex, x, y, r, sx, sy, ox, oy, kx, ky) end
 
 --- Attaches a per-vertex attribute from a Mesh onto this SpriteBatch, for use when drawing. This can be combined with a Shader to augment a SpriteBatch with per-vertex or additional per-sprite information instead of just having per-sprite colors.
 ---
+---
+---
 ---Each sprite in a SpriteBatch has 4 vertices in the following order: top-left, bottom-left, top-right, bottom-right. The index returned by SpriteBatch:add (and used by SpriteBatch:set) can used to determine the first vertex of a specific sprite with the formula 1 + 4 * ( id - 1 ).
 --- Attaches a per-vertex attribute from a Mesh onto this SpriteBatch, for use when drawing. This can be combined with a Shader to augment a SpriteBatch with per-vertex or additional per-sprite information instead of just having per-sprite colors.
+---
+---
 ---
 ---Each sprite in a SpriteBatch has 4 vertices in the following order: top-left, bottom-left, top-right, bottom-right. The index returned by SpriteBatch:add (and used by SpriteBatch:set) can used to determine the first vertex of a specific sprite with the formula 1 + 4 * ( id - 1 ).
 --- @param name string @The name of the vertex attribute to attach.
@@ -1300,12 +1534,20 @@ function SpriteBatch:clear() end
 
 --- Immediately sends all new and modified sprite data in the batch to the graphics card.
 ---
+---
+---
 ---Normally it isn't necessary to call this method as love.graphics.draw(spritebatch, ...) will do it automatically if needed, but explicitly using SpriteBatch:flush gives more control over when the work happens.
+---
+---
 ---
 ---If this method is used, it generally shouldn't be called more than once (at most) between love.graphics.draw(spritebatch, ...) calls.
 --- Immediately sends all new and modified sprite data in the batch to the graphics card.
 ---
+---
+---
 ---Normally it isn't necessary to call this method as love.graphics.draw(spritebatch, ...) will do it automatically if needed, but explicitly using SpriteBatch:flush gives more control over when the work happens.
+---
+---
 ---
 ---If this method is used, it generally shouldn't be called more than once (at most) between love.graphics.draw(spritebatch, ...) calls.
 function SpriteBatch:flush() end
@@ -1319,12 +1561,20 @@ function SpriteBatch:getBufferSize() end
 
 --- Gets the color that will be used for the next add and set operations.
 ---
+---
+---
 ---If no color has been set with SpriteBatch:setColor or the current SpriteBatch color has been cleared, this method will return nil.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- Gets the color that will be used for the next add and set operations.
 ---
+---
+---
 ---If no color has been set with SpriteBatch:setColor or the current SpriteBatch color has been cleared, this method will return nil.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- @return number @The red component (0-1).
@@ -1364,12 +1614,20 @@ function SpriteBatch:set(spriteindex, x, y, r, sx, sy, ox, oy, kx, ky) end
 
 --- Sets the color that will be used for the next add and set operations. Calling the function without arguments will disable all per-sprite colors for the SpriteBatch.
 ---
+---
+---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
+---
+---
 ---
 ---In version 0.9.2 and older, the global color set with love.graphics.setColor will not work on the SpriteBatch if any of the sprites has its own color.
 --- Sets the color that will be used for the next add and set operations. Calling the function without arguments will disable all per-sprite colors for the SpriteBatch.
 ---
+---
+---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
+---
+---
 ---
 ---In version 0.9.2 and older, the global color set with love.graphics.setColor will not work on the SpriteBatch if any of the sprites has its own color.
 --- @param r number @The amount of red.
@@ -1436,8 +1694,12 @@ function Text:add(textstring, x, y, angle, sx, sy, ox, oy, kx, ky) end
 
 --- Adds additional formatted / colored text to the Text object at the specified position.
 ---
+---
+---
 ---The word wrap limit is applied before any scaling, rotation, and other coordinate transformations. Therefore the amount of text per line stays constant given the same wrap limit, even if the scale arguments change.
 --- Adds additional formatted / colored text to the Text object at the specified position.
+---
+---
 ---
 ---The word wrap limit is applied before any scaling, rotation, and other coordinate transformations. Therefore the amount of text per line stays constant given the same wrap limit, even if the scale arguments change.
 --- @param textstring string @The text to add to the object.
@@ -1518,12 +1780,20 @@ local Texture = {}
 
 --- Gets the DPI scale factor of the Texture.
 ---
+---
+---
 ---The DPI scale factor represents relative pixel density. A DPI scale factor of 2 means the texture has twice the pixel density in each dimension (4 times as many pixels in the same area) compared to a texture with a DPI scale factor of 1.
+---
+---
 ---
 ---For example, a texture with pixel dimensions of 100x100 with a DPI scale factor of 2 will be drawn as if it was 50x50. This is useful with high-dpi /  retina displays to easily allow swapping out higher or lower pixel density Images and Canvases without needing any extra manual scaling logic.
 --- Gets the DPI scale factor of the Texture.
 ---
+---
+---
 ---The DPI scale factor represents relative pixel density. A DPI scale factor of 2 means the texture has twice the pixel density in each dimension (4 times as many pixels in the same area) compared to a texture with a DPI scale factor of 1.
+---
+---
 ---
 ---For example, a texture with pixel dimensions of 100x100 with a DPI scale factor of 2 will be drawn as if it was 50x50. This is useful with high-dpi /  retina displays to easily allow swapping out higher or lower pixel density Images and Canvases without needing any extra manual scaling logic.
 --- @return number @The DPI scale factor of the Texture.
@@ -1538,8 +1808,12 @@ function Texture:getDepth() end
 
 --- Gets the comparison mode used when sampling from a depth texture in a shader.
 ---
+---
+---
 ---Depth texture comparison modes are advanced low-level functionality typically used with shadow mapping in 3D.
 --- Gets the comparison mode used when sampling from a depth texture in a shader.
+---
+---
 ---
 ---Depth texture comparison modes are advanced low-level functionality typically used with shadow mapping in 3D.
 --- @return CompareMode @The comparison mode used when sampling from this texture in a shader, or nil if setDepthSampleMode has not been called on this Texture.
@@ -1594,8 +1868,12 @@ function Texture:getMipmapFilter() end
 
 --- Gets the width and height in pixels of the Texture.
 ---
+---
+---
 ---Texture:getDimensions gets the dimensions of the texture in units scaled by the texture's DPI scale factor, rather than pixels. Use getDimensions for calculations related to drawing the texture (calculating an origin offset, for example), and getPixelDimensions only when dealing specifically with pixels, for example when using Canvas:newImageData.
 --- Gets the width and height in pixels of the Texture.
+---
+---
 ---
 ---Texture:getDimensions gets the dimensions of the texture in units scaled by the texture's DPI scale factor, rather than pixels. Use getDimensions for calculations related to drawing the texture (calculating an origin offset, for example), and getPixelDimensions only when dealing specifically with pixels, for example when using Canvas:newImageData.
 --- @return number @The width of the Texture, in pixels.
@@ -1605,8 +1883,12 @@ function Texture:getPixelDimensions() end
 
 --- Gets the height in pixels of the Texture.
 ---
+---
+---
 ---DPI scale factor, rather than pixels. Use getHeight for calculations related to drawing the texture (calculating an origin offset, for example), and getPixelHeight only when dealing specifically with pixels, for example when using Canvas:newImageData.
 --- Gets the height in pixels of the Texture.
+---
+---
 ---
 ---DPI scale factor, rather than pixels. Use getHeight for calculations related to drawing the texture (calculating an origin offset, for example), and getPixelHeight only when dealing specifically with pixels, for example when using Canvas:newImageData.
 --- @return number @The height of the Texture, in pixels.
@@ -1615,8 +1897,12 @@ function Texture:getPixelHeight() end
 
 --- Gets the width in pixels of the Texture.
 ---
+---
+---
 ---DPI scale factor, rather than pixels. Use getWidth for calculations related to drawing the texture (calculating an origin offset, for example), and getPixelWidth only when dealing specifically with pixels, for example when using Canvas:newImageData.
 --- Gets the width in pixels of the Texture.
+---
+---
 ---
 ---DPI scale factor, rather than pixels. Use getWidth for calculations related to drawing the texture (calculating an origin offset, for example), and getPixelWidth only when dealing specifically with pixels, for example when using Canvas:newImageData.
 --- @return number @The width of the Texture, in pixels.
@@ -1637,8 +1923,12 @@ function Texture:getWidth() end
 
 --- Gets the wrapping properties of a Texture.
 ---
+---
+---
 ---This function returns the currently set horizontal and vertical wrapping modes for the texture.
 --- Gets the wrapping properties of a Texture.
+---
+---
 ---
 ---This function returns the currently set horizontal and vertical wrapping modes for the texture.
 --- @return WrapMode @Horizontal wrapping mode of the texture.
@@ -1649,12 +1939,20 @@ function Texture:getWrap() end
 
 --- Gets whether the Texture can be drawn and sent to a Shader.
 ---
+---
+---
 ---Canvases created with stencil and/or depth PixelFormats are not readable by default, unless readable=true is specified in the settings table passed into love.graphics.newCanvas.
+---
+---
 ---
 ---Non-readable Canvases can still be rendered to.
 --- Gets whether the Texture can be drawn and sent to a Shader.
 ---
+---
+---
 ---Canvases created with stencil and/or depth PixelFormats are not readable by default, unless readable=true is specified in the settings table passed into love.graphics.newCanvas.
+---
+---
 ---
 ---Non-readable Canvases can still be rendered to.
 --- @return boolean @Whether the Texture is readable.
@@ -1663,12 +1961,20 @@ function Texture:isReadable() end
 
 --- Sets the comparison mode used when sampling from a depth texture in a shader. Depth texture comparison modes are advanced low-level functionality typically used with shadow mapping in 3D.
 ---
+---
+---
 ---When using a depth texture with a comparison mode set in a shader, it must be declared as a sampler2DShadow and used in a GLSL 3 Shader. The result of accessing the texture in the shader will return a float between 0 and 1, proportional to the number of samples (up to 4 samples will be used if bilinear filtering is enabled) that passed the test set by the comparison operation.
+---
+---
 ---
 ---Depth texture comparison can only be used with readable depth-formatted Canvases.
 --- Sets the comparison mode used when sampling from a depth texture in a shader. Depth texture comparison modes are advanced low-level functionality typically used with shadow mapping in 3D.
 ---
+---
+---
 ---When using a depth texture with a comparison mode set in a shader, it must be declared as a sampler2DShadow and used in a GLSL 3 Shader. The result of accessing the texture in the shader will return a float between 0 and 1, proportional to the number of samples (up to 4 samples will be used if bilinear filtering is enabled) that passed the test set by the comparison operation.
+---
+---
 ---
 ---Depth texture comparison can only be used with readable depth-formatted Canvases.
 --- @param compare CompareMode @The comparison mode used when sampling from this texture in a shader.
@@ -1685,16 +1991,28 @@ function Texture:setFilter(min, mag, anisotropy) end
 
 --- Sets the mipmap filter mode for a Texture. Prior to 11.0 this method only worked on Images.
 ---
+---
+---
 ---Mipmapping is useful when drawing a texture at a reduced scale. It can improve performance and reduce aliasing issues.
 ---
+---
+---
 ---In created with the mipmaps flag enabled for the mipmap filter to have any effect. In versions prior to 0.10.0 it's best to call this method directly after creating the image with love.graphics.newImage, to avoid bugs in certain graphics drivers.
+---
+---
 ---
 ---Due to hardware restrictions and driver bugs, in versions prior to 0.10.0 images that weren't loaded from a CompressedData must have power-of-two dimensions (64x64, 512x256, etc.) to use mipmaps.
 --- Sets the mipmap filter mode for a Texture. Prior to 11.0 this method only worked on Images.
 ---
+---
+---
 ---Mipmapping is useful when drawing a texture at a reduced scale. It can improve performance and reduce aliasing issues.
 ---
+---
+---
 ---In created with the mipmaps flag enabled for the mipmap filter to have any effect. In versions prior to 0.10.0 it's best to call this method directly after creating the image with love.graphics.newImage, to avoid bugs in certain graphics drivers.
+---
+---
 ---
 ---Due to hardware restrictions and driver bugs, in versions prior to 0.10.0 images that weren't loaded from a CompressedData must have power-of-two dimensions (64x64, 512x256, etc.) to use mipmaps.
 --- @param filtermode FilterMode @The filter mode to use in between mipmap levels. 'nearest' will often give better performance.
@@ -1705,12 +2023,20 @@ function Texture:setMipmapFilter(filtermode, sharpness) end
 
 --- Sets the wrapping properties of a Texture.
 ---
+---
+---
 ---This function sets the way a Texture is repeated when it is drawn with a Quad that is larger than the texture's extent, or when a custom Shader is used which uses texture coordinates outside of [0, 1]. A texture may be clamped or set to repeat in both horizontal and vertical directions.
+---
+---
 ---
 ---Clamped textures appear only once (with the edges of the texture stretching to fill the extent of the Quad), whereas repeated ones repeat as many times as there is room in the Quad.
 --- Sets the wrapping properties of a Texture.
 ---
+---
+---
 ---This function sets the way a Texture is repeated when it is drawn with a Quad that is larger than the texture's extent, or when a custom Shader is used which uses texture coordinates outside of [0, 1]. A texture may be clamped or set to repeat in both horizontal and vertical directions.
+---
+---
 ---
 ---Clamped textures appear only once (with the edges of the texture stretching to fill the extent of the Quad), whereas repeated ones repeat as many times as there is room in the Quad.
 --- @param horiz WrapMode @Horizontal wrapping mode of the texture.
@@ -1816,8 +2142,12 @@ function Video:tell() end
 
 --- Applies the given Transform object to the current coordinate transformation.
 ---
+---
+---
 ---This effectively multiplies the existing coordinate transformation's matrix with the Transform object's internal matrix to produce the new coordinate transformation.
 --- Applies the given Transform object to the current coordinate transformation.
+---
+---
 ---
 ---This effectively multiplies the existing coordinate transformation's matrix with the Transform object's internal matrix to produce the new coordinate transformation.
 --- @param transform Transform @The Transform object to apply to the current graphics coordinate transform.
@@ -1839,8 +2169,12 @@ function m.arc(drawmode, x, y, radius, angle1, angle2, segments) end
 
 --- Creates a screenshot once the current frame is done (after love.draw has finished).
 ---
+---
+---
 ---Since this function enqueues a screenshot capture rather than executing it immediately, it can be called from an input callback or love.update and it will still capture all of what's drawn to the screen in that frame.
 --- Creates a screenshot once the current frame is done (after love.draw has finished).
+---
+---
 ---
 ---Since this function enqueues a screenshot capture rather than executing it immediately, it can be called from an input callback or love.update and it will still capture all of what's drawn to the screen in that frame.
 --- @param filename string @The filename to save the screenshot to. The encoded image type is determined based on the extension of the filename, and must be one of the ImageFormats.
@@ -1861,20 +2195,36 @@ function m.circle(mode, x, y, radius) end
 
 --- Clears the screen or active Canvas to the specified color.
 ---
+---
+---
 ---This function is called automatically before love.draw in the default love.run function. See the example in love.run for a typical use of this function.
+---
+---
 ---
 ---Note that the scissor area bounds the cleared region.
 ---
+---
+---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
+---
+---
 ---
 ---In versions prior to background color instead.
 --- Clears the screen or active Canvas to the specified color.
 ---
+---
+---
 ---This function is called automatically before love.draw in the default love.run function. See the example in love.run for a typical use of this function.
+---
+---
 ---
 ---Note that the scissor area bounds the cleared region.
 ---
+---
+---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
+---
+---
 ---
 ---In versions prior to background color instead.
 --- @overload fun(r: number, g: number, b: number, a: number, clearstencil: boolean, cleardepth: boolean):
@@ -1885,12 +2235,20 @@ function m.clear() end
 
 --- Discards (trashes) the contents of the screen or active Canvas. This is a performance optimization function with niche use cases.
 ---
+---
+---
 ---If the active Canvas has just been changed and the 'replace' BlendMode is about to be used to draw something which covers the entire screen, calling love.graphics.discard rather than calling love.graphics.clear or doing nothing may improve performance on mobile devices.
+---
+---
 ---
 ---On some desktop systems this function may do nothing.
 --- Discards (trashes) the contents of the screen or active Canvas. This is a performance optimization function with niche use cases.
 ---
+---
+---
 ---If the active Canvas has just been changed and the 'replace' BlendMode is about to be used to draw something which covers the entire screen, calling love.graphics.discard rather than calling love.graphics.clear or doing nothing may improve performance on mobile devices.
+---
+---
 ---
 ---On some desktop systems this function may do nothing.
 --- @param discardcolor boolean @Whether to discard the texture(s) of the active Canvas(es) (the contents of the screen if no Canvas is active.)
@@ -1901,24 +2259,44 @@ function m.discard(discardcolor, discardstencil) end
 
 --- Draws a Drawable object (an Image, Canvas, SpriteBatch, ParticleSystem, Mesh, Text object, or Video) on the screen with optional rotation, scaling and shearing.
 ---
+---
+---
 ---Objects are drawn relative to their local coordinate system. The origin is by default located at the top left corner of Image and Canvas. All scaling, shearing, and rotation arguments transform the object relative to that point. Also, the position of the origin can be specified on the screen coordinate system.
+---
+---
 ---
 ---It's possible to rotate an object about its center by offsetting the origin to the center. Angles must be given in radians for rotation. One can also use a negative scaling factor to flip about its centerline. 
 ---
+---
+---
 ---Note that the offsets are applied before rotation, scaling, or shearing; scaling and shearing are applied before rotation.
 ---
+---
+---
 ---The right and bottom edges of the object are shifted at an angle defined by the shearing factors.
+---
+---
 ---
 ---When using the default shader anything drawn with this function will be tinted according to the currently selected color.  Set it to pure white to preserve the object's original colors.
 --- Draws a Drawable object (an Image, Canvas, SpriteBatch, ParticleSystem, Mesh, Text object, or Video) on the screen with optional rotation, scaling and shearing.
 ---
+---
+---
 ---Objects are drawn relative to their local coordinate system. The origin is by default located at the top left corner of Image and Canvas. All scaling, shearing, and rotation arguments transform the object relative to that point. Also, the position of the origin can be specified on the screen coordinate system.
+---
+---
 ---
 ---It's possible to rotate an object about its center by offsetting the origin to the center. Angles must be given in radians for rotation. One can also use a negative scaling factor to flip about its centerline. 
 ---
+---
+---
 ---Note that the offsets are applied before rotation, scaling, or shearing; scaling and shearing are applied before rotation.
 ---
+---
+---
 ---The right and bottom edges of the object are shifted at an angle defined by the shearing factors.
+---
+---
 ---
 ---When using the default shader anything drawn with this function will be tinted according to the currently selected color.  Set it to pure white to preserve the object's original colors.
 --- @param drawable Drawable @A drawable object.
@@ -1939,12 +2317,20 @@ function m.draw(drawable, x, y, r, sx, sy, ox, oy, kx, ky) end
 
 --- Draws many instances of a Mesh with a single draw call, using hardware geometry instancing.
 ---
+---
+---
 ---Each instance can have unique properties (positions, colors, etc.) but will not by default unless a custom per-instance vertex attributes or the love_InstanceID GLSL 3 vertex shader variable is used, otherwise they will all render at the same position on top of each other.
+---
+---
 ---
 ---Instancing is not supported by some older GPUs that are only capable of using OpenGL ES 2 or OpenGL 2. Use love.graphics.getSupported to check.
 --- Draws many instances of a Mesh with a single draw call, using hardware geometry instancing.
 ---
+---
+---
 ---Each instance can have unique properties (positions, colors, etc.) but will not by default unless a custom per-instance vertex attributes or the love_InstanceID GLSL 3 vertex shader variable is used, otherwise they will all render at the same position on top of each other.
+---
+---
 ---
 ---Instancing is not supported by some older GPUs that are only capable of using OpenGL ES 2 or OpenGL 2. Use love.graphics.getSupported to check.
 --- @param mesh Mesh @The mesh to render.
@@ -1994,16 +2380,28 @@ function m.ellipse(mode, x, y, radiusx, radiusy) end
 
 --- Immediately renders any pending automatically batched draws.
 ---
+---
+---
 ---LÖVE will call this function internally as needed when most state is changed, so it is not necessary to manually call it.
 ---
+---
+---
 ---The current batch will be automatically flushed by love.graphics state changes (except for the transform stack and the current color), as well as Shader:send and methods on Textures which change their state. Using a different Image in consecutive love.graphics.draw calls will also flush the current batch.
+---
+---
 ---
 ---SpriteBatches, ParticleSystems, Meshes, and Text objects do their own batching and do not affect automatic batching of other draws, aside from flushing the current batch when they're drawn.
 --- Immediately renders any pending automatically batched draws.
 ---
+---
+---
 ---LÖVE will call this function internally as needed when most state is changed, so it is not necessary to manually call it.
 ---
+---
+---
 ---The current batch will be automatically flushed by love.graphics state changes (except for the transform stack and the current color), as well as Shader:send and methods on Textures which change their state. Using a different Image in consecutive love.graphics.draw calls will also flush the current batch.
+---
+---
 ---
 ---SpriteBatches, ParticleSystems, Meshes, and Text objects do their own batching and do not affect automatic batching of other draws, aside from flushing the current batch when they're drawn.
 function m.flushBatch() end
@@ -2011,8 +2409,12 @@ function m.flushBatch() end
 
 --- Gets the current background color.
 ---
+---
+---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- Gets the current background color.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- @return number @The red component (0-1).
@@ -2044,8 +2446,12 @@ function m.getCanvasFormats() end
 
 --- Gets the current color.
 ---
+---
+---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- Gets the current color.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- @return number @The red component (0-1).
@@ -2057,8 +2463,12 @@ function m.getColor() end
 
 --- Gets the active color components used when drawing. Normally all 4 components are active unless love.graphics.setColorMask has been used.
 ---
+---
+---
 ---The color mask determines whether individual components of the colors of drawn objects will affect the color of the screen. They affect love.graphics.clear and Canvas:clear as well.
 --- Gets the active color components used when drawing. Normally all 4 components are active unless love.graphics.setColorMask has been used.
+---
+---
 ---
 ---The color mask determines whether individual components of the colors of drawn objects will affect the color of the screen. They affect love.graphics.clear and Canvas:clear as well.
 --- @return boolean @Whether the red color component is active when rendering.
@@ -2070,16 +2480,28 @@ function m.getColorMask() end
 
 --- Gets the DPI scale factor of the window.
 ---
+---
+---
 ---The DPI scale factor represents relative pixel density. The pixel density inside the window might be greater (or smaller) than the 'size' of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.graphics.getDPIScale() would return 2 in that case.
 ---
+---
+---
 ---The love.window.fromPixels and love.window.toPixels functions can also be used to convert between units.
+---
+---
 ---
 ---The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.
 --- Gets the DPI scale factor of the window.
 ---
+---
+---
 ---The DPI scale factor represents relative pixel density. The pixel density inside the window might be greater (or smaller) than the 'size' of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.graphics.getDPIScale() would return 2 in that case.
 ---
+---
+---
 ---The love.window.fromPixels and love.window.toPixels functions can also be used to convert between units.
+---
+---
 ---
 ---The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.
 --- @return number @The pixel scale factor associated with the window.
@@ -2096,8 +2518,12 @@ function m.getDefaultFilter() end
 
 --- Gets the current depth test mode and whether writing to the depth buffer is enabled.
 ---
+---
+---
 ---This is low-level functionality designed for use with custom vertex shaders and Meshes with custom vertex attributes. No higher level APIs are provided to set the depth of 2D graphics such as shapes, lines, and Images.
 --- Gets the current depth test mode and whether writing to the depth buffer is enabled.
+---
+---
 ---
 ---This is low-level functionality designed for use with custom vertex shaders and Meshes with custom vertex attributes. No higher level APIs are provided to set the depth of 2D graphics such as shapes, lines, and Images.
 --- @return CompareMode @Depth comparison mode used for depth testing.
@@ -2120,8 +2546,12 @@ function m.getFont() end
 
 --- Gets whether triangles with clockwise- or counterclockwise-ordered vertices are considered front-facing.
 ---
+---
+---
 ---This is designed for use in combination with Mesh face culling. Other love.graphics shapes, lines, and sprites are not guaranteed to have a specific winding order to their internal vertices.
 --- Gets whether triangles with clockwise- or counterclockwise-ordered vertices are considered front-facing.
+---
+---
 ---
 ---This is designed for use in combination with Mesh face culling. Other love.graphics shapes, lines, and sprites are not guaranteed to have a specific winding order to their internal vertices.
 --- @return VertexWinding @The winding mode being used. The default winding is counterclockwise ('ccw').
@@ -2160,8 +2590,12 @@ function m.getLineWidth() end
 
 --- Gets whether back-facing triangles in a Mesh are culled.
 ---
+---
+---
 ---Mesh face culling is designed for use with low level custom hardware-accelerated 3D rendering via custom vertex attributes on Meshes, custom vertex shaders, and depth testing with a depth buffer.
 --- Gets whether back-facing triangles in a Mesh are culled.
+---
+---
 ---
 ---Mesh face culling is designed for use with low level custom hardware-accelerated 3D rendering via custom vertex attributes on Meshes, custom vertex shaders, and depth testing with a depth buffer.
 --- @return CullMode @The Mesh face culling mode in use (whether to render everything, cull back-facing triangles, or cull front-facing triangles).
@@ -2170,8 +2604,12 @@ function m.getMeshCullMode() end
 
 --- Gets the width and height in pixels of the window.
 ---
+---
+---
 ---love.graphics.getDimensions gets the dimensions of the window in units scaled by the screen's DPI scale factor, rather than pixels. Use getDimensions for calculations related to drawing to the screen and using the graphics coordinate system (calculating the center of the screen, for example), and getPixelDimensions only when dealing specifically with underlying pixels (pixel-related calculations in a pixel Shader, for example).
 --- Gets the width and height in pixels of the window.
+---
+---
 ---
 ---love.graphics.getDimensions gets the dimensions of the window in units scaled by the screen's DPI scale factor, rather than pixels. Use getDimensions for calculations related to drawing to the screen and using the graphics coordinate system (calculating the center of the screen, for example), and getPixelDimensions only when dealing specifically with underlying pixels (pixel-related calculations in a pixel Shader, for example).
 --- @return number @The width of the window in pixels.
@@ -2181,8 +2619,12 @@ function m.getPixelDimensions() end
 
 --- Gets the height in pixels of the window.
 ---
+---
+---
 ---The graphics coordinate system and DPI scale factor, rather than raw pixels. Use getHeight for calculations related to drawing to the screen and using the coordinate system (calculating the center of the screen, for example), and getPixelHeight only when dealing specifically with underlying pixels (pixel-related calculations in a pixel Shader, for example).
 --- Gets the height in pixels of the window.
+---
+---
 ---
 ---The graphics coordinate system and DPI scale factor, rather than raw pixels. Use getHeight for calculations related to drawing to the screen and using the coordinate system (calculating the center of the screen, for example), and getPixelHeight only when dealing specifically with underlying pixels (pixel-related calculations in a pixel Shader, for example).
 --- @return number @The height of the window in pixels.
@@ -2191,8 +2633,12 @@ function m.getPixelHeight() end
 
 --- Gets the width in pixels of the window.
 ---
+---
+---
 ---The graphics coordinate system and DPI scale factor, rather than raw pixels. Use getWidth for calculations related to drawing to the screen and using the coordinate system (calculating the center of the screen, for example), and getPixelWidth only when dealing specifically with underlying pixels (pixel-related calculations in a pixel Shader, for example).
 --- Gets the width in pixels of the window.
+---
+---
 ---
 ---The graphics coordinate system and DPI scale factor, rather than raw pixels. Use getWidth for calculations related to drawing to the screen and using the coordinate system (calculating the center of the screen, for example), and getPixelWidth only when dealing specifically with underlying pixels (pixel-related calculations in a pixel Shader, for example).
 --- @return number @The width of the window in pixels.
@@ -2244,12 +2690,20 @@ function m.getStats() end
 
 --- Gets the current stencil test configuration.
 ---
+---
+---
 ---When stencil testing is enabled, the geometry of everything that is drawn afterward will be clipped / stencilled out based on a comparison between the arguments of this function and the stencil value of each pixel that the geometry touches. The stencil values of pixels are affected via love.graphics.stencil.
+---
+---
 ---
 ---Each Canvas has its own per-pixel stencil values.
 --- Gets the current stencil test configuration.
 ---
+---
+---
 ---When stencil testing is enabled, the geometry of everything that is drawn afterward will be clipped / stencilled out based on a comparison between the arguments of this function and the stencil value of each pixel that the geometry touches. The stencil values of pixels are affected via love.graphics.stencil.
+---
+---
 ---
 ---Each Canvas has its own per-pixel stencil values.
 --- @return CompareMode @The type of comparison that is made for each pixel. Will be 'always' if stencil testing is disabled.
@@ -2259,8 +2713,12 @@ function m.getStencilTest() end
 
 --- Gets the optional graphics features and whether they're supported on the system.
 ---
+---
+---
 ---Some older or low-end systems don't always support all graphics features.
 --- Gets the optional graphics features and whether they're supported on the system.
+---
+---
 ---
 ---Some older or low-end systems don't always support all graphics features.
 --- @return table @A table containing GraphicsFeature keys, and boolean values indicating whether each feature is supported.
@@ -2287,12 +2745,20 @@ function m.getWidth() end
 
 --- Sets the scissor to the rectangle created by the intersection of the specified rectangle with the existing scissor.  If no scissor is active yet, it behaves like love.graphics.setScissor.
 ---
+---
+---
 ---The scissor limits the drawing area to a specified rectangle. This affects all graphics calls, including love.graphics.clear.
+---
+---
 ---
 ---The dimensions of the scissor is unaffected by graphical transformations (translate, scale, ...).
 --- Sets the scissor to the rectangle created by the intersection of the specified rectangle with the existing scissor.  If no scissor is active yet, it behaves like love.graphics.setScissor.
 ---
+---
+---
 ---The scissor limits the drawing area to a specified rectangle. This affects all graphics calls, including love.graphics.clear.
+---
+---
 ---
 ---The dimensions of the scissor is unaffected by graphical transformations (translate, scale, ...).
 --- @param x number @The x-coordinate of the upper left corner of the rectangle to intersect with the existing scissor rectangle.
@@ -2304,8 +2770,12 @@ function m.intersectScissor(x, y, width, height) end
 
 --- Converts the given 2D position from screen-space into global coordinates.
 ---
+---
+---
 ---This effectively applies the reverse of the current graphics transformations to the given position. A similar Transform:inverseTransformPoint method exists for Transform objects.
 --- Converts the given 2D position from screen-space into global coordinates.
+---
+---
 ---
 ---This effectively applies the reverse of the current graphics transformations to the given position. A similar Transform:inverseTransformPoint method exists for Transform objects.
 --- @param screenX number @The x component of the screen-space position.
@@ -2316,8 +2786,10 @@ function m.inverseTransformPoint(screenX, screenY) end
 
 
 --- Gets whether the graphics module is able to be used. If it is not active, love.graphics function and method calls will not work correctly and may cause the program to crash.
+---
 ---The graphics module is inactive if a window is not open, or if the app is in the background on iOS. Typically the app's execution will be automatically paused by the system, in the latter case.
 --- Gets whether the graphics module is able to be used. If it is not active, love.graphics function and method calls will not work correctly and may cause the program to crash.
+---
 ---The graphics module is inactive if a window is not open, or if the app is in the background on iOS. Typically the app's execution will be automatically paused by the system, in the latter case.
 --- @return boolean @Whether the graphics module is active and able to be used.
 function m.isActive() end
@@ -2325,8 +2797,12 @@ function m.isActive() end
 
 --- Gets whether gamma-correct rendering is supported and enabled. It can be enabled by setting t.gammacorrect = true in love.conf.
 ---
+---
+---
 ---Not all devices support gamma-correct rendering, in which case it will be automatically disabled and this function will return false. It is supported on desktop systems which have graphics cards that are capable of using OpenGL 3 / DirectX 10, and iOS devices that can use OpenGL ES 3.
 --- Gets whether gamma-correct rendering is supported and enabled. It can be enabled by setting t.gammacorrect = true in love.conf.
+---
+---
 ---
 ---Not all devices support gamma-correct rendering, in which case it will be automatically disabled and this function will return false. It is supported on desktop systems which have graphics cards that are capable of using OpenGL 3 / DirectX 10, and iOS devices that can use OpenGL ES 3.
 --- @return boolean @True if gamma-correct rendering is supported and was enabled in love.conf, false otherwise.
@@ -2352,16 +2828,28 @@ function m.line(x1, y1, x2, y2, ...) end
 
 --- Creates a new array Image.
 ---
+---
+---
 ---An array image / array texture is a single object which contains multiple 'layers' or 'slices' of 2D sub-images. It can be thought of similarly to a texture atlas or sprite sheet, but it doesn't suffer from the same tile / quad bleeding artifacts that texture atlases do – although every sub-image must have the same dimensions.
 ---
+---
+---
 ---A specific layer of an array image can be drawn with love.graphics.drawLayer / SpriteBatch:addLayer, or with the Quad variant of love.graphics.draw and Quad:setLayer, or via a custom Shader.
+---
+---
 ---
 ---To use an array image in a Shader, it must be declared as a ArrayImage or sampler2DArray type (instead of Image or sampler2D). The Texel(ArrayImage image, vec3 texturecoord) shader function must be used to get pixel colors from a slice of the array image. The vec3 argument contains the texture coordinate in the first two components, and the 0-based slice index in the third component.
 --- Creates a new array Image.
 ---
+---
+---
 ---An array image / array texture is a single object which contains multiple 'layers' or 'slices' of 2D sub-images. It can be thought of similarly to a texture atlas or sprite sheet, but it doesn't suffer from the same tile / quad bleeding artifacts that texture atlases do – although every sub-image must have the same dimensions.
 ---
+---
+---
 ---A specific layer of an array image can be drawn with love.graphics.drawLayer / SpriteBatch:addLayer, or with the Quad variant of love.graphics.draw and Quad:setLayer, or via a custom Shader.
+---
+---
 ---
 ---To use an array image in a Shader, it must be declared as a ArrayImage or sampler2DArray type (instead of Image or sampler2D). The Texel(ArrayImage image, vec3 texturecoord) shader function must be used to get pixel colors from a slice of the array image. The vec3 argument contains the texture coordinate in the first two components, and the 0-based slice index in the third component.
 --- @param slices table @A table containing filepaths to images (or File, FileData, ImageData, or CompressedImageData objects), in an array. Each sub-image must have the same dimensions. A table of tables can also be given, where each sub-table contains all mipmap levels for the slice index of that sub-table.
@@ -2381,88 +2869,172 @@ function m.newCanvas() end
 
 --- Creates a new cubemap Image.
 ---
+---
+---
 ---Cubemap images have 6 faces (sides) which represent a cube. They can't be rendered directly, they can only be used in Shader code (and sent to the shader via Shader:send).
+---
+---
 ---
 ---To use a cubemap image in a Shader, it must be declared as a CubeImage or samplerCube type (instead of Image or sampler2D). The Texel(CubeImage image, vec3 direction) shader function must be used to get pixel colors from the cubemap. The vec3 argument is a normalized direction from the center of the cube, rather than explicit texture coordinates.
 ---
+---
+---
 ---Each face in a cubemap image must have square dimensions.
+---
+---
 ---
 ---For variants of this function which accept a single image containing multiple cubemap faces, they must be laid out in one of the following forms in the image:
 ---
+---
+---
 ---   +y
+---
+---
 ---
 ---+z +x -z
 ---
+---
+---
 ---   -y
+---
+---
 ---
 ---   -x
 ---
+---
+---
 ---or:
+---
+---
 ---
 ---   +y
 ---
+---
+---
 ----x +z +x -z
+---
+---
 ---
 ---   -y
 ---
+---
+---
 ---or:
+---
+---
 ---
 ---+x
 ---
+---
+---
 ----x
+---
+---
 ---
 ---+y
 ---
+---
+---
 ----y
+---
+---
 ---
 ---+z
 ---
+---
+---
 ----z
 ---
+---
+---
 ---or:
+---
+---
 ---
 ---+x -x +y -y +z -z
 --- Creates a new cubemap Image.
 ---
+---
+---
 ---Cubemap images have 6 faces (sides) which represent a cube. They can't be rendered directly, they can only be used in Shader code (and sent to the shader via Shader:send).
+---
+---
 ---
 ---To use a cubemap image in a Shader, it must be declared as a CubeImage or samplerCube type (instead of Image or sampler2D). The Texel(CubeImage image, vec3 direction) shader function must be used to get pixel colors from the cubemap. The vec3 argument is a normalized direction from the center of the cube, rather than explicit texture coordinates.
 ---
+---
+---
 ---Each face in a cubemap image must have square dimensions.
+---
+---
 ---
 ---For variants of this function which accept a single image containing multiple cubemap faces, they must be laid out in one of the following forms in the image:
 ---
+---
+---
 ---   +y
+---
+---
 ---
 ---+z +x -z
 ---
+---
+---
 ---   -y
+---
+---
 ---
 ---   -x
 ---
+---
+---
 ---or:
+---
+---
 ---
 ---   +y
 ---
+---
+---
 ----x +z +x -z
+---
+---
 ---
 ---   -y
 ---
+---
+---
 ---or:
+---
+---
 ---
 ---+x
 ---
+---
+---
 ----x
+---
+---
 ---
 ---+y
 ---
+---
+---
 ----y
+---
+---
 ---
 ---+z
 ---
+---
+---
 ----z
 ---
+---
+---
 ---or:
+---
+---
 ---
 ---+x -x +y -y +z -z
 --- @param filename string @The filepath to a cubemap image file (or a File, FileData, or ImageData).
@@ -2474,8 +3046,12 @@ function m.newCubeImage(filename, settings) end
 
 --- Creates a new Font from a TrueType Font or BMFont file. Created fonts are not cached, in that calling this function with the same arguments will always create a new Font object.
 ---
+---
+---
 ---All variants which accept a filename can also accept a Data object instead.
 --- Creates a new Font from a TrueType Font or BMFont file. Created fonts are not cached, in that calling this function with the same arguments will always create a new Font object.
+---
+---
 ---
 ---All variants which accept a filename can also accept a Data object instead.
 --- @param filename string @The filepath to the BMFont or TrueType font file.
@@ -2499,8 +3075,12 @@ function m.newImage(filename, settings) end
 
 --- Creates a new specifically formatted image.
 ---
+---
+---
 ---In versions prior to 0.9.0, LÖVE expects ISO 8859-1 encoding for the glyphs string.
 --- Creates a new specifically formatted image.
+---
+---
 ---
 ---In versions prior to 0.9.0, LÖVE expects ISO 8859-1 encoding for the glyphs string.
 --- @param filename string @The filepath to the image file.
@@ -2513,12 +3093,20 @@ function m.newImageFont(filename, glyphs) end
 
 --- Creates a new Mesh.
 ---
+---
+---
 ---Use Mesh:setTexture if the Mesh should be textured with an Image or Canvas when it's drawn.
+---
+---
 ---
 ---In versions prior to 11.0, color and byte component values were within the range of 0 to 255 instead of 0 to 1.
 --- Creates a new Mesh.
 ---
+---
+---
 ---Use Mesh:setTexture if the Mesh should be textured with an Image or Canvas when it's drawn.
+---
+---
 ---
 ---In versions prior to 11.0, color and byte component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param vertices table @The table filled with vertex information tables for each vertex as follows:
@@ -2543,8 +3131,12 @@ function m.newParticleSystem(image, buffer) end
 
 --- Creates a new Quad.
 ---
+---
+---
 ---The purpose of a Quad is to use a fraction of an image to draw objects, as opposed to drawing entire image. It is most useful for sprite sheets and atlases: in a sprite atlas, multiple sprites reside in same image, quad is used to draw a specific sprite from that image; in animated sprites with all frames residing in the same image, quad is used to draw specific frame from the animation.
 --- Creates a new Quad.
+---
+---
 ---
 ---The purpose of a Quad is to use a fraction of an image to draw objects, as opposed to drawing entire image. It is most useful for sprite sheets and atlases: in a sprite atlas, multiple sprites reside in same image, quad is used to draw a specific sprite from that image; in animated sprites with all frames residing in the same image, quad is used to draw specific frame from the animation.
 --- @param x number @The top-left position in the Image along the x-axis.
@@ -2560,8 +3152,12 @@ function m.newQuad(x, y, width, height, sw, sh) end
 
 --- Creates a new Shader object for hardware-accelerated vertex and pixel effects. A Shader contains either vertex shader code, pixel shader code, or both.
 ---
+---
+---
 ---Shaders are small programs which are run on the graphics card when drawing. Vertex shaders are run once for each vertex (for example, an image has 4 vertices - one at each corner. A Mesh might have many more.) Pixel shaders are run once for each pixel on the screen which the drawn object touches. Pixel shader code is executed after all the object's vertices have been processed by the vertex shader.
 --- Creates a new Shader object for hardware-accelerated vertex and pixel effects. A Shader contains either vertex shader code, pixel shader code, or both.
+---
+---
 ---
 ---Shaders are small programs which are run on the graphics card when drawing. Vertex shaders are run once for each vertex (for example, an image has 4 vertices - one at each corner. A Mesh might have many more.) Pixel shaders are run once for each pixel on the screen which the drawn object touches. Pixel shader code is executed after all the object's vertices have been processed by the vertex shader.
 --- @param code string @The pixel shader or vertex shader code, or a filename pointing to a file with the code.
@@ -2602,20 +3198,36 @@ function m.newVideo(filename) end
 
 --- Creates a new volume (3D) Image.
 ---
+---
+---
 ---Volume images are 3D textures with width, height, and depth. They can't be rendered directly, they can only be used in Shader code (and sent to the shader via Shader:send).
+---
+---
 ---
 ---To use a volume image in a Shader, it must be declared as a VolumeImage or sampler3D type (instead of Image or sampler2D). The Texel(VolumeImage image, vec3 texcoords) shader function must be used to get pixel colors from the volume image. The vec3 argument is a normalized texture coordinate with the z component representing the depth to sample at (ranging from 1).
 ---
+---
+---
 ---Volume images are typically used as lookup tables in shaders for color grading, for example, because sampling using a texture coordinate that is partway in between two pixels can interpolate across all 3 dimensions in the volume image, resulting in a smooth gradient even when a small-sized volume image is used as the lookup table.
+---
+---
 ---
 ---Array images are a much better choice than volume images for storing multiple different sprites in a single array image for directly drawing them.
 --- Creates a new volume (3D) Image.
 ---
+---
+---
 ---Volume images are 3D textures with width, height, and depth. They can't be rendered directly, they can only be used in Shader code (and sent to the shader via Shader:send).
+---
+---
 ---
 ---To use a volume image in a Shader, it must be declared as a VolumeImage or sampler3D type (instead of Image or sampler2D). The Texel(VolumeImage image, vec3 texcoords) shader function must be used to get pixel colors from the volume image. The vec3 argument is a normalized texture coordinate with the z component representing the depth to sample at (ranging from 1).
 ---
+---
+---
 ---Volume images are typically used as lookup tables in shaders for color grading, for example, because sampling using a texture coordinate that is partway in between two pixels can interpolate across all 3 dimensions in the volume image, resulting in a smooth gradient even when a small-sized volume image is used as the lookup table.
+---
+---
 ---
 ---Array images are a much better choice than volume images for storing multiple different sprites in a single array image for directly drawing them.
 --- @param layers table @A table containing filepaths to images (or File, FileData, ImageData, or CompressedImageData objects), in an array. A table of tables can also be given, where each sub-table represents a single mipmap level and contains all layers for that mipmap.
@@ -2626,8 +3238,12 @@ function m.newVolumeImage(layers, settings) end
 
 --- Resets the current coordinate transformation.
 ---
+---
+---
 ---This function is always used to reverse any previous calls to love.graphics.rotate, love.graphics.scale, love.graphics.shear or love.graphics.translate. It returns the current transformation state to its defaults.
 --- Resets the current coordinate transformation.
+---
+---
 ---
 ---This function is always used to reverse any previous calls to love.graphics.rotate, love.graphics.scale, love.graphics.shear or love.graphics.translate. It returns the current transformation state to its defaults.
 function m.origin() end
@@ -2645,8 +3261,12 @@ function m.points(x, y, ...) end
 
 --- Draw a polygon.
 ---
+---
+---
 ---Following the mode argument, this function can accept multiple numeric arguments or a single table of numeric arguments. In either case the arguments are interpreted as alternating x and y coordinates of the polygon's vertices.
 --- Draw a polygon.
+---
+---
 ---
 ---Following the mode argument, this function can accept multiple numeric arguments or a single table of numeric arguments. In either case the arguments are interpreted as alternating x and y coordinates of the polygon's vertices.
 --- @param mode DrawMode @How to draw the polygon.
@@ -2657,8 +3277,12 @@ function m.polygon(mode, ...) end
 
 --- Pops the current coordinate transformation from the transformation stack.
 ---
+---
+---
 ---This function is always used to reverse a previous push operation. It returns the current transformation state to what it was before the last preceding push.
 --- Pops the current coordinate transformation from the transformation stack.
+---
+---
 ---
 ---This function is always used to reverse a previous push operation. It returns the current transformation state to what it was before the last preceding push.
 function m.pop() end
@@ -2666,8 +3290,12 @@ function m.pop() end
 
 --- Displays the results of drawing operations on the screen.
 ---
+---
+---
 ---This function is used when writing your own love.run function. It presents all the results of your drawing operations on the screen. See the example in love.run for a typical use of this function.
 --- Displays the results of drawing operations on the screen.
+---
+---
 ---
 ---This function is used when writing your own love.run function. It presents all the results of your drawing operations on the screen. See the example in love.run for a typical use of this function.
 function m.present() end
@@ -2675,16 +3303,28 @@ function m.present() end
 
 --- Draws text on screen. If no Font is set, one will be created and set (once) if needed.
 ---
+---
+---
 ---As of LOVE 0.7.1, when using translation and scaling functions while drawing text, this function assumes the scale occurs first.  If you don't script with this in mind, the text won't be in the right position, or possibly even on screen.
 ---
+---
+---
 ---love.graphics.print and love.graphics.printf both support UTF-8 encoding. You'll also need a proper Font for special characters.
+---
+---
 ---
 ---In versions prior to 11.0, color and byte component values were within the range of 0 to 255 instead of 0 to 1.
 --- Draws text on screen. If no Font is set, one will be created and set (once) if needed.
 ---
+---
+---
 ---As of LOVE 0.7.1, when using translation and scaling functions while drawing text, this function assumes the scale occurs first.  If you don't script with this in mind, the text won't be in the right position, or possibly even on screen.
 ---
+---
+---
 ---love.graphics.print and love.graphics.printf both support UTF-8 encoding. You'll also need a proper Font for special characters.
+---
+---
 ---
 ---In versions prior to 11.0, color and byte component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param text string @The text to draw.
@@ -2707,20 +3347,36 @@ function m.print(text, x, y, r, sx, sy, ox, oy, kx, ky) end
 
 --- Draws formatted text, with word wrap and alignment.
 ---
+---
+---
 ---See additional notes in love.graphics.print.
+---
+---
 ---
 ---The word wrap limit is applied before any scaling, rotation, and other coordinate transformations. Therefore the amount of text per line stays constant given the same wrap limit, even if the scale arguments change.
 ---
+---
+---
 ---In version 0.9.2 and earlier, wrapping was implemented by breaking up words by spaces and putting them back together to make sure things fit nicely within the limit provided. However, due to the way this is done, extra spaces between words would end up missing when printed on the screen, and some lines could overflow past the provided wrap limit. In version 0.10.0 and newer this is no longer the case.
+---
+---
 ---
 ---In versions prior to 11.0, color and byte component values were within the range of 0 to 255 instead of 0 to 1.
 --- Draws formatted text, with word wrap and alignment.
 ---
+---
+---
 ---See additional notes in love.graphics.print.
+---
+---
 ---
 ---The word wrap limit is applied before any scaling, rotation, and other coordinate transformations. Therefore the amount of text per line stays constant given the same wrap limit, even if the scale arguments change.
 ---
+---
+---
 ---In version 0.9.2 and earlier, wrapping was implemented by breaking up words by spaces and putting them back together to make sure things fit nicely within the limit provided. However, due to the way this is done, extra spaces between words would end up missing when printed on the screen, and some lines could overflow past the provided wrap limit. In version 0.10.0 and newer this is no longer the case.
+---
+---
 ---
 ---In versions prior to 11.0, color and byte component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param text string @A text string.
@@ -2747,8 +3403,12 @@ function m.printf(text, x, y, limit, align, r, sx, sy, ox, oy, kx, ky) end
 
 --- Copies and pushes the current coordinate transformation to the transformation stack.
 ---
+---
+---
 ---This function is always used to prepare for a corresponding pop operation later. It stores the current coordinate transformation state into the transformation stack and keeps it active. Later changes to the transformation can be undone by using the pop operation, which returns the coordinate transform to the state it was in before calling push.
 --- Copies and pushes the current coordinate transformation to the transformation stack.
+---
+---
 ---
 ---This function is always used to prepare for a corresponding pop operation later. It stores the current coordinate transformation state into the transformation stack and keeps it active. Later changes to the transformation can be undone by using the pop operation, which returns the coordinate transform to the state it was in before calling push.
 --- @overload fun(stack: StackType):
@@ -2774,8 +3434,12 @@ function m.replaceTransform(transform) end
 
 --- Resets the current graphics settings.
 ---
+---
+---
 ---Calling reset makes the current drawing color white, the current background color black, disables any active color component masks, disables wireframe mode and resets the current graphics transformation to the origin. It also sets both the point and line drawing modes to smooth and their sizes to 1.0.
 --- Resets the current graphics settings.
+---
+---
 ---
 ---Calling reset makes the current drawing color white, the current background color black, disables any active color component masks, disables wireframe mode and resets the current graphics transformation to the origin. It also sets both the point and line drawing modes to smooth and their sizes to 1.0.
 function m.reset() end
@@ -2783,8 +3447,12 @@ function m.reset() end
 
 --- Rotates the coordinate system in two dimensions.
 ---
+---
+---
 ---Calling this function affects all future drawing operations by rotating the coordinate system around the origin by the given amount of radians. This change lasts until love.draw() exits.
 --- Rotates the coordinate system in two dimensions.
+---
+---
 ---
 ---Calling this function affects all future drawing operations by rotating the coordinate system around the origin by the given amount of radians. This change lasts until love.draw() exits.
 --- @param angle number @The amount to rotate the coordinate system in radians.
@@ -2793,20 +3461,36 @@ function m.rotate(angle) end
 
 --- Scales the coordinate system in two dimensions.
 ---
+---
+---
 ---By default the coordinate system in LÖVE corresponds to the display pixels in horizontal and vertical directions one-to-one, and the x-axis increases towards the right while the y-axis increases downwards. Scaling the coordinate system changes this relation.
+---
+---
 ---
 ---After scaling by sx and sy, all coordinates are treated as if they were multiplied by sx and sy. Every result of a drawing operation is also correspondingly scaled, so scaling by (2, 2) for example would mean making everything twice as large in both x- and y-directions. Scaling by a negative value flips the coordinate system in the corresponding direction, which also means everything will be drawn flipped or upside down, or both. Scaling by zero is not a useful operation.
 ---
+---
+---
 ---Scale and translate are not commutative operations, therefore, calling them in different orders will change the outcome.
+---
+---
 ---
 ---Scaling lasts until love.draw() exits.
 --- Scales the coordinate system in two dimensions.
 ---
+---
+---
 ---By default the coordinate system in LÖVE corresponds to the display pixels in horizontal and vertical directions one-to-one, and the x-axis increases towards the right while the y-axis increases downwards. Scaling the coordinate system changes this relation.
+---
+---
 ---
 ---After scaling by sx and sy, all coordinates are treated as if they were multiplied by sx and sy. Every result of a drawing operation is also correspondingly scaled, so scaling by (2, 2) for example would mean making everything twice as large in both x- and y-directions. Scaling by a negative value flips the coordinate system in the corresponding direction, which also means everything will be drawn flipped or upside down, or both. Scaling by zero is not a useful operation.
 ---
+---
+---
 ---Scale and translate are not commutative operations, therefore, calling them in different orders will change the outcome.
+---
+---
 ---
 ---Scaling lasts until love.draw() exits.
 --- @param sx number @The scaling in the direction of the x-axis.
@@ -2844,8 +3528,12 @@ function m.setCanvas(canvas, mipmap) end
 
 --- Sets the color used for drawing.
 ---
+---
+---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- Sets the color used for drawing.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param red number @The amount of red.
@@ -2876,8 +3564,12 @@ function m.setDefaultFilter(min, mag, anisotropy) end
 
 --- Configures depth testing and writing to the depth buffer.
 ---
+---
+---
 ---This is low-level functionality designed for use with custom vertex shaders and Meshes with custom vertex attributes. No higher level APIs are provided to set the depth of 2D graphics such as shapes, lines, and Images.
 --- Configures depth testing and writing to the depth buffer.
+---
+---
 ---
 ---This is low-level functionality designed for use with custom vertex shaders and Meshes with custom vertex attributes. No higher level APIs are provided to set the depth of 2D graphics such as shapes, lines, and Images.
 --- @param comparemode CompareMode @Depth comparison mode used for depth testing.
@@ -2888,8 +3580,12 @@ function m.setDepthMode(comparemode, write) end
 
 --- Set an already-loaded Font as the current font or create and load a new one from the file and size.
 ---
+---
+---
 ---It's recommended that Font objects are created with love.graphics.newFont in the loading stage and then passed to this function in the drawing stage.
 --- Set an already-loaded Font as the current font or create and load a new one from the file and size.
+---
+---
 ---
 ---It's recommended that Font objects are created with love.graphics.newFont in the loading stage and then passed to this function in the drawing stage.
 --- @param font Font @The Font object to use.
@@ -2898,8 +3594,12 @@ function m.setFont(font) end
 
 --- Sets whether triangles with clockwise- or counterclockwise-ordered vertices are considered front-facing.
 ---
+---
+---
 ---This is designed for use in combination with Mesh face culling. Other love.graphics shapes, lines, and sprites are not guaranteed to have a specific winding order to their internal vertices.
 --- Sets whether triangles with clockwise- or counterclockwise-ordered vertices are considered front-facing.
+---
+---
 ---
 ---This is designed for use in combination with Mesh face culling. Other love.graphics shapes, lines, and sprites are not guaranteed to have a specific winding order to their internal vertices.
 --- @param winding VertexWinding @The winding mode to use. The default winding is counterclockwise ('ccw').
@@ -2926,12 +3626,20 @@ function m.setLineWidth(width) end
 
 --- Sets whether back-facing triangles in a Mesh are culled.
 ---
+---
+---
 ---This is designed for use with low level custom hardware-accelerated 3D rendering via custom vertex attributes on Meshes, custom vertex shaders, and depth testing with a depth buffer.
+---
+---
 ---
 ---By default, both front- and back-facing triangles in Meshes are rendered.
 --- Sets whether back-facing triangles in a Mesh are culled.
 ---
+---
+---
 ---This is designed for use with low level custom hardware-accelerated 3D rendering via custom vertex attributes on Meshes, custom vertex shaders, and depth testing with a depth buffer.
+---
+---
 ---
 ---By default, both front- and back-facing triangles in Meshes are rendered.
 --- @param mode CullMode @The Mesh face culling mode to use (whether to render everything, cull back-facing triangles, or cull front-facing triangles).
@@ -2957,12 +3665,20 @@ function m.setPointSize(size) end
 
 --- Sets or disables scissor.
 ---
+---
+---
 ---The scissor limits the drawing area to a specified rectangle. This affects all graphics calls, including love.graphics.clear. 
+---
+---
 ---
 ---The dimensions of the scissor is unaffected by graphical transformations (translate, scale, ...).
 --- Sets or disables scissor.
 ---
+---
+---
 ---The scissor limits the drawing area to a specified rectangle. This affects all graphics calls, including love.graphics.clear. 
+---
+---
 ---
 ---The dimensions of the scissor is unaffected by graphical transformations (translate, scale, ...).
 --- @param x number @x coordinate of upper left corner.
@@ -2982,8 +3698,12 @@ function m.setShader(shader) end
 
 --- Configures or disables stencil testing.
 ---
+---
+---
 ---When stencil testing is enabled, the geometry of everything that is drawn afterward will be clipped / stencilled out based on a comparison between the arguments of this function and the stencil value of each pixel that the geometry touches. The stencil values of pixels are affected via love.graphics.stencil.
 --- Configures or disables stencil testing.
+---
+---
 ---
 ---When stencil testing is enabled, the geometry of everything that is drawn afterward will be clipped / stencilled out based on a comparison between the arguments of this function and the stencil value of each pixel that the geometry touches. The stencil values of pixels are affected via love.graphics.stencil.
 --- @param comparemode CompareMode @The type of comparison to make for each pixel.
@@ -3007,12 +3727,20 @@ function m.shear(kx, ky) end
 
 --- Draws geometry as a stencil.
 ---
+---
+---
 ---The geometry drawn by the supplied function sets invisible stencil values of pixels, instead of setting pixel colors. The stencil buffer (which contains those stencil values) can act like a mask / stencil - love.graphics.setStencilTest can be used afterward to determine how further rendering is affected by the stencil values in each pixel.
+---
+---
 ---
 ---Stencil values are integers within the range of 255.
 --- Draws geometry as a stencil.
 ---
+---
+---
 ---The geometry drawn by the supplied function sets invisible stencil values of pixels, instead of setting pixel colors. The stencil buffer (which contains those stencil values) can act like a mask / stencil - love.graphics.setStencilTest can be used afterward to determine how further rendering is affected by the stencil values in each pixel.
+---
+---
 ---
 ---Stencil values are integers within the range of 255.
 --- @param stencilfunction function @Function which draws geometry. The stencil values of pixels, rather than the color of each pixel, will be affected by the geometry.
@@ -3024,8 +3752,12 @@ function m.stencil(stencilfunction, action, value, keepvalues) end
 
 --- Converts the given 2D position from global coordinates into screen-space.
 ---
+---
+---
 ---This effectively applies the current graphics transformations to the given position. A similar Transform:transformPoint method exists for Transform objects.
 --- Converts the given 2D position from global coordinates into screen-space.
+---
+---
 ---
 ---This effectively applies the current graphics transformations to the given position. A similar Transform:transformPoint method exists for Transform objects.
 --- @param globalX number @The x component of the position in global coordinates.
@@ -3037,20 +3769,36 @@ function m.transformPoint(globalX, globalY) end
 
 --- Translates the coordinate system in two dimensions.
 ---
+---
+---
 ---When this function is called with two numbers, dx, and dy, all the following drawing operations take effect as if their x and y coordinates were x+dx and y+dy. 
+---
+---
 ---
 ---Scale and translate are not commutative operations, therefore, calling them in different orders will change the outcome.
 ---
+---
+---
 ---This change lasts until love.draw() exits or else a love.graphics.pop reverts to a previous love.graphics.push.
+---
+---
 ---
 ---Translating using whole numbers will prevent tearing/blurring of images and fonts draw after translating.
 --- Translates the coordinate system in two dimensions.
 ---
+---
+---
 ---When this function is called with two numbers, dx, and dy, all the following drawing operations take effect as if their x and y coordinates were x+dx and y+dy. 
+---
+---
 ---
 ---Scale and translate are not commutative operations, therefore, calling them in different orders will change the outcome.
 ---
+---
+---
 ---This change lasts until love.draw() exits or else a love.graphics.pop reverts to a previous love.graphics.push.
+---
+---
 ---
 ---Translating using whole numbers will prevent tearing/blurring of images and fonts draw after translating.
 --- @param dx number @The translation relative to the x-axis.

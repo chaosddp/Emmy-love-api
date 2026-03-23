@@ -7,6 +7,8 @@ local m = {}
 
 --- The different distance models.
 ---
+---
+---
 ---Extended information can be found in the chapter "3.4. Attenuation By Distance" of the OpenAL 1.1 specification.
 --- @alias DistanceModel
 ---| 'none' #Sources do not get attenuated.
@@ -47,6 +49,8 @@ local m = {}
 
 --- Types of audio sources.
 ---
+---
+---
 ---A good rule of thumb is to use stream for music files and static for all short sound effects. Basically, you want to avoid loading large files into memory at once.
 --- @alias SourceType
 ---| 'static' #The whole audio is decoded.
@@ -80,8 +84,12 @@ function RecordingDevice:getChannelCount() end
 
 --- Gets all recorded audio SoundData stored in the device's internal ring buffer.
 ---
+---
+---
 ---The internal ring buffer is cleared when this function is called, so calling it again will only get audio recorded after the previous call. If the device's internal ring buffer completely fills up before getData is called, the oldest data that doesn't fit into the buffer will be lost.
 --- Gets all recorded audio SoundData stored in the device's internal ring buffer.
+---
+---
 ---
 ---The internal ring buffer is cleared when this function is called, so calling it again will only get audio recorded after the previous call. If the device's internal ring buffer completely fills up before getData is called, the oldest data that doesn't fit into the buffer will be lost.
 --- @return SoundData @The recorded audio data, or nil if the device isn't recording.
@@ -131,15 +139,23 @@ function RecordingDevice:stop() end
 --- @class Source: Object
 --- A Source represents audio you can play back.
 ---
+---
+---
 ---You can do interesting things with Sources, like set the volume, pitch, and its position relative to the listener. Please note that positional audio only works for mono (i.e. non-stereo) sources.
+---
+---
 ---
 ---The Source controls (play/pause/stop) act according to the following state table.
 local Source = {}
 
 --- Creates an identical copy of the Source in the stopped state.
 ---
+---
+---
 ---Static Sources will use significantly less memory and take much less time to be created if Source:clone is used to create them instead of love.audio.newSource, so this method should be preferred when making multiple Sources which play the same sound.
 --- Creates an identical copy of the Source in the stopped state.
+---
+---
 ---
 ---Static Sources will use significantly less memory and take much less time to be created if Source:clone is used to create them instead of love.audio.newSource, so this method should be preferred when making multiple Sources which play the same sound.
 --- @return Source @The new identical copy of this Source.
@@ -154,8 +170,12 @@ function Source:getActiveEffects() end
 
 --- Gets the amount of air absorption applied to the Source.
 ---
+---
+---
 ---By default the value is set to 0 which means that air absorption effects are disabled. A value of 1 will apply high frequency attenuation to the Source at a rate of 0.05 dB per meter.
 --- Gets the amount of air absorption applied to the Source.
+---
+---
 ---
 ---By default the value is set to 0 which means that air absorption effects are disabled. A value of 1 will apply high frequency attenuation to the Source at a rate of 0.05 dB per meter.
 --- @return number @The amount of air absorption applied to the Source.
@@ -200,8 +220,12 @@ function Source:getDuration(unit) end
 
 --- Gets the filter settings associated to a specific effect.
 ---
+---
+---
 ---This function returns nil if the effect was applied with no filter settings associated to it.
 --- Gets the filter settings associated to a specific effect.
+---
+---
 ---
 ---This function returns nil if the effect was applied with no filter settings associated to it.
 --- @param name string @The name of the effect.
@@ -300,8 +324,12 @@ function Source:play() end
 
 --- Queues SoundData for playback in a queueable Source.
 ---
+---
+---
 ---This method requires the Source to be created via love.audio.newQueueableSource.
 --- Queues SoundData for playback in a queueable Source.
+---
+---
 ---
 ---This method requires the Source to be created via love.audio.newQueueableSource.
 --- @param sounddata SoundData @The data to queue. The SoundData's sample rate, bit depth, and channel count must match the Source's.
@@ -318,12 +346,20 @@ function Source:seek(offset, unit) end
 
 --- Sets the amount of air absorption applied to the Source.
 ---
+---
+---
 ---By default the value is set to 0 which means that air absorption effects are disabled. A value of 1 will apply high frequency attenuation to the Source at a rate of 0.05 dB per meter.
+---
+---
 ---
 ---Air absorption can simulate sound transmission through foggy air, dry air, smoky atmosphere, etc. It can be used to simulate different atmospheric conditions within different locations in an area.
 --- Sets the amount of air absorption applied to the Source.
 ---
+---
+---
 ---By default the value is set to 0 which means that air absorption effects are disabled. A value of 1 will apply high frequency attenuation to the Source at a rate of 0.05 dB per meter.
+---
+---
 ---
 ---Air absorption can simulate sound transmission through foggy air, dry air, smoky atmosphere, etc. It can be used to simulate different atmospheric conditions within different locations in an area.
 --- @param amount number @The amount of air absorption applied to the Source. Must be between 0 and 10.
@@ -332,8 +368,12 @@ function Source:setAirAbsorption(amount) end
 
 --- Sets the reference and maximum attenuation distances of the Source. The parameters, combined with the current DistanceModel, affect how the Source's volume attenuates based on distance.
 ---
+---
+---
 ---Distance attenuation is only applicable to Sources based on mono (rather than stereo) audio.
 --- Sets the reference and maximum attenuation distances of the Source. The parameters, combined with the current DistanceModel, affect how the Source's volume attenuates based on distance.
+---
+---
 ---
 ---Distance attenuation is only applicable to Sources based on mono (rather than stereo) audio.
 --- @param ref number @The new reference attenuation distance. If the current DistanceModel is clamped, this is the minimum attenuation distance.
@@ -359,8 +399,12 @@ function Source:setDirection(x, y, z) end
 
 --- Applies an audio effect to the Source.
 ---
+---
+---
 ---The effect must have been previously defined using love.audio.setEffect.
 --- Applies an audio effect to the Source.
+---
+---
 ---
 ---The effect must have been previously defined using love.audio.setEffect.
 --- @param name string @The name of the effect previously set up with love.audio.setEffect.
@@ -400,8 +444,12 @@ function Source:setPosition(x, y, z) end
 
 --- Sets whether the Source's position, velocity, direction, and cone angles are relative to the listener, or absolute.
 ---
+---
+---
 ---By default, all sources are absolute and therefore relative to the origin of love's coordinate system 0, 0. Only absolute sources are affected by the position of the listener. Please note that positional audio only works for mono (i.e. non-stereo) sources. 
 --- Sets whether the Source's position, velocity, direction, and cone angles are relative to the listener, or absolute.
+---
+---
 ---
 ---By default, all sources are absolute and therefore relative to the origin of love's coordinate system 0, 0. Only absolute sources are affected by the position of the listener. Please note that positional audio only works for mono (i.e. non-stereo) sources. 
 --- @param enable boolean @True to make the position, velocity, direction and cone angles relative to the listener, false to make them absolute.
@@ -410,8 +458,12 @@ function Source:setRelative(enable) end
 
 --- Sets the rolloff factor which affects the strength of the used distance attenuation.
 ---
+---
+---
 ---Extended information and detailed formulas can be found in the chapter '3.4. Attenuation By Distance' of OpenAL 1.1 specification.
 --- Sets the rolloff factor which affects the strength of the used distance attenuation.
+---
+---
 ---
 ---Extended information and detailed formulas can be found in the chapter '3.4. Attenuation By Distance' of OpenAL 1.1 specification.
 --- @param rolloff number @The new rolloff factor.
@@ -420,8 +472,12 @@ function Source:setRolloff(rolloff) end
 
 --- Sets the velocity of the Source.
 ---
+---
+---
 ---This does '''not''' change the position of the Source, but lets the application know how it has to calculate the doppler effect.
 --- Sets the velocity of the Source.
+---
+---
 ---
 ---This does '''not''' change the position of the Source, but lets the application know how it has to calculate the doppler effect.
 --- @param x number @The X part of the velocity vector.
@@ -524,12 +580,20 @@ function m.getPosition() end
 
 --- Gets a list of RecordingDevices on the system.
 ---
+---
+---
 ---The first device in the list is the user's default recording device. The list may be empty if there are no microphones connected to the system.
+---
+---
 ---
 ---Audio recording is currently not supported on iOS.
 --- Gets a list of RecordingDevices on the system.
 ---
+---
+---
 ---The first device in the list is the user's default recording device. The list may be empty if there are no microphones connected to the system.
+---
+---
 ---
 ---Audio recording is currently not supported on iOS.
 --- @return table @The list of connected recording devices.
@@ -568,8 +632,12 @@ function m.newQueueableSource(samplerate, bitdepth, channels, buffercount) end
 
 --- Creates a new Source from a filepath, File, Decoder or SoundData.
 ---
+---
+---
 ---Sources created from SoundData are always static.
 --- Creates a new Source from a filepath, File, Decoder or SoundData.
+---
+---
 ---
 ---Sources created from SoundData are always static.
 --- @param filename string @The filepath to the audio file.
@@ -612,8 +680,12 @@ function m.setDopplerScale(scale) end
 
 --- Defines an effect that can be applied to a Source.
 ---
+---
+---
 ---Not all system supports audio effects. Use love.audio.isEffectsSupported to check.
 --- Defines an effect that can be applied to a Source.
+---
+---
 ---
 ---Not all system supports audio effects. Use love.audio.isEffectsSupported to check.
 --- @param name string @The name of the effect.

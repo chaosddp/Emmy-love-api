@@ -20,8 +20,12 @@ function Data:clone() end
 
 --- Gets an FFI pointer to the Data.
 ---
+---
+---
 ---This function should be preferred instead of Data:getPointer because the latter uses light userdata which can't store more all possible memory addresses on some new ARM64 architectures, when LuaJIT is used.
 --- Gets an FFI pointer to the Data.
+---
+---
 ---
 ---This function should be preferred instead of Data:getPointer because the latter uses light userdata which can't store more all possible memory addresses on some new ARM64 architectures, when LuaJIT is used.
 --- @return cdata @A raw void* pointer to the Data, or nil if FFI is unavailable.
@@ -52,8 +56,12 @@ local Object = {}
 
 --- Destroys the object's Lua reference. The object will be completely deleted if it's not referenced by any other LÖVE object or thread.
 ---
+---
+---
 ---This method can be used to immediately clean up resources without waiting for Lua's garbage collector.
 --- Destroys the object's Lua reference. The object will be completely deleted if it's not referenced by any other LÖVE object or thread.
+---
+---
 ---
 ---This method can be used to immediately clean up resources without waiting for Lua's garbage collector.
 --- @return boolean @True if the object was released by this call, false if it had been previously released.
@@ -77,9 +85,13 @@ function Object:typeOf(name) end
 
 --- @class Conf
 --- @field identity string @This flag determines the name of the save directory for your game. Note that you can only specify the name, not the location where it will be created:
+---
 ---t.identity = "gabe_HL3" -- Correct
 ---
+---
+---
 ---t.identity = "c:/Users/gabe/HL3" -- Incorrect
+---
 ---Alternatively love.filesystem.setIdentity can be used to set the save directory outside of the config file.
 --- @field appendidentity boolean @This flag determines if game directory should be searched first then save directory (true) or otherwise (false)
 --- @field version string @t.version should be a string, representing the version of LÖVE for which your game was made. It should be formatted as "X.Y.Z" where X is the major release number, Y the minor, and Z the patch level. It allows LÖVE to display a warning if it isn't compatible. Its default is the version of LÖVE running.
@@ -89,6 +101,8 @@ function Object:typeOf(name) end
 --- @field gammacorrect boolean @Determines whether gamma-correct rendering is enabled, when the system supports it.
 --- @field audio ConfAudio @Audio options.
 --- @field window ConfWindow @It is possible to defer window creation until love.window.setMode is first called in your code. To do so, set t.window = nil in love.conf (or t.screen = nil in older versions.) If this is done, LÖVE may crash if any function from love.graphics is called before the first love.window.setMode in your code.
+---
+---
 ---
 ---The t.window table was named t.screen in versions prior to 0.9.0. The t.screen table doesn't exist in love.conf in 0.9.0, and the t.window table doesn't exist in love.conf in 0.8.0. This means love.conf will fail to execute (therefore it will fall back to default values) if care is not taken to use the correct table for the LÖVE version being used.
 --- @field modules ConfModules @Module options.
@@ -110,6 +124,8 @@ function Object:typeOf(name) end
 --- @field fullscreentype string @Specifies the type of fullscreen mode to use (normal or desktop). Generally the desktop is recommended, as it is less restrictive than normal mode on some operating systems.
 --- @field usedpiscale boolean @Sets whetever to enable or disable automatic DPI scaling.
 --- @field vsync number @Enables or deactivates vertical synchronization. Vsync tries to keep the game at a steady framerate and can prevent issues like screen tearing. It is recommended to keep vsync activated if you don't know about the possible implications of turning it off. Before LÖVE 11.0, this value was boolean (true or false). Since LÖVE 11.0, this value is number (1 to enable vsync, 0 to disable vsync, -1 to use adaptive vsync when supported).
+---
+---
 ---
 ---Note that in iOS, vertical synchronization is always enabled and cannot be changed.
 --- @field depth number @The number of bits per sample in the depth buffer (16/24/32, default nil)
@@ -235,6 +251,8 @@ m.load = nil
 
 --- Callback function triggered when the system is running out of memory on mobile devices.
 ---
+---
+---
 ---Mobile operating systems may forcefully kill the game if it uses too much memory, so any non-critical resource should be removed if possible (by setting all variables referencing the resources to '''nil'''), when this event is triggered. Sounds and images in particular tend to use the most memory.
 --- @type fun():void
 m.lowmemory = nil
@@ -276,6 +294,8 @@ m.run = nil
 
 
 --- Called when the candidate text for an IME (Input Method Editor) has changed.
+---
+---
 ---
 ---The candidate text is not the final text that the user will eventually choose. Use love.textinput for that.
 --- @type fun(text: string, start: number, length: number):void
@@ -333,8 +353,12 @@ function m.getVersion() end
 
 --- Gets whether LÖVE displays warnings when using deprecated functionality. It is disabled by default in fused mode, and enabled by default otherwise.
 ---
+---
+---
 ---When deprecation output is enabled, the first use of a formally deprecated LÖVE API will show a message at the bottom of the screen for a short time, and print the message to the console.
 --- Gets whether LÖVE displays warnings when using deprecated functionality. It is disabled by default in fused mode, and enabled by default otherwise.
+---
+---
 ---
 ---When deprecation output is enabled, the first use of a formally deprecated LÖVE API will show a message at the bottom of the screen for a short time, and print the message to the console.
 --- @return boolean @Whether deprecation output is enabled.
@@ -351,8 +375,12 @@ function m.isVersionCompatible(version) end
 
 --- Sets whether LÖVE displays warnings when using deprecated functionality. It is disabled by default in fused mode, and enabled by default otherwise.
 ---
+---
+---
 ---When deprecation output is enabled, the first use of a formally deprecated LÖVE API will show a message at the bottom of the screen for a short time, and print the message to the console.
 --- Sets whether LÖVE displays warnings when using deprecated functionality. It is disabled by default in fused mode, and enabled by default otherwise.
+---
+---
 ---
 ---When deprecation output is enabled, the first use of a formally deprecated LÖVE API will show a message at the bottom of the screen for a short time, and print the message to the console.
 --- @param enable boolean @Whether to enable or disable deprecation output.

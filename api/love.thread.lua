@@ -19,8 +19,12 @@ function Channel:clear() end
 
 --- Retrieves the value of a Channel message and removes it from the message queue.
 ---
+---
+---
 ---It waits until a message is in the queue then returns the message value.
 --- Retrieves the value of a Channel message and removes it from the message queue.
+---
+---
 ---
 ---It waits until a message is in the queue then returns the message value.
 --- @return any @The contents of the message.
@@ -43,8 +47,12 @@ function Channel:hasRead(id) end
 
 --- Retrieves the value of a Channel message, but leaves it in the queue.
 ---
+---
+---
 ---It returns nil if there's no message in the queue.
 --- Retrieves the value of a Channel message, but leaves it in the queue.
+---
+---
 ---
 ---It returns nil if there's no message in the queue.
 --- @return any @The contents of the message.
@@ -53,12 +61,20 @@ function Channel:peek() end
 
 --- Executes the specified function atomically with respect to this Channel.
 ---
+---
+---
 ---Calling multiple methods in a row on the same Channel is often useful. However if multiple Threads are calling this Channel's methods at the same time, the different calls on each Thread might end up interleaved (e.g. one or more of the second thread's calls may happen in between the first thread's calls.)
+---
+---
 ---
 ---This method avoids that issue by making sure the Thread calling the method has exclusive access to the Channel until the specified function has returned.
 --- Executes the specified function atomically with respect to this Channel.
 ---
+---
+---
 ---Calling multiple methods in a row on the same Channel is often useful. However if multiple Threads are calling this Channel's methods at the same time, the different calls on each Thread might end up interleaved (e.g. one or more of the second thread's calls may happen in between the first thread's calls.)
+---
+---
 ---
 ---This method avoids that issue by making sure the Thread calling the method has exclusive access to the Channel until the specified function has returned.
 --- @param func function @The function to call, the form of function(channel, arg1, arg2, ...) end. The Channel is passed as the first argument to the function when it is called.
@@ -70,8 +86,12 @@ function Channel:performAtomic(func, ...) end
 
 --- Retrieves the value of a Channel message and removes it from the message queue.
 ---
+---
+---
 ---It returns nil if there are no messages in the queue.
 --- Retrieves the value of a Channel message and removes it from the message queue.
+---
+---
 ---
 ---It returns nil if there are no messages in the queue.
 --- @return any @The contents of the message.
@@ -80,8 +100,12 @@ function Channel:pop() end
 
 --- Send a message to the thread Channel.
 ---
+---
+---
 ---See Variant for the list of supported types.
 --- Send a message to the thread Channel.
+---
+---
 ---
 ---See Variant for the list of supported types.
 --- @param value any @The contents of the message.
@@ -91,8 +115,12 @@ function Channel:push(value) end
 
 --- Send a message to the thread Channel and wait for a thread to accept it.
 ---
+---
+---
 ---See Variant for the list of supported types.
 --- Send a message to the thread Channel and wait for a thread to accept it.
+---
+---
 ---
 ---See Variant for the list of supported types.
 --- @param value any @The contents of the message.
@@ -113,8 +141,12 @@ function Thread:getError() end
 
 --- Returns whether the thread is currently running.
 ---
+---
+---
 ---Threads which are not running can be (re)started with Thread:start.
 --- Returns whether the thread is currently running.
+---
+---
 ---
 ---Threads which are not running can be (re)started with Thread:start.
 --- @return boolean @True if the thread is running, false otherwise.
@@ -123,8 +155,12 @@ function Thread:isRunning() end
 
 --- Starts the thread.
 ---
+---
+---
 ---Beginning with version 0.9.0, threads can be restarted after they have completed their execution.
 --- Starts the thread.
+---
+---
 ---
 ---Beginning with version 0.9.0, threads can be restarted after they have completed their execution.
 --- @overload fun(...: any):
@@ -133,8 +169,12 @@ function Thread:start() end
 
 --- Wait for a thread to finish.
 ---
+---
+---
 ---This call will block until the thread finishes.
 --- Wait for a thread to finish.
+---
+---
 ---
 ---This call will block until the thread finishes.
 function Thread:wait() end
@@ -154,8 +194,12 @@ function m.getChannel(name) end
 
 --- Create a new unnamed thread channel.
 ---
+---
+---
 ---One use for them is to pass new unnamed channels to other threads via Channel:push on a named channel.
 --- Create a new unnamed thread channel.
+---
+---
 ---
 ---One use for them is to pass new unnamed channels to other threads via Channel:push on a named channel.
 --- @return Channel @The new Channel object.

@@ -7,6 +7,8 @@ local m = {}
 
 --- Arguments to love.event.push() and the like.
 ---
+---
+---
 ---Since 0.8.0, event names are no longer abbreviated.
 --- @alias Event
 ---| 'focus' #Window focus gained or lost
@@ -69,16 +71,28 @@ function m.poll() end
 
 --- Pump events into the event queue.
 ---
+---
+---
 ---This is a low-level function, and is usually not called by the user, but by love.run.
 ---
+---
+---
 ---Note that this does need to be called for any OS to think you're still running,
+---
+---
 ---
 ---and if you want to handle OS-generated events at all (think callbacks).
 --- Pump events into the event queue.
 ---
+---
+---
 ---This is a low-level function, and is usually not called by the user, but by love.run.
 ---
+---
+---
 ---Note that this does need to be called for any OS to think you're still running,
+---
+---
 ---
 ---and if you want to handle OS-generated events at all (think callbacks).
 function m.pump() end
@@ -86,8 +100,12 @@ function m.pump() end
 
 --- Adds an event to the event queue.
 ---
+---
+---
 ---From 0.10.0 onwards, you may pass an arbitrary amount of arguments with this function, though the default callbacks don't ever use more than six.
 --- Adds an event to the event queue.
+---
+---
 ---
 ---From 0.10.0 onwards, you may pass an arbitrary amount of arguments with this function, though the default callbacks don't ever use more than six.
 --- @param n Event @The name of the event.
@@ -103,8 +121,12 @@ function m.push(n, a, b, c, d, e, f, ...) end
 
 --- Adds the quit event to the queue.
 ---
+---
+---
 ---The quit event is a signal for the event handler to close LÖVE. It's possible to abort the exit process with the love.quit callback.
 --- Adds the quit event to the queue.
+---
+---
 ---
 ---The quit event is a signal for the event handler to close LÖVE. It's possible to abort the exit process with the love.quit callback.
 --- @param exitstatus number @The program exit status to use when closing the application.

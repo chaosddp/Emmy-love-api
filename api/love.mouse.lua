@@ -54,12 +54,20 @@ function m.getPosition() end
 
 --- Gets whether relative mode is enabled for the mouse.
 ---
+---
+---
 ---If relative mode is enabled, the cursor is hidden and doesn't move when the mouse does, but relative mouse motion events are still generated via love.mousemoved. This lets the mouse move in any direction indefinitely without the cursor getting stuck at the edges of the screen.
+---
+---
 ---
 ---The reported position of the mouse is not updated while relative mode is enabled, even when relative mouse motion events are generated.
 --- Gets whether relative mode is enabled for the mouse.
 ---
+---
+---
 ---If relative mode is enabled, the cursor is hidden and doesn't move when the mouse does, but relative mouse motion events are still generated via love.mousemoved. This lets the mouse move in any direction indefinitely without the cursor getting stuck at the edges of the screen.
+---
+---
 ---
 ---The reported position of the mouse is not updated while relative mode is enabled, even when relative mouse motion events are generated.
 --- @return boolean @True if relative mode is enabled, false if it's disabled.
@@ -68,8 +76,12 @@ function m.getRelativeMode() end
 
 --- Gets a Cursor object representing a system-native hardware cursor.
 ---
+---
+---
 ---Hardware cursors are framerate-independent and work the same way as normal operating system cursors. Unlike drawing an image at the mouse's current coordinates, hardware cursors never have visible lag between when the mouse is moved and when the cursor position updates, even at low framerates.
 --- Gets a Cursor object representing a system-native hardware cursor.
+---
+---
 ---
 ---Hardware cursors are framerate-independent and work the same way as normal operating system cursors. Unlike drawing an image at the mouse's current coordinates, hardware cursors never have visible lag between when the mouse is moved and when the cursor position updates, even at low framerates.
 --- @param ctype CursorType @The type of system cursor to get. 
@@ -91,8 +103,12 @@ function m.getY() end
 
 --- Gets whether cursor functionality is supported.
 ---
+---
+---
 ---If it isn't supported, calling love.mouse.newCursor and love.mouse.getSystemCursor will cause an error. Mobile devices do not support cursors.
 --- Gets whether cursor functionality is supported.
+---
+---
 ---
 ---If it isn't supported, calling love.mouse.newCursor and love.mouse.getSystemCursor will cause an error. Mobile devices do not support cursors.
 --- @return boolean @Whether the system has cursor functionality.
@@ -101,8 +117,12 @@ function m.isCursorSupported() end
 
 --- Checks whether a certain mouse button is down.
 ---
+---
+---
 ---This function does not detect mouse wheel scrolling; you must use the love.wheelmoved (or love.mousepressed in version 0.9.2 and older) callback for that. 
 --- Checks whether a certain mouse button is down.
+---
+---
 ---
 ---This function does not detect mouse wheel scrolling; you must use the love.wheelmoved (or love.mousepressed in version 0.9.2 and older) callback for that. 
 --- @param button number @The index of a button to check. 1 is the primary mouse button, 2 is the secondary mouse button and 3 is the middle button. Further buttons are mouse dependant.
@@ -125,12 +145,20 @@ function m.isVisible() end
 
 --- Creates a new hardware Cursor object from an image file or ImageData.
 ---
+---
+---
 ---Hardware cursors are framerate-independent and work the same way as normal operating system cursors. Unlike drawing an image at the mouse's current coordinates, hardware cursors never have visible lag between when the mouse is moved and when the cursor position updates, even at low framerates.
+---
+---
 ---
 ---The hot spot is the point the operating system uses to determine what was clicked and at what position the mouse cursor is. For example, the normal arrow pointer normally has its hot spot at the top left of the image, but a crosshair cursor might have it in the middle.
 --- Creates a new hardware Cursor object from an image file or ImageData.
 ---
+---
+---
 ---Hardware cursors are framerate-independent and work the same way as normal operating system cursors. Unlike drawing an image at the mouse's current coordinates, hardware cursors never have visible lag between when the mouse is moved and when the cursor position updates, even at low framerates.
+---
+---
 ---
 ---The hot spot is the point the operating system uses to determine what was clicked and at what position the mouse cursor is. For example, the normal arrow pointer normally has its hot spot at the top left of the image, but a crosshair cursor might have it in the middle.
 --- @param imageData ImageData @The ImageData to use for the new Cursor.
@@ -164,12 +192,20 @@ function m.setPosition(x, y) end
 
 --- Sets whether relative mode is enabled for the mouse.
 ---
+---
+---
 ---When relative mode is enabled, the cursor is hidden and doesn't move when the mouse does, but relative mouse motion events are still generated via love.mousemoved. This lets the mouse move in any direction indefinitely without the cursor getting stuck at the edges of the screen.
+---
+---
 ---
 ---The reported position of the mouse may not be updated while relative mode is enabled, even when relative mouse motion events are generated.
 --- Sets whether relative mode is enabled for the mouse.
 ---
+---
+---
 ---When relative mode is enabled, the cursor is hidden and doesn't move when the mouse does, but relative mouse motion events are still generated via love.mousemoved. This lets the mouse move in any direction indefinitely without the cursor getting stuck at the edges of the screen.
+---
+---
 ---
 ---The reported position of the mouse may not be updated while relative mode is enabled, even when relative mouse motion events are generated.
 --- @param enable boolean @True to enable relative mode, false to disable it.
@@ -184,8 +220,12 @@ function m.setVisible(visible) end
 
 --- Sets the current X position of the mouse.
 ---
+---
+---
 ---Non-integer values are floored.
 --- Sets the current X position of the mouse.
+---
+---
 ---
 ---Non-integer values are floored.
 --- @param x number @The new position of the mouse along the x-axis.
@@ -194,8 +234,12 @@ function m.setX(x) end
 
 --- Sets the current Y position of the mouse.
 ---
+---
+---
 ---Non-integer values are floored.
 --- Sets the current Y position of the mouse.
+---
+---
 ---
 ---Non-integer values are floored.
 --- @param y number @The new position of the mouse along the y-axis.

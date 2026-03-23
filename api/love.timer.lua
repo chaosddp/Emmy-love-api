@@ -34,8 +34,12 @@ function m.getFPS() end
 
 --- Returns the value of a timer with an unspecified starting time.
 ---
+---
+---
 ---This function should only be used to calculate differences between points in time, as the starting time of the timer is unknown.
 --- Returns the value of a timer with an unspecified starting time.
+---
+---
 ---
 ---This function should only be used to calculate differences between points in time, as the starting time of the timer is unknown.
 --- @return number @The time in seconds. Given as a decimal, accurate to the microsecond.
@@ -50,8 +54,12 @@ function m.sleep(s) end
 
 --- Measures the time between two frames.
 ---
+---
+---
 ---Calling this changes the return value of love.timer.getDelta.
 --- Measures the time between two frames.
+---
+---
 ---
 ---Calling this changes the return value of love.timer.getDelta.
 --- @return number @The time passed (in seconds).

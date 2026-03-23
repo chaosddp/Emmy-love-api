@@ -7,6 +7,8 @@ local m = {}
 
 --- Compressed image data formats. Here and here are a couple overviews of many of the formats.
 ---
+---
+---
 ---Unlike traditional PNG or jpeg, these formats stay compressed in RAM and in the graphics card's VRAM. This is good for saving memory space as well as improving performance, since the graphics card will be able to keep more of the image's pixels in its fast-access cache when drawing it.
 --- @alias CompressedImageFormat
 ---| 'DXT1' #The DXT1 format. RGB data at 4 bits per pixel (compared to 32 bits for ImageData and regular Images.) Suitable for fully opaque images on desktop systems.
@@ -128,7 +130,11 @@ local m = {}
 --- @class CompressedImageData: Data, Object
 --- Represents compressed image data designed to stay compressed in RAM.
 ---
+---
+---
 ---CompressedImageData encompasses standard compressed texture formats such as  DXT1, DXT5, and BC5 / 3Dc.
+---
+---
 ---
 ---You can't draw CompressedImageData directly to the screen. See Image for that.
 local CompressedImageData = {}
@@ -170,6 +176,8 @@ function CompressedImageData:getWidth() end
 --- @class ImageData: Data, Object
 --- Raw (decoded) image data.
 ---
+---
+---
 ---You can't draw ImageData directly to screen. See Image for that.
 local ImageData = {}
 
@@ -198,12 +206,20 @@ function ImageData:getHeight() end
 
 --- Gets the color of a pixel at a specific position in the image.
 ---
+---
+---
 ---Valid x and y values start at 0 and go up to image width and height minus 1. Non-integer values are floored.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- Gets the color of a pixel at a specific position in the image.
 ---
+---
+---
 ---Valid x and y values start at 0 and go up to image width and height minus 1. Non-integer values are floored.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param x number @The position of the pixel on the x-axis.
@@ -223,40 +239,76 @@ function ImageData:getWidth() end
 
 --- Transform an image by applying a function to every pixel.
 ---
+---
+---
 ---This function is a higher-order function. It takes another function as a parameter, and calls it once for each pixel in the ImageData.
+---
+---
 ---
 ---The passed function is called with six parameters for each pixel in turn. The parameters are numbers that represent the x and y coordinates of the pixel and its red, green, blue and alpha values. The function should return the new red, green, blue, and alpha values for that pixel.
 ---
+---
+---
 ---function pixelFunction(x, y, r, g, b, a)
+---
+---
 ---
 ---    -- template for defining your own pixel mapping function
 ---
+---
+---
 ---    -- perform computations giving the new values for r, g, b and a
+---
+---
 ---
 ---    -- ...
 ---
+---
+---
 ---    return r, g, b, a
 ---
+---
+---
 ---end
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- Transform an image by applying a function to every pixel.
 ---
+---
+---
 ---This function is a higher-order function. It takes another function as a parameter, and calls it once for each pixel in the ImageData.
+---
+---
 ---
 ---The passed function is called with six parameters for each pixel in turn. The parameters are numbers that represent the x and y coordinates of the pixel and its red, green, blue and alpha values. The function should return the new red, green, blue, and alpha values for that pixel.
 ---
+---
+---
 ---function pixelFunction(x, y, r, g, b, a)
+---
+---
 ---
 ---    -- template for defining your own pixel mapping function
 ---
+---
+---
 ---    -- perform computations giving the new values for r, g, b and a
+---
+---
 ---
 ---    -- ...
 ---
+---
+---
 ---    return r, g, b, a
 ---
+---
+---
 ---end
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param pixelFunction function @Function to apply to every pixel.
@@ -281,12 +333,20 @@ function ImageData:paste(source, dx, dy, sx, sy, sw, sh) end
 
 --- Sets the color of a pixel at a specific position in the image.
 ---
+---
+---
 ---Valid x and y values start at 0 and go up to image width and height minus 1.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- Sets the color of a pixel at a specific position in the image.
 ---
+---
+---
 ---Valid x and y values start at 0 and go up to image width and height minus 1.
+---
+---
 ---
 ---In versions prior to 11.0, color component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param x number @The position of the pixel on the x-axis.
