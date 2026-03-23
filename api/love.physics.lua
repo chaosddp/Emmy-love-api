@@ -81,7 +81,7 @@ function Body:applyAngularImpulse(impulse) end
 ---Note that the force components and position must be given in world coordinates.
 --- @param fx number @The x component of force to apply to the center of mass.
 --- @param fy number @The y component of force to apply to the center of mass.
---- @overload fun(fx: number, fy: number, x: number, y: number):
+--- @overload fun(fx: number, fy: number, x: number, y: number):void
 function Body:applyForce(fx, fy) end
 
 
@@ -121,7 +121,7 @@ function Body:applyForce(fx, fy) end
 ---Note that the impulse components and position must be given in world coordinates.
 --- @param ix number @The x component of the impulse applied to the center of mass.
 --- @param iy number @The y component of the impulse applied to the center of mass.
---- @overload fun(ix: number, iy: number, x: number, y: number):
+--- @overload fun(ix: number, iy: number, x: number, y: number):void
 function Body:applyLinearImpulse(ix, iy) end
 
 

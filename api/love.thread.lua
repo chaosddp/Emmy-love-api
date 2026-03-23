@@ -163,7 +163,7 @@ function Thread:isRunning() end
 ---
 ---
 ---Beginning with version 0.9.0, threads can be restarted after they have completed their execution.
---- @overload fun(...: any):
+--- @overload fun(...: any):void
 function Thread:start() end
 
 

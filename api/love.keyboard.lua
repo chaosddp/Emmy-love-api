@@ -476,7 +476,7 @@ function m.setKeyRepeat(enable) end
 ---
 ---On touch devices, this shows the system's native on-screen keyboard when it's enabled.
 --- @param enable boolean @Whether text input events should be enabled.
---- @overload fun(enable: boolean, x: number, y: number, w: number, h: number):
+--- @overload fun(enable: boolean, x: number, y: number, w: number, h: number):void
 function m.setTextInput(enable) end
 
 

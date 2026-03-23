@@ -418,7 +418,7 @@ function Source:setEffect(name, enable) end
 --- Sets a low-pass, high-pass, or band-pass filter to apply when playing the Source.
 --- @param settings table @The filter settings to use for this Source, with the following fields:
 --- @return boolean @Whether the filter was successfully applied to the Source.
---- @overload fun():
+--- @overload fun():void
 function Source:setFilter(settings) end
 
 
@@ -653,16 +653,16 @@ function m.newSource(filename, type) end
 --- Pauses specific or all currently played Sources.
 --- Pauses specific or all currently played Sources.
 --- @return table @A table containing a list of Sources that were paused by this call.
---- @overload fun(source: Source, ...: Source):
---- @overload fun(sources: table):
+--- @overload fun(source: Source, ...: Source):void
+--- @overload fun(sources: table):void
 function m.pause() end
 
 
 --- Plays the specified Source.
 --- Plays the specified Source.
 --- @param source Source @The Source to play.
---- @overload fun(sources: table):
---- @overload fun(source1: Source, source2: Source, ...: Source):
+--- @overload fun(sources: table):void
+--- @overload fun(source1: Source, source2: Source, ...: Source):void
 function m.play(source) end
 
 
@@ -733,9 +733,9 @@ function m.setVolume(volume) end
 
 --- Stops currently played sources.
 --- Stops currently played sources.
---- @overload fun(source: Source):
---- @overload fun(source1: Source, source2: Source, ...: Source):
---- @overload fun(sources: table):
+--- @overload fun(source: Source):void
+--- @overload fun(source1: Source, source2: Source, ...: Source):void
+--- @overload fun(sources: table):void
 function m.stop() end
 
 

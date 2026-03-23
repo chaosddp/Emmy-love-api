@@ -571,7 +571,7 @@ local Mesh = {}
 --- Attaches a vertex attribute from a different Mesh onto this Mesh, for use when drawing. This can be used to share vertex attribute data between several different Meshes.
 --- @param name string @The name of the vertex attribute to attach.
 --- @param mesh Mesh @The Mesh to get the vertex attribute from.
---- @overload fun(name: string, mesh: Mesh, step: VertexAttributeStep, attachname: string):
+--- @overload fun(name: string, mesh: Mesh, step: VertexAttributeStep, attachname: string):void
 function Mesh:attachAttribute(name, mesh) end
 
 
@@ -707,14 +707,14 @@ function Mesh:setDrawMode(mode) end
 --- Restricts the drawn vertices of the Mesh to a subset of the total.
 --- @param start number @The index of the first vertex to use when drawing, or the index of the first value in the vertex map to use if one is set for this Mesh.
 --- @param count number @The number of vertices to use when drawing, or number of values in the vertex map to use if one is set for this Mesh.
---- @overload fun():
+--- @overload fun():void
 function Mesh:setDrawRange(start, count) end
 
 
 --- Sets the texture (Image or Canvas) used when drawing the Mesh.
 --- Sets the texture (Image or Canvas) used when drawing the Mesh.
 --- @param texture Texture @The Image or Canvas to texture the Mesh with when drawing.
---- @overload fun():
+--- @overload fun():void
 function Mesh:setTexture(texture) end
 
 
@@ -731,9 +731,9 @@ function Mesh:setTexture(texture) end
 --- @param index number @The index of the the vertex you want to modify (one-based).
 --- @param attributecomponent number @The first component of the first vertex attribute in the specified vertex.
 --- @param ... number @Additional components of all vertex attributes in the specified vertex.
---- @overload fun(index: number, vertex: table):
---- @overload fun(index: number, x: number, y: number, u: number, v: number, r: number, g: number, b: number, a: number):
---- @overload fun(index: number, vertex: table):
+--- @overload fun(index: number, vertex: table):void
+--- @overload fun(index: number, x: number, y: number, u: number, v: number, r: number, g: number, b: number, a: number):void
+--- @overload fun(index: number, vertex: table):void
 function Mesh:setVertex(index, attributecomponent, ...) end
 
 
@@ -766,8 +766,8 @@ function Mesh:setVertexAttribute(vertexindex, attributeindex, value1, value2, ..
 ---
 ---The vertex map allows you to re-order or reuse vertices when drawing without changing the actual vertex parameters or duplicating vertices. It is especially useful when combined with different Mesh Draw Modes.
 --- @param map table @A table containing a list of vertex indices to use when drawing. Values must be in the range of Mesh:getVertexCount().
---- @overload fun(vi1: number, vi2: number, vi3: number):
---- @overload fun(data: Data, datatype: IndexDataType):
+--- @overload fun(vi1: number, vi2: number, vi3: number):void
+--- @overload fun(data: Data, datatype: IndexDataType):void
 function Mesh:setVertexMap(map) end
 
 
@@ -776,8 +776,8 @@ function Mesh:setVertexMap(map) end
 --- @param vertices table @The table filled with vertex information tables for each vertex, in the form of {vertex, ...} where each vertex is a table in the form of {attributecomponent, ...}.
 --- @param startvertex number @The index of the first vertex to replace.
 --- @param count number @Amount of vertices to replace.
---- @overload fun(data: Data, startvertex: number):
---- @overload fun(vertices: table):
+--- @overload fun(data: Data, startvertex: number):void
+--- @overload fun(vertices: table):void
 function Mesh:setVertices(vertices, startvertex, count) end
 
 
@@ -1065,7 +1065,7 @@ function ParticleSystem:setBufferSize(size) end
 --- @param b1 number @First color, blue component (0-1).
 --- @param a1 number @First color, alpha component (0-1).
 --- @param ... number @Additional colors.
---- @overload fun(rgba1: table, ...: table):
+--- @overload fun(rgba1: table, ...: table):void
 function ParticleSystem:setColors(r1, g1, b1, a1, ...) end
 
 
@@ -1160,7 +1160,7 @@ function ParticleSystem:setPosition(x, y) end
 --- Sets a series of Quads to use for the particle sprites. Particles will choose a Quad from the list based on the particle's current lifetime, allowing for the use of animated sprite sheets with ParticleSystems.
 --- @param quad1 Quad @The first Quad to use.
 --- @param ... Quad @Additional Quads to use.
---- @overload fun(quads: table):
+--- @overload fun(quads: table):void
 function ParticleSystem:setQuads(quad1, ...) end
 
 
@@ -1402,14 +1402,14 @@ function Shader:hasUniform(name) end
 --- @param name string @Name of the number to send to the shader.
 --- @param number number @Number to send to store in the uniform variable.
 --- @param ... number @Additional numbers to send if the uniform variable is an array.
---- @overload fun(name: string, vector: table, ...: table):
---- @overload fun(name: string, matrix: table, ...: table):
---- @overload fun(name: string, texture: Texture):
---- @overload fun(name: string, boolean: boolean, ...: boolean):
---- @overload fun(name: string, matrixlayout: MatrixLayout, matrix: table, ...: table):
---- @overload fun(name: string, data: Data, offset: number, size: number):
---- @overload fun(name: string, data: Data, matrixlayout: MatrixLayout, offset: number, size: number):
---- @overload fun(name: string, matrixlayout: MatrixLayout, data: Data, offset: number, size: number):
+--- @overload fun(name: string, vector: table, ...: table):void
+--- @overload fun(name: string, matrix: table, ...: table):void
+--- @overload fun(name: string, texture: Texture):void
+--- @overload fun(name: string, boolean: boolean, ...: boolean):void
+--- @overload fun(name: string, matrixlayout: MatrixLayout, matrix: table, ...: table):void
+--- @overload fun(name: string, data: Data, offset: number, size: number):void
+--- @overload fun(name: string, data: Data, matrixlayout: MatrixLayout, offset: number, size: number):void
+--- @overload fun(name: string, matrixlayout: MatrixLayout, data: Data, offset: number, size: number):void
 function Shader:send(name, number, ...) end
 
 
@@ -1608,7 +1608,7 @@ function SpriteBatch:getTexture() end
 --- @param oy number @Origin offset (y-axis).
 --- @param kx number @Shear factor (x-axis).
 --- @param ky number @Shear factor (y-axis).
---- @overload fun(spriteindex: number, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):
+--- @overload fun(spriteindex: number, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
 function SpriteBatch:set(spriteindex, x, y, r, sx, sy, ox, oy, kx, ky) end
 
 
@@ -1634,7 +1634,7 @@ function SpriteBatch:set(spriteindex, x, y, r, sx, sy, ox, oy, kx, ky) end
 --- @param g number @The amount of green.
 --- @param b number @The amount of blue.
 --- @param a number @The amount of alpha.
---- @overload fun():
+--- @overload fun():void
 function SpriteBatch:setColor(r, g, b, a) end
 
 
@@ -1642,7 +1642,7 @@ function SpriteBatch:setColor(r, g, b, a) end
 --- Restricts the drawn sprites in the SpriteBatch to a subset of the total.
 --- @param start number @The index of the first sprite to draw. Index 1 corresponds to the first sprite added with SpriteBatch:add.
 --- @param count number @The number of sprites to draw.
---- @overload fun():
+--- @overload fun():void
 function SpriteBatch:setDrawRange(start, count) end
 
 
@@ -1659,9 +1659,9 @@ function SpriteBatch:setDrawRange(start, count) end
 --- @param oy number @Origin offset (y-axis).
 --- @param kx number @Shearing factor (x-axis).
 --- @param ky number @Shearing factor (y-axis).
---- @overload fun(spriteindex: number, layerindex: number, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):
---- @overload fun(spriteindex: number, layerindex: number, transform: Transform):
---- @overload fun(spriteindex: number, layerindex: number, quad: Quad, transform: Transform):
+--- @overload fun(spriteindex: number, layerindex: number, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
+--- @overload fun(spriteindex: number, layerindex: number, transform: Transform):void
+--- @overload fun(spriteindex: number, layerindex: number, quad: Quad, transform: Transform):void
 function SpriteBatch:setLayer(spriteindex, layerindex, x, y, r, sx, sy, ox, oy, kx, ky) end
 
 
@@ -1755,7 +1755,7 @@ function Text:getWidth() end
 --- Replaces the contents of the Text object with a new unformatted string.
 --- Replaces the contents of the Text object with a new unformatted string.
 --- @param textstring string @The new string of text to use.
---- @overload fun(coloredtext: table):
+--- @overload fun(coloredtext: table):void
 function Text:set(textstring) end
 
 
@@ -1770,7 +1770,7 @@ function Text:setFont(font) end
 --- @param textstring string @The new string of text to use.
 --- @param wraplimit number @The maximum width in pixels of the text before it gets automatically wrapped to a new line.
 --- @param align AlignMode @The alignment of the text.
---- @overload fun(coloredtext: table, wraplimit: number, align: AlignMode):
+--- @overload fun(coloredtext: table, wraplimit: number, align: AlignMode):void
 function Text:setf(textstring, wraplimit, align) end
 
 
@@ -2017,7 +2017,7 @@ function Texture:setFilter(min, mag, anisotropy) end
 ---Due to hardware restrictions and driver bugs, in versions prior to 0.10.0 images that weren't loaded from a CompressedData must have power-of-two dimensions (64x64, 512x256, etc.) to use mipmaps.
 --- @param filtermode FilterMode @The filter mode to use in between mipmap levels. 'nearest' will often give better performance.
 --- @param sharpness number @A positive sharpness value makes the texture use a more detailed mipmap level when drawing, at the expense of performance. A negative value does the reverse.
---- @overload fun():
+--- @overload fun():void
 function Texture:setMipmapFilter(filtermode, sharpness) end
 
 
@@ -2163,7 +2163,7 @@ function m.applyTransform(transform) end
 --- @param angle1 number @The angle at which the arc begins.
 --- @param angle2 number @The angle at which the arc terminates.
 --- @param segments number @The number of segments used for drawing the arc.
---- @overload fun(drawmode: DrawMode, arctype: ArcType, x: number, y: number, radius: number, angle1: number, angle2: number, segments: number):
+--- @overload fun(drawmode: DrawMode, arctype: ArcType, x: number, y: number, radius: number, angle1: number, angle2: number, segments: number):void
 function m.arc(drawmode, x, y, radius, angle1, angle2, segments) end
 
 
@@ -2178,8 +2178,8 @@ function m.arc(drawmode, x, y, radius, angle1, angle2, segments) end
 ---
 ---Since this function enqueues a screenshot capture rather than executing it immediately, it can be called from an input callback or love.update and it will still capture all of what's drawn to the screen in that frame.
 --- @param filename string @The filename to save the screenshot to. The encoded image type is determined based on the extension of the filename, and must be one of the ImageFormats.
---- @overload fun(callback: function):
---- @overload fun(channel: Channel):
+--- @overload fun(callback: function):void
+--- @overload fun(channel: Channel):void
 function m.captureScreenshot(filename) end
 
 
@@ -2189,7 +2189,7 @@ function m.captureScreenshot(filename) end
 --- @param x number @The position of the center along x-axis.
 --- @param y number @The position of the center along y-axis.
 --- @param radius number @The radius of the circle.
---- @overload fun(mode: DrawMode, x: number, y: number, radius: number, segments: number):
+--- @overload fun(mode: DrawMode, x: number, y: number, radius: number, segments: number):void
 function m.circle(mode, x, y, radius) end
 
 
@@ -2227,9 +2227,9 @@ function m.circle(mode, x, y, radius) end
 ---
 ---
 ---In versions prior to background color instead.
---- @overload fun(r: number, g: number, b: number, a: number, clearstencil: boolean, cleardepth: boolean):
---- @overload fun(color: table, ...: table, clearstencil: boolean, cleardepth: boolean):
---- @overload fun(clearcolor: boolean, clearstencil: boolean, cleardepth: boolean):
+--- @overload fun(r: number, g: number, b: number, a: number, clearstencil: boolean, cleardepth: boolean):void
+--- @overload fun(color: table, ...: table, clearstencil: boolean, cleardepth: boolean):void
+--- @overload fun(clearcolor: boolean, clearstencil: boolean, cleardepth: boolean):void
 function m.clear() end
 
 
@@ -2253,7 +2253,7 @@ function m.clear() end
 ---On some desktop systems this function may do nothing.
 --- @param discardcolor boolean @Whether to discard the texture(s) of the active Canvas(es) (the contents of the screen if no Canvas is active.)
 --- @param discardstencil boolean @Whether to discard the contents of the stencil buffer of the screen / active Canvas.
---- @overload fun(discardcolors: table, discardstencil: boolean):
+--- @overload fun(discardcolors: table, discardstencil: boolean):void
 function m.discard(discardcolor, discardstencil) end
 
 
@@ -2309,9 +2309,9 @@ function m.discard(discardcolor, discardstencil) end
 --- @param oy number @Origin offset (y-axis).
 --- @param kx number @Shearing factor (x-axis).
 --- @param ky number @Shearing factor (y-axis).
---- @overload fun(texture: Texture, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):
---- @overload fun(drawable: Drawable, transform: Transform):
---- @overload fun(texture: Texture, quad: Quad, transform: Transform):
+--- @overload fun(texture: Texture, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
+--- @overload fun(drawable: Drawable, transform: Transform):void
+--- @overload fun(texture: Texture, quad: Quad, transform: Transform):void
 function m.draw(drawable, x, y, r, sx, sy, ox, oy, kx, ky) end
 
 
@@ -2344,7 +2344,7 @@ function m.draw(drawable, x, y, r, sx, sy, ox, oy, kx, ky) end
 --- @param oy number @Origin offset (y-axis).
 --- @param kx number @Shearing factor (x-axis).
 --- @param ky number @Shearing factor (y-axis).
---- @overload fun(mesh: Mesh, instancecount: number, transform: Transform):
+--- @overload fun(mesh: Mesh, instancecount: number, transform: Transform):void
 function m.drawInstanced(mesh, instancecount, x, y, r, sx, sy, ox, oy, kx, ky) end
 
 
@@ -2361,9 +2361,9 @@ function m.drawInstanced(mesh, instancecount, x, y, r, sx, sy, ox, oy, kx, ky) e
 --- @param oy number @Origin offset (y-axis).
 --- @param kx number @Shearing factor (x-axis).
 --- @param ky number @Shearing factor (y-axis).
---- @overload fun(texture: Texture, layerindex: number, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):
---- @overload fun(texture: Texture, layerindex: number, transform: Transform):
---- @overload fun(texture: Texture, layerindex: number, quad: Quad, transform: Transform):
+--- @overload fun(texture: Texture, layerindex: number, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
+--- @overload fun(texture: Texture, layerindex: number, transform: Transform):void
+--- @overload fun(texture: Texture, layerindex: number, quad: Quad, transform: Transform):void
 function m.drawLayer(texture, layerindex, x, y, r, sx, sy, ox, oy, kx, ky) end
 
 
@@ -2374,7 +2374,7 @@ function m.drawLayer(texture, layerindex, x, y, r, sx, sy, ox, oy, kx, ky) end
 --- @param y number @The position of the center along y-axis.
 --- @param radiusx number @The radius of the ellipse along the x-axis (half the ellipse's width).
 --- @param radiusy number @The radius of the ellipse along the y-axis (half the ellipse's height).
---- @overload fun(mode: DrawMode, x: number, y: number, radiusx: number, radiusy: number, segments: number):
+--- @overload fun(mode: DrawMode, x: number, y: number, radiusx: number, radiusy: number, segments: number):void
 function m.ellipse(mode, x, y, radiusx, radiusy) end
 
 
@@ -2822,7 +2822,7 @@ function m.isWireframe() end
 --- @param x2 number @The position of second point on the x-axis.
 --- @param y2 number @The position of second point on the y-axis.
 --- @param ... number @You can continue passing point positions to draw a polyline.
---- @overload fun(points: table):
+--- @overload fun(points: table):void
 function m.line(x1, y1, x2, y2, ...) end
 
 
@@ -3254,8 +3254,8 @@ function m.origin() end
 --- @param x number @The position of the first point on the x-axis.
 --- @param y number @The position of the first point on the y-axis.
 --- @param ... number @The x and y coordinates of additional points.
---- @overload fun(points: table):
---- @overload fun(points: table):
+--- @overload fun(points: table):void
+--- @overload fun(points: table):void
 function m.points(x, y, ...) end
 
 
@@ -3271,7 +3271,7 @@ function m.points(x, y, ...) end
 ---Following the mode argument, this function can accept multiple numeric arguments or a single table of numeric arguments. In either case the arguments are interpreted as alternating x and y coordinates of the polygon's vertices.
 --- @param mode DrawMode @How to draw the polygon.
 --- @param ... number @The vertices of the polygon.
---- @overload fun(mode: DrawMode, vertices: table):
+--- @overload fun(mode: DrawMode, vertices: table):void
 function m.polygon(mode, ...) end
 
 
@@ -3337,11 +3337,11 @@ function m.present() end
 --- @param oy number @Origin offset (y-axis).
 --- @param kx number @Shearing factor (x-axis).
 --- @param ky number @Shearing factor (y-axis).
---- @overload fun(coloredtext: table, x: number, y: number, angle: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):
---- @overload fun(text: string, transform: Transform):
---- @overload fun(coloredtext: table, transform: Transform):
---- @overload fun(text: string, font: Font, transform: Transform):
---- @overload fun(coloredtext: table, font: Font, transform: Transform):
+--- @overload fun(coloredtext: table, x: number, y: number, angle: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
+--- @overload fun(text: string, transform: Transform):void
+--- @overload fun(coloredtext: table, transform: Transform):void
+--- @overload fun(text: string, font: Font, transform: Transform):void
+--- @overload fun(coloredtext: table, font: Font, transform: Transform):void
 function m.print(text, x, y, r, sx, sy, ox, oy, kx, ky) end
 
 
@@ -3391,13 +3391,13 @@ function m.print(text, x, y, r, sx, sy, ox, oy, kx, ky) end
 --- @param oy number @Origin offset (y-axis).
 --- @param kx number @Shearing factor (x-axis).
 --- @param ky number @Shearing factor (y-axis).
---- @overload fun(text: string, font: Font, x: number, y: number, limit: number, align: AlignMode, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):
---- @overload fun(text: string, transform: Transform, limit: number, align: AlignMode):
---- @overload fun(text: string, font: Font, transform: Transform, limit: number, align: AlignMode):
---- @overload fun(coloredtext: table, x: number, y: number, limit: number, align: AlignMode, angle: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):
---- @overload fun(coloredtext: table, font: Font, x: number, y: number, limit: number, align: AlignMode, angle: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):
---- @overload fun(coloredtext: table, transform: Transform, limit: number, align: AlignMode):
---- @overload fun(coloredtext: table, font: Font, transform: Transform, limit: number, align: AlignMode):
+--- @overload fun(text: string, font: Font, x: number, y: number, limit: number, align: AlignMode, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
+--- @overload fun(text: string, transform: Transform, limit: number, align: AlignMode):void
+--- @overload fun(text: string, font: Font, transform: Transform, limit: number, align: AlignMode):void
+--- @overload fun(coloredtext: table, x: number, y: number, limit: number, align: AlignMode, angle: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
+--- @overload fun(coloredtext: table, font: Font, x: number, y: number, limit: number, align: AlignMode, angle: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
+--- @overload fun(coloredtext: table, transform: Transform, limit: number, align: AlignMode):void
+--- @overload fun(coloredtext: table, font: Font, transform: Transform, limit: number, align: AlignMode):void
 function m.printf(text, x, y, limit, align, r, sx, sy, ox, oy, kx, ky) end
 
 
@@ -3411,7 +3411,7 @@ function m.printf(text, x, y, limit, align, r, sx, sy, ox, oy, kx, ky) end
 ---
 ---
 ---This function is always used to prepare for a corresponding pop operation later. It stores the current coordinate transformation state into the transformation stack and keeps it active. Later changes to the transformation can be undone by using the pop operation, which returns the coordinate transform to the state it was in before calling push.
---- @overload fun(stack: StackType):
+--- @overload fun(stack: StackType):void
 function m.push() end
 
 
@@ -3422,7 +3422,7 @@ function m.push() end
 --- @param y number @The position of top-left corner along the y-axis.
 --- @param width number @Width of the rectangle.
 --- @param height number @Height of the rectangle.
---- @overload fun(mode: DrawMode, x: number, y: number, width: number, height: number, rx: number, ry: number, segments: number):
+--- @overload fun(mode: DrawMode, x: number, y: number, width: number, height: number, rx: number, ry: number, segments: number):void
 function m.rectangle(mode, x, y, width, height) end
 
 
@@ -3504,14 +3504,14 @@ function m.scale(sx, sy) end
 --- @param green number @The green component (0-1).
 --- @param blue number @The blue component (0-1).
 --- @param alpha number @The alpha component (0-1).
---- @overload fun(rgba: table):
+--- @overload fun(rgba: table):void
 function m.setBackgroundColor(red, green, blue, alpha) end
 
 
 --- Sets the blending mode.
 --- Sets the blending mode.
 --- @param mode BlendMode @The blend mode to use.
---- @overload fun(mode: BlendMode, alphamode: BlendAlphaMode):
+--- @overload fun(mode: BlendMode, alphamode: BlendAlphaMode):void
 function m.setBlendMode(mode) end
 
 
@@ -3519,10 +3519,10 @@ function m.setBlendMode(mode) end
 --- Captures drawing operations to a Canvas.
 --- @param canvas Canvas @The new target.
 --- @param mipmap number @The mipmap level to render to, for Canvases with mipmaps.
---- @overload fun():
---- @overload fun(canvas1: Canvas, canvas2: Canvas, ...: Canvas):
---- @overload fun(canvas: Canvas, slice: number, mipmap: number):
---- @overload fun(setup: table):
+--- @overload fun():void
+--- @overload fun(canvas1: Canvas, canvas2: Canvas, ...: Canvas):void
+--- @overload fun(canvas: Canvas, slice: number, mipmap: number):void
+--- @overload fun(setup: table):void
 function m.setCanvas(canvas, mipmap) end
 
 
@@ -3540,7 +3540,7 @@ function m.setCanvas(canvas, mipmap) end
 --- @param green number @The amount of green.
 --- @param blue number @The amount of blue.
 --- @param alpha number @The amount of alpha.  The alpha value will be applied to all subsequent draw operations, even the drawing of an image.
---- @overload fun(rgba: table):
+--- @overload fun(rgba: table):void
 function m.setColor(red, green, blue, alpha) end
 
 
@@ -3550,7 +3550,7 @@ function m.setColor(red, green, blue, alpha) end
 --- @param green boolean @Render green component.
 --- @param blue boolean @Render blue component.
 --- @param alpha boolean @Render alpha component.
---- @overload fun():
+--- @overload fun():void
 function m.setColorMask(red, green, blue, alpha) end
 
 
@@ -3574,7 +3574,7 @@ function m.setDefaultFilter(min, mag, anisotropy) end
 ---This is low-level functionality designed for use with custom vertex shaders and Meshes with custom vertex attributes. No higher level APIs are provided to set the depth of 2D graphics such as shapes, lines, and Images.
 --- @param comparemode CompareMode @Depth comparison mode used for depth testing.
 --- @param write boolean @Whether to write update / write values to the depth buffer when rendering.
---- @overload fun():
+--- @overload fun():void
 function m.setDepthMode(comparemode, write) end
 
 
@@ -3685,14 +3685,14 @@ function m.setPointSize(size) end
 --- @param y number @y coordinate of upper left corner.
 --- @param width number @width of clipping rectangle.
 --- @param height number @height of clipping rectangle.
---- @overload fun():
+--- @overload fun():void
 function m.setScissor(x, y, width, height) end
 
 
 --- Sets or resets a Shader as the current pixel effect or vertex shaders. All drawing operations until the next ''love.graphics.setShader'' will be drawn using the Shader object specified.
 --- Sets or resets a Shader as the current pixel effect or vertex shaders. All drawing operations until the next ''love.graphics.setShader'' will be drawn using the Shader object specified.
 --- @param shader Shader @The new shader.
---- @overload fun():
+--- @overload fun():void
 function m.setShader(shader) end
 
 
@@ -3708,7 +3708,7 @@ function m.setShader(shader) end
 ---When stencil testing is enabled, the geometry of everything that is drawn afterward will be clipped / stencilled out based on a comparison between the arguments of this function and the stencil value of each pixel that the geometry touches. The stencil values of pixels are affected via love.graphics.stencil.
 --- @param comparemode CompareMode @The type of comparison to make for each pixel.
 --- @param comparevalue number @The value to use when comparing with the stencil value of each pixel. Must be between 0 and 255.
---- @overload fun():
+--- @overload fun():void
 function m.setStencilTest(comparemode, comparevalue) end
 
 

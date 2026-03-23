@@ -513,7 +513,7 @@ function m.setCRequirePath(paths) end
 ---
 ---Note that you can only set the name of the folder to store your files in, not the location.
 --- @param name string @The new identity that will be used as write directory.
---- @overload fun(name: string):
+--- @overload fun(name: string):void
 function m.setIdentity(name) end
 
 

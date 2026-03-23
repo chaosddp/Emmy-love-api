@@ -224,7 +224,7 @@ function RandomGenerator:randomNormal(stddev, mean) end
 --- Sets the seed of the random number generator using the specified integer number.
 --- Sets the seed of the random number generator using the specified integer number.
 --- @param seed number @The integer number with which you want to seed the randomization. Must be within the range of 2^53.
---- @overload fun(low: number, high: number):
+--- @overload fun(low: number, high: number):void
 function RandomGenerator:setSeed(seed) end
 
 
@@ -641,7 +641,7 @@ function m.randomNormal(stddev, mean) end
 --- Sets the seed of the random number generator using the specified integer number. This is called internally at startup, so you generally don't need to call it yourself.
 --- Sets the seed of the random number generator using the specified integer number. This is called internally at startup, so you generally don't need to call it yourself.
 --- @param seed number @The integer number with which you want to seed the randomization. Must be within the range of 2^53 - 1.
---- @overload fun(low: number, high: number):
+--- @overload fun(low: number, high: number):void
 function m.setRandomSeed(seed) end
 
 

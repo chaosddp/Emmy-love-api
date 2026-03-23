@@ -186,8 +186,8 @@ local ImageData = {}
 --- @param format ImageFormat @The format to encode the image as.
 --- @param filename string @The filename to write the file to. If nil, no file will be written but the FileData will still be returned.
 --- @return FileData @The encoded image as a new FileData object.
---- @overload fun(outFile: string):
---- @overload fun(outFile: string, format: ImageFormat):
+--- @overload fun(outFile: string):void
+--- @overload fun(outFile: string, format: ImageFormat):void
 function ImageData:encode(format, filename) end
 
 
@@ -355,7 +355,7 @@ function ImageData:paste(source, dx, dy, sx, sy, sw, sh) end
 --- @param g number @The green component (0-1).
 --- @param b number @The blue component (0-1).
 --- @param a number @The alpha component (0-1).
---- @overload fun(x: number, y: number, color: table):
+--- @overload fun(x: number, y: number, color: table):void
 function ImageData:setPixel(x, y, r, g, b, a) end
 
 

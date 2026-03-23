@@ -226,7 +226,7 @@ function Joystick:isVibrationSupported() end
 --- @param left number @Strength of the left vibration motor on the Joystick. Must be in the range of 1.
 --- @param right number @Strength of the right vibration motor on the Joystick. Must be in the range of 1.
 --- @return boolean @True if the vibration was successfully applied, false if not.
---- @overload fun():
+--- @overload fun():void
 --- @overload fun(left: number, right: number, duration: number):boolean
 function Joystick:setVibration(left, right) end
 
@@ -274,7 +274,7 @@ function m.getJoysticks() end
 ---
 ---It also recognizes any SDL gamecontroller mapping string, such as those created with Steam's Big Picture controller configure interface, or this nice database. If a new mapping is loaded for an already known controller GUID, the later version will overwrite the one currently loaded.
 --- @param filename string @The filename to load the mappings string from.
---- @overload fun(mappings: string):
+--- @overload fun(mappings: string):void
 function m.loadGamepadMappings(filename) end
 
 
@@ -290,7 +290,7 @@ function m.loadGamepadMappings(filename) end
 ---The mappings are stored as a string for use with love.joystick.loadGamepadMappings.
 --- @param filename string @The filename to save the mappings string to.
 --- @return string @The mappings string that was written to the file.
---- @overload fun():
+--- @overload fun():void
 function m.saveGamepadMappings(filename) end
 
 

@@ -236,6 +236,11 @@ local function genFunction(func, parent_inst_name, is_class)
                 end
             end
 
+            -- if no returns, then void
+            if #variant_return_list == 0 then
+                table.insert(variant_return_list, "void")
+            end
+
             -- generate variant like: @overload fun(a: number, b: bool):void
             table.insert(annotation_list,
                 string.format(

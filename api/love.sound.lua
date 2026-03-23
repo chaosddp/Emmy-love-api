@@ -112,7 +112,7 @@ function SoundData:getSampleRate() end
 --- Sets the value of the sample-point at the specified position. For stereo SoundData objects, the data from the left and right channels are interleaved in that order.
 --- @param i number @An integer value specifying the position of the sample (starting at 0).
 --- @param sample number @The normalized samplepoint (range -1.0 to 1.0).
---- @overload fun(i: number, channel: number, sample: number):
+--- @overload fun(i: number, channel: number, sample: number):void
 function SoundData:setSample(i, sample) end
 
 

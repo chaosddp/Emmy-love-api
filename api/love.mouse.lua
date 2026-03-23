@@ -173,7 +173,7 @@ function m.newCursor(imageData, hotx, hoty) end
 --- Sets the current mouse cursor.
 --- Sets the current mouse cursor.
 --- @param cursor Cursor @The Cursor object to use as the current mouse cursor.
---- @overload fun():
+--- @overload fun():void
 function m.setCursor(cursor) end
 
 
