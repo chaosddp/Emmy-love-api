@@ -37,6 +37,23 @@ local m = {}
 
 
 
+--- @class ByteData: Object, Data
+--- Data object containing arbitrary bytes in an contiguous memory.
+---
+---There are currently no LÖVE functions provided for manipulating the contents of a ByteData, but Data:getPointer can be used with LuaJIT's FFI to access and write to the contents directly.
+local ByteData = {}
+
+--- @class CompressedData: Data, Object
+--- Represents byte data compressed using a specific algorithm.
+---
+---love.data.decompress can be used to de-compress the data (or love.math.decompress in 0.10.2 or earlier).
+local CompressedData = {}
+
+--- Gets the compression format of the CompressedData.
+--- Gets the compression format of the CompressedData.
+--- @return CompressedDataFormat @The format of the CompressedData.
+function CompressedData:getFormat() end
+
 
 
 
@@ -49,8 +66,8 @@ local m = {}
 --- @param format CompressedDataFormat @The format to use when compressing the string.
 --- @param rawstring string @The raw (un-compressed) string to compress.
 --- @param level number @The level of compression to use, between 0 and 9. -1 indicates the default level. The meaning of this argument depends on the compression format being used.
---- @return CompressedData or string @CompressedData/string which contains the compressed version of rawstring.
---- @overload fun(container: ContainerType, format: CompressedDataFormat, data: Data, level: number):CompressedData or string
+--- @return CompressedDataorstring @CompressedData/string which contains the compressed version of rawstring.
+--- @overload fun(container: ContainerType, format: CompressedDataFormat, data: Data, level: number):CompressedDataorstring
 function m.compress(container, format, rawstring, level) end
 
 
@@ -59,8 +76,8 @@ function m.compress(container, format, rawstring, level) end
 --- @param container ContainerType @What type to return the decoded data as.
 --- @param format EncodeFormat @The format of the input data.
 --- @param sourceString string @The raw (encoded) data to decode.
---- @return ByteData or string @ByteData/string which contains the decoded version of source.
---- @overload fun(container: ContainerType, format: EncodeFormat, sourceData: Data):ByteData or string
+--- @return ByteDataorstring @ByteData/string which contains the decoded version of source.
+--- @overload fun(container: ContainerType, format: EncodeFormat, sourceData: Data):ByteDataorstring
 function m.decode(container, format, sourceString) end
 
 
@@ -68,9 +85,9 @@ function m.decode(container, format, sourceString) end
 --- Decompresses a CompressedData or previously compressed string or Data object.
 --- @param container ContainerType @What type to return the decompressed data as.
 --- @param compressedData CompressedData @The compressed data to decompress.
---- @return Data or string @Data/string containing the raw decompressed data.
---- @overload fun(container: ContainerType, format: CompressedDataFormat, compressedString: string):Data or string
---- @overload fun(container: ContainerType, format: CompressedDataFormat, data: Data):Data or string
+--- @return Dataorstring @Data/string containing the raw decompressed data.
+--- @overload fun(container: ContainerType, format: CompressedDataFormat, compressedString: string):Dataorstring
+--- @overload fun(container: ContainerType, format: CompressedDataFormat, data: Data):Dataorstring
 function m.decompress(container, compressedData) end
 
 
@@ -80,8 +97,8 @@ function m.decompress(container, compressedData) end
 --- @param format EncodeFormat @The format of the output data.
 --- @param sourceString string @The raw data to encode.
 --- @param linelength number @The maximum line length of the output. Only supported for base64, ignored if 0.
---- @return ByteData or string @ByteData/string which contains the encoded version of source.
---- @overload fun(container: ContainerType, format: EncodeFormat, sourceData: Data, linelength: number):ByteData or string
+--- @return ByteDataorstring @ByteData/string which contains the encoded version of source.
+--- @overload fun(container: ContainerType, format: EncodeFormat, sourceData: Data, linelength: number):ByteDataorstring
 function m.encode(container, format, sourceString, linelength) end
 
 
@@ -135,9 +152,9 @@ function m.newDataView(data, offset, size) end
 ---This function behaves the same as Lua 5.3's string.pack.
 --- @param container ContainerType @What type to return the encoded data as.
 --- @param format string @A string determining how the values are packed. Follows the rules of Lua 5.3's string.pack format strings.
---- @param v1 number or boolean or string @The first value (number, boolean, or string) to serialize.
---- @param ... number or boolean or string @Additional values to serialize.
---- @return Data or string @Data/string which contains the serialized data.
+--- @param v1 numberorbooleanorstring @The first value (number, boolean, or string) to serialize.
+--- @param ... numberorbooleanorstring @Additional values to serialize.
+--- @return Dataorstring @Data/string which contains the serialized data.
 function m.pack(container, format, v1, ...) end
 
 
@@ -150,10 +167,10 @@ function m.pack(container, format, v1, ...) end
 --- @param format string @A string determining how the values were packed. Follows the rules of Lua 5.3's string.pack format strings.
 --- @param datastring string @A string containing the packed (serialized) data.
 --- @param pos number @Where to start reading in the string. Negative values can be used to read relative from the end of the string.
---- @return number or boolean or string @The first value (number, boolean, or string) that was unpacked.
---- @return number or boolean or string @Additional unpacked values.
+--- @return numberorbooleanorstring @The first value (number, boolean, or string) that was unpacked.
+--- @return numberorbooleanorstring @Additional unpacked values.
 --- @return number @The index of the first unread byte in the data string.
---- @overload fun(format: string, data: Data, pos: number):number or boolean or string, number or boolean or string, number
+--- @overload fun(format: string, data: Data, pos: number):numberorbooleanorstring, numberorbooleanorstring, number
 function m.unpack(format, datastring, pos) end
 
 

@@ -8,6 +8,70 @@ local m = {}
 
 
 
+--- @class Data: Object
+--- The superclass of all data.
+local Data = {}
+
+--- Creates a new copy of the Data object.
+--- Creates a new copy of the Data object.
+--- @return Data @The new copy.
+function Data:clone() end
+
+
+--- Gets an FFI pointer to the Data.
+---
+---This function should be preferred instead of Data:getPointer because the latter uses light userdata which can't store more all possible memory addresses on some new ARM64 architectures, when LuaJIT is used.
+--- Gets an FFI pointer to the Data.
+---
+---This function should be preferred instead of Data:getPointer because the latter uses light userdata which can't store more all possible memory addresses on some new ARM64 architectures, when LuaJIT is used.
+--- @return cdata @A raw void* pointer to the Data, or nil if FFI is unavailable.
+function Data:getFFIPointer() end
+
+
+--- Gets a pointer to the Data. Can be used with libraries such as LuaJIT's FFI.
+--- Gets a pointer to the Data. Can be used with libraries such as LuaJIT's FFI.
+--- @return lightuserdata @A raw pointer to the Data.
+function Data:getPointer() end
+
+
+--- Gets the Data's size in bytes.
+--- Gets the Data's size in bytes.
+--- @return number @The size of the Data in bytes.
+function Data:getSize() end
+
+
+--- Gets the full Data as a string.
+--- Gets the full Data as a string.
+--- @return string @The raw data.
+function Data:getString() end
+
+
+--- @class Object
+--- The superclass of all LÖVE types.
+local Object = {}
+
+--- Destroys the object's Lua reference. The object will be completely deleted if it's not referenced by any other LÖVE object or thread.
+---
+---This method can be used to immediately clean up resources without waiting for Lua's garbage collector.
+--- Destroys the object's Lua reference. The object will be completely deleted if it's not referenced by any other LÖVE object or thread.
+---
+---This method can be used to immediately clean up resources without waiting for Lua's garbage collector.
+--- @return boolean @True if the object was released by this call, false if it had been previously released.
+function Object:release() end
+
+
+--- Gets the type of the object as a string.
+--- Gets the type of the object as a string.
+--- @return string @The type as a string.
+function Object:type() end
+
+
+--- Checks whether an object is of a certain type. If the object has the type with the specified name in its hierarchy, this function will return true.
+--- Checks whether an object is of a certain type. If the object has the type with the specified name in its hierarchy, this function will return true.
+--- @param name string @The name of the type to check for.
+--- @return boolean @True if the object is of the specified type, false otherwise.
+function Object:typeOf(name) end
+
 
 
 
@@ -229,17 +293,17 @@ m.threaderror = nil
 
 
 --- Callback function triggered when a touch press moves inside the touch screen.
---- @type fun(id: light userdata, x: number, y: number, dx: number, dy: number, pressure: number):void
+--- @type fun(id: lightuserdata, x: number, y: number, dx: number, dy: number, pressure: number):void
 m.touchmoved = nil
 
 
 --- Callback function triggered when the touch screen is touched.
---- @type fun(id: light userdata, x: number, y: number, dx: number, dy: number, pressure: number):void
+--- @type fun(id: lightuserdata, x: number, y: number, dx: number, dy: number, pressure: number):void
 m.touchpressed = nil
 
 
 --- Callback function triggered when the touch screen stops being touched.
---- @type fun(id: light userdata, x: number, y: number, dx: number, dy: number, pressure: number):void
+--- @type fun(id: lightuserdata, x: number, y: number, dx: number, dy: number, pressure: number):void
 m.touchreleased = nil
 
 

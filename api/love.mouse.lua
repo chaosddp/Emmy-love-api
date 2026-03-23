@@ -24,6 +24,15 @@ local m = {}
 
 
 
+--- @class Cursor: Object
+--- Represents a hardware cursor.
+local Cursor = {}
+
+--- Gets the type of the Cursor.
+--- Gets the type of the Cursor.
+--- @return CursorType @The type of the Cursor.
+function Cursor:getType() end
+
 
 
 

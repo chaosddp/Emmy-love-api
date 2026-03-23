@@ -91,13 +91,13 @@ function m.pump() end
 ---
 ---From 0.10.0 onwards, you may pass an arbitrary amount of arguments with this function, though the default callbacks don't ever use more than six.
 --- @param n Event @The name of the event.
---- @param a Variant @First event argument.
---- @param b Variant @Second event argument.
---- @param c Variant @Third event argument.
---- @param d Variant @Fourth event argument.
---- @param e Variant @Fifth event argument.
---- @param f Variant @Sixth event argument.
---- @param ... Variant @Further event arguments may follow.
+--- @param a any @First event argument.
+--- @param b any @Second event argument.
+--- @param c any @Third event argument.
+--- @param d any @Fourth event argument.
+--- @param e any @Fifth event argument.
+--- @param f any @Sixth event argument.
+--- @param ... any @Further event arguments may follow.
 function m.push(n, a, b, c, d, e, f, ...) end
 
 
@@ -115,13 +115,13 @@ function m.quit(exitstatus) end
 --- Like love.event.poll(), but blocks until there is an event in the queue.
 --- Like love.event.poll(), but blocks until there is an event in the queue.
 --- @return Event @The name of event.
---- @return Variant @First event argument.
---- @return Variant @Second event argument.
---- @return Variant @Third event argument.
---- @return Variant @Fourth event argument.
---- @return Variant @Fifth event argument.
---- @return Variant @Sixth event argument.
---- @return Variant @Further event arguments may follow.
+--- @return any @First event argument.
+--- @return any @Second event argument.
+--- @return any @Third event argument.
+--- @return any @Fourth event argument.
+--- @return any @Fifth event argument.
+--- @return any @Sixth event argument.
+--- @return any @Further event arguments may follow.
 function m.wait() end
 
 

@@ -66,6 +66,13 @@ local module_annotation_template = table.concat({
 --- @field description string @description of enum
 --- @field constants EnumField[] @ fields of enum
 
+--- @class ClassDef
+--- @field name string @name of class
+--- @field description string @description of class
+--- @field constructors? string[] @constructors of class
+--- @field supertypes? string[] @supertypes of class
+--- @field functions? Function[] @functions of class
+
 --- @class Module
 --- @field name? string @name of module
 --- @field version? string @love version
@@ -88,6 +95,17 @@ local function hasField(t, k)
     end
 
     return false
+end
+
+--- correct type name
+--- @param type_name string @type name to correct
+--- @return string @corrected type name
+local function correctType(type_name)
+    if type_name == "Variant" then
+        return "any"
+    end
+
+    return string.gsub(type_name, "%s+", "")
 end
 
 --- capitalize the first letter
@@ -114,10 +132,12 @@ end
 
 --- @param func Function @function definition
 --- @param parent_inst_name string @parent instance name, used to attach function to instance
-local function genFunction(func, parent_inst_name)
+local function genFunction(func, parent_inst_name, is_class)
     -- use first variant as default variant, arguments description will be annotated under the description
     -- other variants will be 'overload', 'overload's do not have argument description
     -- if argument has field "default", then it is optional
+    local function_seperator = is_class and ":" or "."
+
     local annotation_list = {
         string.format("--- %s", safeDesc(func.description)),
     }
@@ -130,8 +150,6 @@ local function genFunction(func, parent_inst_name)
         -- use first one to generate function annotation
         local default_variant = func.variants[1]
 
-
-
         -- generate function description
         table.insert(annotation_list, string.format("--- %s", safeDesc(func.description)))
 
@@ -140,7 +158,7 @@ local function genFunction(func, parent_inst_name)
             -- default function parameters
             for _, arg in ipairs(default_variant.arguments) do
                 local arg_name = arg.name
-                local arg_type = arg.type
+                local arg_type = correctType(arg.type)
                 local arg_description = arg.description
 
                 table.insert(param_name_list, arg_name)
@@ -158,7 +176,7 @@ local function genFunction(func, parent_inst_name)
         -- function returns
         if default_variant.returns then
             for _, ret in ipairs(default_variant.returns) do
-                local ret_type = ret.type
+                local ret_type = correctType(ret.type)
                 local ret_description = ret.description
 
                 table.insert(annotation_list,
@@ -180,7 +198,7 @@ local function genFunction(func, parent_inst_name)
             if variant.arguments then
                 for j = 1, #variant.arguments do
                     local arg = variant.arguments[j]
-                    local arg_type = arg.type
+                    local arg_type = correctType(arg.type)
                     local arg_name = arg.name
 
                     table.insert(variant_param_list,
@@ -194,7 +212,8 @@ local function genFunction(func, parent_inst_name)
 
                 if variant.returns then
                     for j = 1, #variant.returns do
-                        table.insert(variant_return_list, variant.returns[j].type)
+                        local variant_return = correctType(variant.returns[j].type)
+                        table.insert(variant_return_list, variant_return)
                     end
                 end
             end
@@ -212,8 +231,9 @@ local function genFunction(func, parent_inst_name)
 
     -- function declaration
     local func_decl = string.format(
-        "function %s.%s(%s) end",
+        "function %s%s%s(%s) end",
         parent_inst_name,
+        function_seperator,
         func.name,
         table.concat(param_name_list, ", ")
     )
@@ -224,8 +244,36 @@ local function genFunction(func, parent_inst_name)
     return table.concat(annotation_list, "\n")
 end
 
-local function genClass()
+--- @param cls ClassDef
+--- @return string @annotation of class
+local function genClass(cls)
+    local annotation_list = {}
 
+    local type_annotation = string.format("--- @class %s", cls.name)
+
+    if cls.supertypes then
+        type_annotation = type_annotation .. ": " .. table.concat(cls.supertypes, ", ")
+    end
+
+    -- class type
+    table.insert(annotation_list, type_annotation)
+
+
+    -- class description
+    table.insert(annotation_list, string.format("--- %s", safeDesc(cls.description)))
+
+    -- class declaration table
+    table.insert(annotation_list, string.format("local %s = {}\n", cls.name))
+
+    if cls.functions and #cls.functions > 0 then
+        for _, func in ipairs(cls.functions) do
+            local func_annotation = genFunction(func, cls.name, true)
+
+            table.insert(annotation_list, func_annotation)
+        end
+    end
+
+    return table.concat(annotation_list, "\n")
 end
 
 
@@ -266,10 +314,9 @@ local function genInternalType(name, fields)
     local type_name = capitalize(name)     -- type name of current type
 
     for _, field in ipairs(fields) do
-        local field_type = field.type
+        local field_type = correctType(field.type)
         local field_name = field.name
         local field_description = field.description
-        local field_default = field.default
 
         -- nested table field
         if field_type == "table" and field.table then
@@ -346,7 +393,7 @@ local function genCallback(module, callback)
 
                 table.insert(params_list, string.format("%s: %s", arg.name, t_name))
             else
-                table.insert(params_list, string.format("%s: %s", arg.name, arg_type))
+                table.insert(params_list, string.format("%s: %s", arg.name, correctType(arg_type)))
             end
         end
     end
@@ -410,20 +457,27 @@ local function genModule(type_name, module_name, definition, output_dir)
     end
 
     -- generate class annotations if there are any
+    if definition.types then
+        for _, cls in ipairs(definition.types) do
+            local class_annotation = genClass(cls) -- for module, class will attach to module "m"
+
+            table.insert(class_annotation_list, class_annotation)
+        end
+    end
 
     -- generate module annotation if there are any
     if definition.modules then
         for _, sub_module in ipairs(definition.modules) do
             if sub_module.name then
                 local sub_module_name = module_name .. "." .. sub_module.name
-                
+
                 -- submodule has same name and module path
                 genModule(sub_module_name, sub_module_name, sub_module, output_dir)
 
                 -- add submodule to as a field, so that it can be parsed correctly
                 table.insert(
                     fields_annotation_list,
-                    string.format("--- @type %s\nm.%s = nil\n", sub_module_name,sub_module.name)
+                    string.format("--- @type %s\nm.%s = nil\n", sub_module_name, sub_module.name)
                 )
             end
         end

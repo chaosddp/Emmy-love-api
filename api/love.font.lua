@@ -15,6 +15,124 @@ local m = {}
 
 
 
+--- @class GlyphData: Data, Object
+--- A GlyphData represents a drawable symbol of a font Rasterizer.
+local GlyphData = {}
+
+--- Gets glyph advance.
+--- Gets glyph advance.
+--- @return number @Glyph advance.
+function GlyphData:getAdvance() end
+
+
+--- Gets glyph bearing.
+--- Gets glyph bearing.
+--- @return number @Glyph bearing X.
+--- @return number @Glyph bearing Y.
+function GlyphData:getBearing() end
+
+
+--- Gets glyph bounding box.
+--- Gets glyph bounding box.
+--- @return number @Glyph position x.
+--- @return number @Glyph position y.
+--- @return number @Glyph width.
+--- @return number @Glyph height.
+function GlyphData:getBoundingBox() end
+
+
+--- Gets glyph dimensions.
+--- Gets glyph dimensions.
+--- @return number @Glyph width.
+--- @return number @Glyph height.
+function GlyphData:getDimensions() end
+
+
+--- Gets glyph pixel format.
+--- Gets glyph pixel format.
+--- @return PixelFormat @Glyph pixel format.
+function GlyphData:getFormat() end
+
+
+--- Gets glyph number.
+--- Gets glyph number.
+--- @return number @Glyph number.
+function GlyphData:getGlyph() end
+
+
+--- Gets glyph string.
+--- Gets glyph string.
+--- @return string @Glyph string.
+function GlyphData:getGlyphString() end
+
+
+--- Gets glyph height.
+--- Gets glyph height.
+--- @return number @Glyph height.
+function GlyphData:getHeight() end
+
+
+--- Gets glyph width.
+--- Gets glyph width.
+--- @return number @Glyph width.
+function GlyphData:getWidth() end
+
+
+--- @class Rasterizer: Object
+--- A Rasterizer handles font rendering, containing the font data (image or TrueType font) and drawable glyphs.
+local Rasterizer = {}
+
+--- Gets font advance.
+--- Gets font advance.
+--- @return number @Font advance.
+function Rasterizer:getAdvance() end
+
+
+--- Gets ascent height.
+--- Gets ascent height.
+--- @return number @Ascent height.
+function Rasterizer:getAscent() end
+
+
+--- Gets descent height.
+--- Gets descent height.
+--- @return number @Descent height.
+function Rasterizer:getDescent() end
+
+
+--- Gets number of glyphs in font.
+--- Gets number of glyphs in font.
+--- @return number @Glyphs count.
+function Rasterizer:getGlyphCount() end
+
+
+--- Gets glyph data of a specified glyph.
+--- Gets glyph data of a specified glyph.
+--- @param glyph string @Glyph
+--- @return GlyphData @Glyph data
+--- @overload fun(glyphNumber: number):GlyphData
+function Rasterizer:getGlyphData(glyph) end
+
+
+--- Gets font height.
+--- Gets font height.
+--- @return number @Font height
+function Rasterizer:getHeight() end
+
+
+--- Gets line height of a font.
+--- Gets line height of a font.
+--- @return number @Line height of a font.
+function Rasterizer:getLineHeight() end
+
+
+--- Checks if font contains specified glyphs.
+--- Checks if font contains specified glyphs.
+--- @param glyph1 stringornumber @Glyph
+--- @param ... stringornumber @Additional glyphs
+--- @return boolean @Whatever font contains specified glyphs.
+function Rasterizer:hasGlyphs(glyph1, ...) end
+
 
 
 
