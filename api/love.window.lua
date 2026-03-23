@@ -37,23 +37,9 @@ local m = {}
 
 
 --- Closes the window. It can be reopened with love.window.setMode.
---- Closes the window. It can be reopened with love.window.setMode.
 function m.close() end
 
 
---- Converts a number from pixels to density-independent units.
----
----
----
----The pixel density inside the window might be greater (or smaller) than the 'size' of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.fromPixels(1600) would return 800 in that case.
----
----
----
----This function converts coordinates from pixels to the size users are expecting them to display at onscreen. love.window.toPixels does the opposite. The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.
----
----
----
----Most LÖVE functions return values and expect arguments in terms of pixels rather than density-independent units.
 --- Converts a number from pixels to density-independent units.
 ---
 ---
@@ -86,24 +72,10 @@ function m.fromPixels(pixelvalue) end
 ---
 ---
 ---The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.
---- Gets the DPI scale factor associated with the window.
----
----
----
----The pixel density inside the window might be greater (or smaller) than the 'size' of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.getDPIScale() would return 2.0 in that case.
----
----
----
----The love.window.fromPixels and love.window.toPixels functions can also be used to convert between units.
----
----
----
----The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.
 --- @return number @The pixel scale factor associated with the window.
 function m.getDPIScale() end
 
 
---- Gets the width and height of the desktop.
 --- Gets the width and height of the desktop.
 --- @param displayindex number @The index of the display, if multiple monitors are available.
 --- @return number @The width of the desktop.
@@ -112,12 +84,10 @@ function m.getDesktopDimensions(displayindex) end
 
 
 --- Gets the number of connected monitors.
---- Gets the number of connected monitors.
 --- @return number @The number of currently connected displays.
 function m.getDisplayCount() end
 
 
---- Gets the name of a display.
 --- Gets the name of a display.
 --- @param displayindex number @The index of the display to get the name of.
 --- @return string @The name of the specified display.
@@ -125,13 +95,11 @@ function m.getDisplayName(displayindex) end
 
 
 --- Gets current device display orientation.
---- Gets current device display orientation.
 --- @param displayindex number @Display index to get its display orientation, or nil for default display index.
 --- @return DisplayOrientation @Current device display orientation.
 function m.getDisplayOrientation(displayindex) end
 
 
---- Gets whether the window is fullscreen.
 --- Gets whether the window is fullscreen.
 --- @return boolean @True if the window is fullscreen, false otherwise.
 --- @return FullscreenType @The type of fullscreen mode used.
@@ -139,19 +107,16 @@ function m.getFullscreen() end
 
 
 --- Gets a list of supported fullscreen modes.
---- Gets a list of supported fullscreen modes.
 --- @param displayindex number @The index of the display, if multiple monitors are available.
 --- @return table @A table of width/height pairs. (Note that this may not be in order.)
 function m.getFullscreenModes(displayindex) end
 
 
 --- Gets the window icon.
---- Gets the window icon.
 --- @return ImageData @The window icon imagedata, or nil if no icon has been set with love.window.setIcon.
 function m.getIcon() end
 
 
---- Gets the display mode and properties of the window.
 --- Gets the display mode and properties of the window.
 --- @return number @Window width.
 --- @return number @Window height.
@@ -164,18 +129,12 @@ function m.getMode() end
 ---
 ---
 ---The window position is in the coordinate space of the display it is currently in.
---- Gets the position of the window on the screen.
----
----
----
----The window position is in the coordinate space of the display it is currently in.
 --- @return number @The x-coordinate of the window's position.
 --- @return number @The y-coordinate of the window's position.
 --- @return number @The index of the display that the window is in.
 function m.getPosition() end
 
 
---- Gets area inside the window which is known to be unobstructed by a system title bar, the iPhone X notch, etc. Useful for making sure UI elements can be seen by the user.
 --- Gets area inside the window which is known to be unobstructed by a system title bar, the iPhone X notch, etc. Useful for making sure UI elements can be seen by the user.
 --- @return number @Starting position of safe area (x-axis).
 --- @return number @Starting position of safe area (y-axis).
@@ -185,34 +144,25 @@ function m.getSafeArea() end
 
 
 --- Gets the window title.
---- Gets the window title.
 --- @return string @The current window title.
 function m.getTitle() end
 
 
---- Gets current vertical synchronization (vsync).
 --- Gets current vertical synchronization (vsync).
 --- @return number @Current vsync status. 1 if enabled, 0 if disabled, and -1 for adaptive vsync.
 function m.getVSync() end
 
 
 --- Checks if the game window has keyboard focus.
---- Checks if the game window has keyboard focus.
 --- @return boolean @True if the window has the focus or false if not.
 function m.hasFocus() end
 
 
 --- Checks if the game window has mouse focus.
---- Checks if the game window has mouse focus.
 --- @return boolean @True if the window has mouse focus or false if not.
 function m.hasMouseFocus() end
 
 
---- Gets whether the display is allowed to sleep while the program is running.
----
----
----
----Display sleep is disabled by default. Some types of input (e.g. joystick button presses) might not prevent the display from sleeping, if display sleep is allowed.
 --- Gets whether the display is allowed to sleep while the program is running.
 ---
 ---
@@ -227,32 +177,20 @@ function m.isDisplaySleepEnabled() end
 ---
 ---
 ---The window can be maximized if it is not fullscreen and is resizable, and either the user has pressed the window's Maximize button or love.window.maximize has been called.
---- Gets whether the Window is currently maximized.
----
----
----
----The window can be maximized if it is not fullscreen and is resizable, and either the user has pressed the window's Maximize button or love.window.maximize has been called.
 --- @return boolean @True if the window is currently maximized in windowed mode, false otherwise.
 function m.isMaximized() end
 
 
---- Gets whether the Window is currently minimized.
 --- Gets whether the Window is currently minimized.
 --- @return boolean @True if the window is currently minimized, false otherwise.
 function m.isMinimized() end
 
 
 --- Checks if the window is open.
---- Checks if the window is open.
 --- @return boolean @True if the window is open, false otherwise.
 function m.isOpen() end
 
 
---- Checks if the game window is visible.
----
----
----
----The window is considered visible if it's not minimized and the program isn't hidden.
 --- Checks if the game window is visible.
 ---
 ---
@@ -267,24 +205,13 @@ function m.isVisible() end
 ---
 ---
 ---This function has no effect if the window isn't resizable, since it essentially programmatically presses the window's 'maximize' button.
---- Makes the window as large as possible.
----
----
----
----This function has no effect if the window isn't resizable, since it essentially programmatically presses the window's 'maximize' button.
 function m.maximize() end
 
 
 --- Minimizes the window to the system's task bar / dock.
---- Minimizes the window to the system's task bar / dock.
 function m.minimize() end
 
 
---- Causes the window to request the attention of the user if it is not in the foreground.
----
----
----
----In Windows the taskbar icon will flash, and in OS X the dock icon will bounce.
 --- Causes the window to request the attention of the user if it is not in the foreground.
 ---
 ---
@@ -295,15 +222,9 @@ function m.requestAttention(continuous) end
 
 
 --- Restores the size and position of the window if it was minimized or maximized.
---- Restores the size and position of the window if it was minimized or maximized.
 function m.restore() end
 
 
---- Sets whether the display is allowed to sleep while the program is running.
----
----
----
----Display sleep is disabled by default. Some types of input (e.g. joystick button presses) might not prevent the display from sleeping, if display sleep is allowed.
 --- Sets whether the display is allowed to sleep while the program is running.
 ---
 ---
@@ -314,7 +235,6 @@ function m.setDisplaySleepEnabled(enable) end
 
 
 --- Enters or exits fullscreen. The display to use when entering fullscreen is chosen based on which display the window is currently in, if multiple monitors are connected.
---- Enters or exits fullscreen. The display to use when entering fullscreen is chosen based on which display the window is currently in, if multiple monitors are connected.
 --- @param fullscreen boolean @Whether to enter or exit fullscreen mode.
 --- @return boolean @True if an attempt to enter fullscreen was successful, false otherwise.
 --- @overload fun(fullscreen: boolean, fstype: FullscreenType):boolean
@@ -322,21 +242,11 @@ function m.setFullscreen(fullscreen) end
 
 
 --- Sets the window icon until the game is quit. Not all operating systems support very large icon images.
---- Sets the window icon until the game is quit. Not all operating systems support very large icon images.
 --- @param imagedata ImageData @The window icon image.
 --- @return boolean @Whether the icon has been set successfully.
 function m.setIcon(imagedata) end
 
 
---- Sets the display mode and properties of the window.
----
----
----
----If width or height is 0, setMode will use the width and height of the desktop. 
----
----
----
----Changing the display mode may have side effects: for example, canvases will be cleared and values sent to shaders with canvases beforehand or re-draw to them afterward if you need to.
 --- Sets the display mode and properties of the window.
 ---
 ---
@@ -358,11 +268,6 @@ function m.setMode(width, height, flags) end
 ---
 ---
 ---The window position is in the coordinate space of the specified display.
---- Sets the position of the window on the screen.
----
----
----
----The window position is in the coordinate space of the specified display.
 --- @param x number @The x-coordinate of the window's position.
 --- @param y number @The y-coordinate of the window's position.
 --- @param displayindex number @The index of the display that the new window position is relative to.
@@ -370,18 +275,15 @@ function m.setPosition(x, y, displayindex) end
 
 
 --- Sets the window title.
---- Sets the window title.
 --- @param title string @The new window title.
 function m.setTitle(title) end
 
 
 --- Sets vertical synchronization mode.
---- Sets vertical synchronization mode.
 --- @param vsync number @VSync number: 1 to enable, 0 to disable, and -1 for adaptive vsync.
 function m.setVSync(vsync) end
 
 
---- Displays a message box dialog above the love window. The message box contains a title, optional text, and buttons.
 --- Displays a message box dialog above the love window. The message box contains a title, optional text, and buttons.
 --- @param title string @The title of the message box.
 --- @param message string @The text inside the message box.
@@ -405,34 +307,12 @@ function m.showMessageBox(title, message, type, attachtowindow) end
 ---
 ---
 ---Most LÖVE functions return values and expect arguments in terms of pixels rather than density-independent units.
---- Converts a number from density-independent units to pixels.
----
----
----
----The pixel density inside the window might be greater (or smaller) than the 'size' of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.toPixels(800) would return 1600 in that case.
----
----
----
----This is used to convert coordinates from the size users are expecting them to display at onscreen to pixels. love.window.fromPixels does the opposite. The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.
----
----
----
----Most LÖVE functions return values and expect arguments in terms of pixels rather than density-independent units.
 --- @param value number @A number in density-independent units to convert to pixels.
 --- @return number @The converted number, in pixels.
 --- @overload fun(x: number, y: number):number, number
 function m.toPixels(value) end
 
 
---- Sets the display mode and properties of the window, without modifying unspecified properties.
----
----
----
----If width or height is 0, updateMode will use the width and height of the desktop. 
----
----
----
----Changing the display mode may have side effects: for example, canvases will be cleared. Make sure to save the contents of canvases beforehand or re-draw to them afterward if you need to.
 --- Sets the display mode and properties of the window, without modifying unspecified properties.
 ---
 ---

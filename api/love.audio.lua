@@ -71,12 +71,10 @@ local m = {}
 local RecordingDevice = {}
 
 --- Gets the number of bits per sample in the data currently being recorded.
---- Gets the number of bits per sample in the data currently being recorded.
 --- @return number @The number of bits per sample in the data that's currently being recorded.
 function RecordingDevice:getBitDepth() end
 
 
---- Gets the number of channels currently being recorded (mono or stereo).
 --- Gets the number of channels currently being recorded (mono or stereo).
 --- @return number @The number of channels being recorded (1 for mono, 2 for stereo).
 function RecordingDevice:getChannelCount() end
@@ -87,40 +85,30 @@ function RecordingDevice:getChannelCount() end
 ---
 ---
 ---The internal ring buffer is cleared when this function is called, so calling it again will only get audio recorded after the previous call. If the device's internal ring buffer completely fills up before getData is called, the oldest data that doesn't fit into the buffer will be lost.
---- Gets all recorded audio SoundData stored in the device's internal ring buffer.
----
----
----
----The internal ring buffer is cleared when this function is called, so calling it again will only get audio recorded after the previous call. If the device's internal ring buffer completely fills up before getData is called, the oldest data that doesn't fit into the buffer will be lost.
 --- @return SoundData @The recorded audio data, or nil if the device isn't recording.
 function RecordingDevice:getData() end
 
 
---- Gets the name of the recording device.
 --- Gets the name of the recording device.
 --- @return string @The name of the device.
 function RecordingDevice:getName() end
 
 
 --- Gets the number of currently recorded samples.
---- Gets the number of currently recorded samples.
 --- @return number @The number of samples that have been recorded so far.
 function RecordingDevice:getSampleCount() end
 
 
---- Gets the number of samples per second currently being recorded.
 --- Gets the number of samples per second currently being recorded.
 --- @return number @The number of samples being recorded per second (sample rate).
 function RecordingDevice:getSampleRate() end
 
 
 --- Gets whether the device is currently recording.
---- Gets whether the device is currently recording.
 --- @return boolean @True if the recording, false otherwise.
 function RecordingDevice:isRecording() end
 
 
---- Begins recording audio using this device.
 --- Begins recording audio using this device.
 --- @param samplecount number @The maximum number of samples to store in an internal ring buffer when recording. RecordingDevice:getData clears the internal buffer when called.
 --- @param samplerate number @The number of samples per second to store when recording.
@@ -130,7 +118,6 @@ function RecordingDevice:isRecording() end
 function RecordingDevice:start(samplecount, samplerate, bitdepth, channels) end
 
 
---- Stops recording audio from this device. Any sound data currently in the device's buffer will be returned.
 --- Stops recording audio from this device. Any sound data currently in the device's buffer will be returned.
 --- @return SoundData @The sound data currently in the device's buffer, or nil if the device wasn't recording.
 function RecordingDevice:stop() end
@@ -153,16 +140,10 @@ local Source = {}
 ---
 ---
 ---Static Sources will use significantly less memory and take much less time to be created if Source:clone is used to create them instead of love.audio.newSource, so this method should be preferred when making multiple Sources which play the same sound.
---- Creates an identical copy of the Source in the stopped state.
----
----
----
----Static Sources will use significantly less memory and take much less time to be created if Source:clone is used to create them instead of love.audio.newSource, so this method should be preferred when making multiple Sources which play the same sound.
 --- @return Source @The new identical copy of this Source.
 function Source:clone() end
 
 
---- Gets a list of the Source's active effect names.
 --- Gets a list of the Source's active effect names.
 --- @return table @A list of the source's active effect names.
 function Source:getActiveEffects() end
@@ -173,16 +154,10 @@ function Source:getActiveEffects() end
 ---
 ---
 ---By default the value is set to 0 which means that air absorption effects are disabled. A value of 1 will apply high frequency attenuation to the Source at a rate of 0.05 dB per meter.
---- Gets the amount of air absorption applied to the Source.
----
----
----
----By default the value is set to 0 which means that air absorption effects are disabled. A value of 1 will apply high frequency attenuation to the Source at a rate of 0.05 dB per meter.
 --- @return number @The amount of air absorption applied to the Source.
 function Source:getAirAbsorption() end
 
 
---- Gets the reference and maximum attenuation distances of the Source. The values, combined with the current DistanceModel, affect how the Source's volume attenuates based on distance from the listener.
 --- Gets the reference and maximum attenuation distances of the Source. The values, combined with the current DistanceModel, affect how the Source's volume attenuates based on distance from the listener.
 --- @return number @The current reference attenuation distance. If the current DistanceModel is clamped, this is the minimum distance before the Source is no longer attenuated.
 --- @return number @The current maximum attenuation distance.
@@ -190,12 +165,10 @@ function Source:getAttenuationDistances() end
 
 
 --- Gets the number of channels in the Source. Only 1-channel (mono) Sources can use directional and positional effects.
---- Gets the number of channels in the Source. Only 1-channel (mono) Sources can use directional and positional effects.
 --- @return number @1 for mono, 2 for stereo.
 function Source:getChannelCount() end
 
 
---- Gets the Source's directional volume cones. Together with Source:setDirection, the cone angles allow for the Source's volume to vary depending on its direction.
 --- Gets the Source's directional volume cones. Together with Source:setDirection, the cone angles allow for the Source's volume to vary depending on its direction.
 --- @return number @The inner angle from the Source's direction, in radians. The Source will play at normal volume if the listener is inside the cone defined by this angle.
 --- @return number @The outer angle from the Source's direction, in radians. The Source will play at a volume between the normal and outer volumes, if the listener is in between the cones defined by the inner and outer angles.
@@ -204,7 +177,6 @@ function Source:getCone() end
 
 
 --- Gets the direction of the Source.
---- Gets the direction of the Source.
 --- @return number @The X part of the direction vector.
 --- @return number @The Y part of the direction vector.
 --- @return number @The Z part of the direction vector.
@@ -212,17 +184,11 @@ function Source:getDirection() end
 
 
 --- Gets the duration of the Source. For streaming Sources it may not always be sample-accurate, and may return -1 if the duration cannot be determined at all.
---- Gets the duration of the Source. For streaming Sources it may not always be sample-accurate, and may return -1 if the duration cannot be determined at all.
 --- @param unit TimeUnit @The time unit for the return value.
 --- @return number @The duration of the Source, or -1 if it cannot be determined.
 function Source:getDuration(unit) end
 
 
---- Gets the filter settings associated to a specific effect.
----
----
----
----This function returns nil if the effect was applied with no filter settings associated to it.
 --- Gets the filter settings associated to a specific effect.
 ---
 ---
@@ -235,24 +201,20 @@ function Source:getEffect(name, filtersettings) end
 
 
 --- Gets the filter settings currently applied to the Source.
---- Gets the filter settings currently applied to the Source.
 --- @return table @The filter settings to use for this Source, or nil if the Source has no active filter. The table has the following fields:
 function Source:getFilter() end
 
 
---- Gets the number of free buffer slots in a queueable Source. If the queueable Source is playing, this value will increase up to the amount the Source was created with. If the queueable Source is stopped, it will process all of its internal buffers first, in which case this function will always return the amount it was created with.
 --- Gets the number of free buffer slots in a queueable Source. If the queueable Source is playing, this value will increase up to the amount the Source was created with. If the queueable Source is stopped, it will process all of its internal buffers first, in which case this function will always return the amount it was created with.
 --- @return number @How many more SoundData objects can be queued up.
 function Source:getFreeBufferCount() end
 
 
 --- Gets the current pitch of the Source.
---- Gets the current pitch of the Source.
 --- @return number @The pitch, where 1.0 is normal.
 function Source:getPitch() end
 
 
---- Gets the position of the Source.
 --- Gets the position of the Source.
 --- @return number @The X position of the Source.
 --- @return number @The Y position of the Source.
@@ -261,18 +223,15 @@ function Source:getPosition() end
 
 
 --- Returns the rolloff factor of the source.
---- Returns the rolloff factor of the source.
 --- @return number @The rolloff factor.
 function Source:getRolloff() end
 
 
 --- Gets the type of the Source.
---- Gets the type of the Source.
 --- @return SourceType @The type of the source.
 function Source:getType() end
 
 
---- Gets the velocity of the Source.
 --- Gets the velocity of the Source.
 --- @return number @The X part of the velocity vector.
 --- @return number @The Y part of the velocity vector.
@@ -281,12 +240,10 @@ function Source:getVelocity() end
 
 
 --- Gets the current volume of the Source.
---- Gets the current volume of the Source.
 --- @return number @The volume of the Source, where 1.0 is normal volume.
 function Source:getVolume() end
 
 
---- Returns the volume limits of the source.
 --- Returns the volume limits of the source.
 --- @return number @The minimum volume.
 --- @return number @The maximum volume.
@@ -294,39 +251,29 @@ function Source:getVolumeLimits() end
 
 
 --- Returns whether the Source will loop.
---- Returns whether the Source will loop.
 --- @return boolean @True if the Source will loop, false otherwise.
 function Source:isLooping() end
 
 
---- Returns whether the Source is playing.
 --- Returns whether the Source is playing.
 --- @return boolean @True if the Source is playing, false otherwise.
 function Source:isPlaying() end
 
 
 --- Gets whether the Source's position, velocity, direction, and cone angles are relative to the listener.
---- Gets whether the Source's position, velocity, direction, and cone angles are relative to the listener.
 --- @return boolean @True if the position, velocity, direction and cone angles are relative to the listener, false if they're absolute.
 function Source:isRelative() end
 
 
 --- Pauses the Source.
---- Pauses the Source.
 function Source:pause() end
 
 
---- Starts playing the Source.
 --- Starts playing the Source.
 --- @return boolean @Whether the Source was able to successfully start playing.
 function Source:play() end
 
 
---- Queues SoundData for playback in a queueable Source.
----
----
----
----This method requires the Source to be created via love.audio.newQueueableSource.
 --- Queues SoundData for playback in a queueable Source.
 ---
 ---
@@ -338,21 +285,11 @@ function Source:queue(sounddata) end
 
 
 --- Sets the currently playing position of the Source.
---- Sets the currently playing position of the Source.
 --- @param offset number @The position to seek to.
 --- @param unit TimeUnit @The unit of the position value.
 function Source:seek(offset, unit) end
 
 
---- Sets the amount of air absorption applied to the Source.
----
----
----
----By default the value is set to 0 which means that air absorption effects are disabled. A value of 1 will apply high frequency attenuation to the Source at a rate of 0.05 dB per meter.
----
----
----
----Air absorption can simulate sound transmission through foggy air, dry air, smoky atmosphere, etc. It can be used to simulate different atmospheric conditions within different locations in an area.
 --- Sets the amount of air absorption applied to the Source.
 ---
 ---
@@ -371,17 +308,11 @@ function Source:setAirAbsorption(amount) end
 ---
 ---
 ---Distance attenuation is only applicable to Sources based on mono (rather than stereo) audio.
---- Sets the reference and maximum attenuation distances of the Source. The parameters, combined with the current DistanceModel, affect how the Source's volume attenuates based on distance.
----
----
----
----Distance attenuation is only applicable to Sources based on mono (rather than stereo) audio.
 --- @param ref number @The new reference attenuation distance. If the current DistanceModel is clamped, this is the minimum attenuation distance.
 --- @param max number @The new maximum attenuation distance.
 function Source:setAttenuationDistances(ref, max) end
 
 
---- Sets the Source's directional volume cones. Together with Source:setDirection, the cone angles allow for the Source's volume to vary depending on its direction.
 --- Sets the Source's directional volume cones. Together with Source:setDirection, the cone angles allow for the Source's volume to vary depending on its direction.
 --- @param innerAngle number @The inner angle from the Source's direction, in radians. The Source will play at normal volume if the listener is inside the cone defined by this angle.
 --- @param outerAngle number @The outer angle from the Source's direction, in radians. The Source will play at a volume between the normal and outer volumes, if the listener is in between the cones defined by the inner and outer angles.
@@ -390,18 +321,12 @@ function Source:setCone(innerAngle, outerAngle, outerVolume) end
 
 
 --- Sets the direction vector of the Source. A zero vector makes the source non-directional.
---- Sets the direction vector of the Source. A zero vector makes the source non-directional.
 --- @param x number @The X part of the direction vector.
 --- @param y number @The Y part of the direction vector.
 --- @param z number @The Z part of the direction vector.
 function Source:setDirection(x, y, z) end
 
 
---- Applies an audio effect to the Source.
----
----
----
----The effect must have been previously defined using love.audio.setEffect.
 --- Applies an audio effect to the Source.
 ---
 ---
@@ -415,7 +340,6 @@ function Source:setEffect(name, enable) end
 
 
 --- Sets a low-pass, high-pass, or band-pass filter to apply when playing the Source.
---- Sets a low-pass, high-pass, or band-pass filter to apply when playing the Source.
 --- @param settings table @The filter settings to use for this Source, with the following fields:
 --- @return boolean @Whether the filter was successfully applied to the Source.
 --- @overload fun():void
@@ -423,18 +347,15 @@ function Source:setFilter(settings) end
 
 
 --- Sets whether the Source should loop.
---- Sets whether the Source should loop.
 --- @param loop boolean @True if the source should loop, false otherwise.
 function Source:setLooping(loop) end
 
 
 --- Sets the pitch of the Source.
---- Sets the pitch of the Source.
 --- @param pitch number @Calculated with regard to 1 being the base pitch. Each reduction by 50 percent equals a pitch shift of -12 semitones (one octave reduction). Each doubling equals a pitch shift of 12 semitones (one octave increase). Zero is not a legal value.
 function Source:setPitch(pitch) end
 
 
---- Sets the position of the Source. Please note that this only works for mono (i.e. non-stereo) sound files!
 --- Sets the position of the Source. Please note that this only works for mono (i.e. non-stereo) sound files!
 --- @param x number @The X position of the Source.
 --- @param y number @The Y position of the Source.
@@ -442,11 +363,6 @@ function Source:setPitch(pitch) end
 function Source:setPosition(x, y, z) end
 
 
---- Sets whether the Source's position, velocity, direction, and cone angles are relative to the listener, or absolute.
----
----
----
----By default, all sources are absolute and therefore relative to the origin of love's coordinate system 0, 0. Only absolute sources are affected by the position of the listener. Please note that positional audio only works for mono (i.e. non-stereo) sources. 
 --- Sets whether the Source's position, velocity, direction, and cone angles are relative to the listener, or absolute.
 ---
 ---
@@ -461,20 +377,10 @@ function Source:setRelative(enable) end
 ---
 ---
 ---Extended information and detailed formulas can be found in the chapter '3.4. Attenuation By Distance' of OpenAL 1.1 specification.
---- Sets the rolloff factor which affects the strength of the used distance attenuation.
----
----
----
----Extended information and detailed formulas can be found in the chapter '3.4. Attenuation By Distance' of OpenAL 1.1 specification.
 --- @param rolloff number @The new rolloff factor.
 function Source:setRolloff(rolloff) end
 
 
---- Sets the velocity of the Source.
----
----
----
----This does '''not''' change the position of the Source, but lets the application know how it has to calculate the doppler effect.
 --- Sets the velocity of the Source.
 ---
 ---
@@ -487,12 +393,10 @@ function Source:setVelocity(x, y, z) end
 
 
 --- Sets the current volume of the Source.
---- Sets the current volume of the Source.
 --- @param volume number @The volume for a Source, where 1.0 is normal volume. Volume cannot be raised above 1.0.
 function Source:setVolume(volume) end
 
 
---- Sets the volume limits of the source. The limits have to be numbers from 0 to 1.
 --- Sets the volume limits of the source. The limits have to be numbers from 0 to 1.
 --- @param min number @The minimum volume.
 --- @param max number @The maximum volume.
@@ -500,11 +404,9 @@ function Source:setVolumeLimits(min, max) end
 
 
 --- Stops a Source.
---- Stops a Source.
 function Source:stop() end
 
 
---- Gets the currently playing position of the Source.
 --- Gets the currently playing position of the Source.
 --- @param unit TimeUnit @The type of unit for the return value.
 --- @return number @The currently playing position of the Source.
@@ -517,30 +419,25 @@ function Source:tell(unit) end
 
 
 --- Gets a list of the names of the currently enabled effects.
---- Gets a list of the names of the currently enabled effects.
 --- @return table @The list of the names of the currently enabled effects.
 function m.getActiveEffects() end
 
 
---- Gets the current number of simultaneously playing sources.
 --- Gets the current number of simultaneously playing sources.
 --- @return number @The current number of simultaneously playing sources.
 function m.getActiveSourceCount() end
 
 
 --- Returns the distance attenuation model.
---- Returns the distance attenuation model.
 --- @return DistanceModel @The current distance model. The default is 'inverseclamped'.
 function m.getDistanceModel() end
 
 
 --- Gets the current global scale factor for velocity-based doppler effects.
---- Gets the current global scale factor for velocity-based doppler effects.
 --- @return number @The current doppler scale factor.
 function m.getDopplerScale() end
 
 
---- Gets the settings associated with an effect.
 --- Gets the settings associated with an effect.
 --- @param name string @The name of the effect.
 --- @return table @The settings associated with the effect.
@@ -548,18 +445,15 @@ function m.getEffect(name) end
 
 
 --- Gets the maximum number of active effects supported by the system.
---- Gets the maximum number of active effects supported by the system.
 --- @return number @The maximum number of active effects.
 function m.getMaxSceneEffects() end
 
 
 --- Gets the maximum number of active Effects in a single Source object, that the system can support.
---- Gets the maximum number of active Effects in a single Source object, that the system can support.
 --- @return number @The maximum number of active Effects per Source.
 function m.getMaxSourceEffects() end
 
 
---- Returns the orientation of the listener.
 --- Returns the orientation of the listener.
 --- @return number @Forward x of the listener orientation.
 --- @return number @Forward y of the listener orientation.
@@ -570,7 +464,6 @@ function m.getMaxSourceEffects() end
 function m.getOrientation() end
 
 
---- Returns the position of the listener. Please note that positional audio only works for mono (i.e. non-stereo) sources.
 --- Returns the position of the listener. Please note that positional audio only works for mono (i.e. non-stereo) sources.
 --- @return number @The X position of the listener.
 --- @return number @The Y position of the listener.
@@ -587,20 +480,10 @@ function m.getPosition() end
 ---
 ---
 ---Audio recording is currently not supported on iOS.
---- Gets a list of RecordingDevices on the system.
----
----
----
----The first device in the list is the user's default recording device. The list may be empty if there are no microphones connected to the system.
----
----
----
----Audio recording is currently not supported on iOS.
 --- @return table @The list of connected recording devices.
 function m.getRecordingDevices() end
 
 
---- Returns the velocity of the listener.
 --- Returns the velocity of the listener.
 --- @return number @The X velocity of the listener.
 --- @return number @The Y velocity of the listener.
@@ -609,18 +492,15 @@ function m.getVelocity() end
 
 
 --- Returns the master volume.
---- Returns the master volume.
 --- @return number @The current master volume
 function m.getVolume() end
 
 
 --- Gets whether audio effects are supported in the system.
---- Gets whether audio effects are supported in the system.
 --- @return boolean @True if effects are supported, false otherwise.
 function m.isEffectsSupported() end
 
 
---- Creates a new Source usable for real-time generated sound playback with Source:queue.
 --- Creates a new Source usable for real-time generated sound playback with Source:queue.
 --- @param samplerate number @Number of samples per second when playing.
 --- @param bitdepth number @Bits per sample (8 or 16).
@@ -630,11 +510,6 @@ function m.isEffectsSupported() end
 function m.newQueueableSource(samplerate, bitdepth, channels, buffercount) end
 
 
---- Creates a new Source from a filepath, File, Decoder or SoundData.
----
----
----
----Sources created from SoundData are always static.
 --- Creates a new Source from a filepath, File, Decoder or SoundData.
 ---
 ---
@@ -651,14 +526,12 @@ function m.newSource(filename, type) end
 
 
 --- Pauses specific or all currently played Sources.
---- Pauses specific or all currently played Sources.
 --- @return table @A table containing a list of Sources that were paused by this call.
 --- @overload fun(source: Source, ...: Source):void
 --- @overload fun(sources: table):void
 function m.pause() end
 
 
---- Plays the specified Source.
 --- Plays the specified Source.
 --- @param source Source @The Source to play.
 --- @overload fun(sources: table):void
@@ -667,22 +540,15 @@ function m.play(source) end
 
 
 --- Sets the distance attenuation model.
---- Sets the distance attenuation model.
 --- @param model DistanceModel @The new distance model.
 function m.setDistanceModel(model) end
 
 
 --- Sets a global scale factor for velocity-based doppler effects. The default scale value is 1.
---- Sets a global scale factor for velocity-based doppler effects. The default scale value is 1.
 --- @param scale number @The new doppler scale factor. The scale must be greater than 0.
 function m.setDopplerScale(scale) end
 
 
---- Defines an effect that can be applied to a Source.
----
----
----
----Not all system supports audio effects. Use love.audio.isEffectsSupported to check.
 --- Defines an effect that can be applied to a Source.
 ---
 ---
@@ -696,20 +562,17 @@ function m.setEffect(name, settings) end
 
 
 --- Sets whether the system should mix the audio with the system's audio.
---- Sets whether the system should mix the audio with the system's audio.
 --- @param mix boolean @True to enable mixing, false to disable it.
 --- @return boolean @True if the change succeeded, false otherwise.
 function m.setMixWithSystem(mix) end
 
 
 --- Sets the orientation of the listener.
---- Sets the orientation of the listener.
 --- @param fx, fy, fz number @Forward vector of the listener orientation.
 --- @param ux, uy, uz number @Up vector of the listener orientation.
 function m.setOrientation(fx, fy, fz, ux, uy, uz) end
 
 
---- Sets the position of the listener, which determines how sounds play.
 --- Sets the position of the listener, which determines how sounds play.
 --- @param x number @The x position of the listener.
 --- @param y number @The y position of the listener.
@@ -718,7 +581,6 @@ function m.setPosition(x, y, z) end
 
 
 --- Sets the velocity of the listener.
---- Sets the velocity of the listener.
 --- @param x number @The X velocity of the listener.
 --- @param y number @The Y velocity of the listener.
 --- @param z number @The Z velocity of the listener.
@@ -726,12 +588,10 @@ function m.setVelocity(x, y, z) end
 
 
 --- Sets the master volume.
---- Sets the master volume.
 --- @param volume number @1.0 is max and 0.0 is off.
 function m.setVolume(volume) end
 
 
---- Stops currently played sources.
 --- Stops currently played sources.
 --- @overload fun(source: Source):void
 --- @overload fun(source1: Source, source2: Source, ...: Source):void

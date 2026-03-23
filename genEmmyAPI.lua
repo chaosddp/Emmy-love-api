@@ -168,9 +168,6 @@ local function genFunction(func, parent_inst_name, is_class)
         -- use first one to generate function annotation
         local default_variant = func.variants[1]
 
-        -- generate function description
-        table.insert(annotation_list, string.format("--- %s", safeDesc(func.description)))
-
         -- function parameters
         if default_variant.arguments then
             -- default function parameters

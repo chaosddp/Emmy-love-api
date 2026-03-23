@@ -61,7 +61,6 @@ local m = {}
 local Joystick = {}
 
 --- Gets the direction of each axis.
---- Gets the direction of each axis.
 --- @return number @Direction of axis1.
 --- @return number @Direction of axis2.
 --- @return number @Direction of axisN.
@@ -69,29 +68,21 @@ function Joystick:getAxes() end
 
 
 --- Gets the direction of an axis.
---- Gets the direction of an axis.
 --- @param axis number @The index of the axis to be checked.
 --- @return number @Current value of the axis.
 function Joystick:getAxis(axis) end
 
 
 --- Gets the number of axes on the joystick.
---- Gets the number of axes on the joystick.
 --- @return number @The number of axes available.
 function Joystick:getAxisCount() end
 
 
 --- Gets the number of buttons on the joystick.
---- Gets the number of buttons on the joystick.
 --- @return number @The number of buttons available.
 function Joystick:getButtonCount() end
 
 
---- Gets the USB vendor ID, product ID, and product version numbers of joystick which consistent across operating systems.
----
----
----
----Can be used to show different icons, etc. for different gamepads.
 --- Gets the USB vendor ID, product ID, and product version numbers of joystick which consistent across operating systems.
 ---
 ---
@@ -104,19 +95,16 @@ function Joystick:getDeviceInfo() end
 
 
 --- Gets a stable GUID unique to the type of the physical joystick which does not change over time. For example, all Sony Dualshock 3 controllers in OS X have the same GUID. The value is platform-dependent.
---- Gets a stable GUID unique to the type of the physical joystick which does not change over time. For example, all Sony Dualshock 3 controllers in OS X have the same GUID. The value is platform-dependent.
 --- @return string @The Joystick type's OS-dependent unique identifier.
 function Joystick:getGUID() end
 
 
---- Gets the direction of a virtual gamepad axis. If the Joystick isn't recognized as a gamepad or isn't connected, this function will always return 0.
 --- Gets the direction of a virtual gamepad axis. If the Joystick isn't recognized as a gamepad or isn't connected, this function will always return 0.
 --- @param axis GamepadAxis @The virtual axis to be checked.
 --- @return number @Current value of the axis.
 function Joystick:getGamepadAxis(axis) end
 
 
---- Gets the button, axis or hat that a virtual gamepad input is bound to.
 --- Gets the button, axis or hat that a virtual gamepad input is bound to.
 --- @param axis GamepadAxis @The virtual gamepad axis to get the binding for.
 --- @return JoystickInputType @The type of input the virtual gamepad axis is bound to.
@@ -131,16 +119,10 @@ function Joystick:getGamepadMapping(axis) end
 ---
 ---
 ---The mapping string contains binding information used to map the Joystick's buttons an axes to the standard gamepad layout, and can be used later with love.joystick.loadGamepadMappings.
---- Gets the full gamepad mapping string of this Joystick, or nil if it's not recognized as a gamepad.
----
----
----
----The mapping string contains binding information used to map the Joystick's buttons an axes to the standard gamepad layout, and can be used later with love.joystick.loadGamepadMappings.
 --- @return string @A string containing the Joystick's gamepad mappings, or nil if the Joystick is not recognized as a gamepad.
 function Joystick:getGamepadMappingString() end
 
 
---- Gets the direction of the Joystick's hat.
 --- Gets the direction of the Joystick's hat.
 --- @param hat number @The index of the hat to be checked.
 --- @return JoystickHat @The direction the hat is pushed.
@@ -148,12 +130,10 @@ function Joystick:getHat(hat) end
 
 
 --- Gets the number of hats on the joystick.
---- Gets the number of hats on the joystick.
 --- @return number @How many hats the joystick has.
 function Joystick:getHatCount() end
 
 
---- Gets the joystick's unique identifier. The identifier will remain the same for the life of the game, even when the Joystick is disconnected and reconnected, but it '''will''' change when the game is re-launched.
 --- Gets the joystick's unique identifier. The identifier will remain the same for the life of the game, even when the Joystick is disconnected and reconnected, but it '''will''' change when the game is re-launched.
 --- @return number @The Joystick's unique identifier. Remains the same as long as the game is running.
 --- @return number @Unique instance identifier. Changes every time the Joystick is reconnected. nil if the Joystick is not connected.
@@ -161,12 +141,10 @@ function Joystick:getID() end
 
 
 --- Gets the name of the joystick.
---- Gets the name of the joystick.
 --- @return string @The name of the joystick.
 function Joystick:getName() end
 
 
---- Gets the current vibration motor strengths on a Joystick with rumble support.
 --- Gets the current vibration motor strengths on a Joystick with rumble support.
 --- @return number @Current strength of the left vibration motor on the Joystick.
 --- @return number @Current strength of the right vibration motor on the Joystick.
@@ -174,16 +152,10 @@ function Joystick:getVibration() end
 
 
 --- Gets whether the Joystick is connected.
---- Gets whether the Joystick is connected.
 --- @return boolean @True if the Joystick is currently connected, false otherwise.
 function Joystick:isConnected() end
 
 
---- Checks if a button on the Joystick is pressed.
----
----
----
----LÖVE 0.9.0 had a bug which required the button indices passed to Joystick:isDown to be 0-based instead of 1-based, for example button 1 would be 0 for this function. It was fixed in 0.9.1.
 --- Checks if a button on the Joystick is pressed.
 ---
 ---
@@ -199,16 +171,10 @@ function Joystick:isDown(buttonN) end
 ---
 ---
 ---LÖVE automatically recognizes most popular controllers with a similar layout to the Xbox 360 controller as gamepads, but you can add more with love.joystick.setGamepadMapping.
---- Gets whether the Joystick is recognized as a gamepad. If this is the case, the Joystick's buttons and axes can be used in a standardized manner across different operating systems and joystick models via Joystick:getGamepadAxis, Joystick:isGamepadDown, love.gamepadpressed, and related functions.
----
----
----
----LÖVE automatically recognizes most popular controllers with a similar layout to the Xbox 360 controller as gamepads, but you can add more with love.joystick.setGamepadMapping.
 --- @return boolean @True if the Joystick is recognized as a gamepad, false otherwise.
 function Joystick:isGamepad() end
 
 
---- Checks if a virtual gamepad button on the Joystick is pressed. If the Joystick is not recognized as a Gamepad or isn't connected, then this function will always return false.
 --- Checks if a virtual gamepad button on the Joystick is pressed. If the Joystick is not recognized as a Gamepad or isn't connected, then this function will always return false.
 --- @param buttonN GamepadButton @The gamepad button to check.
 --- @return boolean @True if any supplied button is down, false if not.
@@ -216,12 +182,10 @@ function Joystick:isGamepadDown(buttonN) end
 
 
 --- Gets whether the Joystick supports vibration.
---- Gets whether the Joystick supports vibration.
 --- @return boolean @True if rumble / force feedback vibration is supported on this Joystick, false if not.
 function Joystick:isVibrationSupported() end
 
 
---- Sets the vibration motor speeds on a Joystick with rumble support. Most common gamepads have this functionality, although not all drivers give proper support. Use Joystick:isVibrationSupported to check.
 --- Sets the vibration motor speeds on a Joystick with rumble support. Most common gamepads have this functionality, although not all drivers give proper support. Use Joystick:isVibrationSupported to check.
 --- @param left number @Strength of the left vibration motor on the Joystick. Must be in the range of 1.
 --- @param right number @Strength of the right vibration motor on the Joystick. Must be in the range of 1.
@@ -241,33 +205,21 @@ function Joystick:setVibration(left, right) end
 ---
 ---
 ---The mapping string contains binding information used to map the Joystick's buttons an axes to the standard gamepad layout, and can be used later with love.joystick.loadGamepadMappings.
---- Gets the full gamepad mapping string of the Joysticks which have the given GUID, or nil if the GUID isn't recognized as a gamepad.
----
----
----
----The mapping string contains binding information used to map the Joystick's buttons an axes to the standard gamepad layout, and can be used later with love.joystick.loadGamepadMappings.
 --- @param guid string @The GUID value to get the mapping string for.
 --- @return string @A string containing the Joystick's gamepad mappings, or nil if the GUID is not recognized as a gamepad.
 function m.getGamepadMappingString(guid) end
 
 
 --- Gets the number of connected joysticks.
---- Gets the number of connected joysticks.
 --- @return number @The number of connected joysticks.
 function m.getJoystickCount() end
 
 
 --- Gets a list of connected Joysticks.
---- Gets a list of connected Joysticks.
 --- @return table @The list of currently connected Joysticks.
 function m.getJoysticks() end
 
 
---- Loads a gamepad mappings string or file created with love.joystick.saveGamepadMappings.
----
----
----
----It also recognizes any SDL gamecontroller mapping string, such as those created with Steam's Big Picture controller configure interface, or this nice database. If a new mapping is loaded for an already known controller GUID, the later version will overwrite the one currently loaded.
 --- Loads a gamepad mappings string or file created with love.joystick.saveGamepadMappings.
 ---
 ---
@@ -283,26 +235,12 @@ function m.loadGamepadMappings(filename) end
 ---
 ---
 ---The mappings are stored as a string for use with love.joystick.loadGamepadMappings.
---- Saves the virtual gamepad mappings of all recognized as gamepads and have either been recently used or their gamepad bindings have been modified.
----
----
----
----The mappings are stored as a string for use with love.joystick.loadGamepadMappings.
 --- @param filename string @The filename to save the mappings string to.
 --- @return string @The mappings string that was written to the file.
 --- @overload fun():void
 function m.saveGamepadMappings(filename) end
 
 
---- Binds a virtual gamepad input to a button, axis or hat for all Joysticks of a certain type. For example, if this function is used with a GUID returned by a Dualshock 3 controller in OS X, the binding will affect Joystick:getGamepadAxis and Joystick:isGamepadDown for ''all'' Dualshock 3 controllers used with the game when run in OS X.
----
----
----
----LÖVE includes built-in gamepad bindings for many common controllers. This function lets you change the bindings or add new ones for types of Joysticks which aren't recognized as gamepads by default.
----
----
----
----The virtual gamepad buttons and axes are designed around the Xbox 360 controller layout.
 --- Binds a virtual gamepad input to a button, axis or hat for all Joysticks of a certain type. For example, if this function is used with a GUID returned by a Dualshock 3 controller in OS X, the binding will affect Joystick:getGamepadAxis and Joystick:isGamepadDown for ''all'' Dualshock 3 controllers used with the game when run in OS X.
 ---
 ---

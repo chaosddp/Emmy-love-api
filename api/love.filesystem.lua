@@ -49,12 +49,10 @@ local DroppedFile = {}
 local File = {}
 
 --- Closes a File.
---- Closes a File.
 --- @return boolean @Whether closing was successful.
 function File:close() end
 
 
---- Flushes any buffered written data in the file to the disk.
 --- Flushes any buffered written data in the file to the disk.
 --- @return boolean @Whether the file successfully flushed any buffered data to the disk.
 --- @return string @The error string, if an error occurred and the file could not be flushed.
@@ -62,49 +60,41 @@ function File:flush() end
 
 
 --- Gets the buffer mode of a file.
---- Gets the buffer mode of a file.
 --- @return BufferMode @The current buffer mode of the file.
 --- @return number @The maximum size in bytes of the file's buffer.
 function File:getBuffer() end
 
 
 --- Gets the filename that the File object was created with. If the file object originated from the love.filedropped callback, the filename will be the full platform-dependent file path.
---- Gets the filename that the File object was created with. If the file object originated from the love.filedropped callback, the filename will be the full platform-dependent file path.
 --- @return string @The filename of the File.
 function File:getFilename() end
 
 
---- Gets the FileMode the file has been opened with.
 --- Gets the FileMode the file has been opened with.
 --- @return FileMode @The mode this file has been opened with.
 function File:getMode() end
 
 
 --- Returns the file size.
---- Returns the file size.
 --- @return number @The file size in bytes.
 function File:getSize() end
 
 
---- Gets whether end-of-file has been reached.
 --- Gets whether end-of-file has been reached.
 --- @return boolean @Whether EOF has been reached.
 function File:isEOF() end
 
 
 --- Gets whether the file is open.
---- Gets whether the file is open.
 --- @return boolean @True if the file is currently open, false otherwise.
 function File:isOpen() end
 
 
 --- Iterate over all the lines in a file.
---- Iterate over all the lines in a file.
 --- @return function @The iterator (can be used in for loops).
 function File:lines() end
 
 
---- Open the file for write, read or append.
 --- Open the file for write, read or append.
 --- @param mode FileMode @The mode to open the file in.
 --- @return boolean @True on success, false otherwise.
@@ -112,7 +102,6 @@ function File:lines() end
 function File:open(mode) end
 
 
---- Read a number of bytes from a file.
 --- Read a number of bytes from a file.
 --- @param bytes number @The number of bytes to read.
 --- @return string @The contents of the read bytes.
@@ -122,17 +111,11 @@ function File:read(bytes) end
 
 
 --- Seek to a position in a file
---- Seek to a position in a file
 --- @param pos number @The position to seek to
 --- @return boolean @Whether the operation was successful
 function File:seek(pos) end
 
 
---- Sets the buffer mode for a file opened for writing or appending. Files with buffering enabled will not write data to the disk until the buffer size limit is reached, depending on the buffer mode.
----
----
----
----File:flush will force any buffered data to be written to the disk.
 --- Sets the buffer mode for a file opened for writing or appending. Files with buffering enabled will not write data to the disk until the buffer size limit is reached, depending on the buffer mode.
 ---
 ---
@@ -146,12 +129,10 @@ function File:setBuffer(mode, size) end
 
 
 --- Returns the position in the file.
---- Returns the position in the file.
 --- @return number @The current position.
 function File:tell() end
 
 
---- Write data to a file.
 --- Write data to a file.
 --- @param data string @The string data to write.
 --- @param size number @How many bytes to write.
@@ -166,12 +147,10 @@ function File:write(data, size) end
 local FileData = {}
 
 --- Gets the extension of the FileData.
---- Gets the extension of the FileData.
 --- @return string @The extension of the file the FileData represents.
 function FileData:getExtension() end
 
 
---- Gets the filename of the FileData.
 --- Gets the filename of the FileData.
 --- @return string @The name of the file the FileData represents.
 function FileData:getFilename() end
@@ -183,7 +162,6 @@ function FileData:getFilename() end
 
 
 --- Append data to an existing file.
---- Append data to an existing file.
 --- @param name string @The name (and path) of the file.
 --- @param data string @The string data to append to the file.
 --- @param size number @How many bytes to write.
@@ -194,16 +172,10 @@ function m.append(name, data, size) end
 
 
 --- Gets whether love.filesystem follows symbolic links.
---- Gets whether love.filesystem follows symbolic links.
 --- @return boolean @Whether love.filesystem follows symbolic links.
 function m.areSymlinksEnabled() end
 
 
---- Recursively creates a directory.
----
----
----
----When called with 'a/b' it creates both 'a' and 'a/b', if they don't exist already.
 --- Recursively creates a directory.
 ---
 ---
@@ -215,20 +187,10 @@ function m.createDirectory(name) end
 
 
 --- Returns the application data directory (could be the same as getUserDirectory)
---- Returns the application data directory (could be the same as getUserDirectory)
 --- @return string @The path of the application data directory
 function m.getAppdataDirectory() end
 
 
---- Gets the filesystem paths that will be searched for c libraries when require is called.
----
----
----
----The paths string returned by this function is a sequence of path templates separated by semicolons. The argument passed to ''require'' will be inserted in place of any question mark ('?') character in each template (after the dot characters in the argument passed to ''require'' are replaced by directory separators.) Additionally, any occurrence of a double question mark ('??') will be replaced by the name passed to require and the default library extension for the platform.
----
----
----
----The paths are relative to the game's source and save directories, as well as any paths mounted with love.filesystem.mount.
 --- Gets the filesystem paths that will be searched for c libraries when require is called.
 ---
 ---
@@ -247,11 +209,6 @@ function m.getCRequirePath() end
 ---
 ---
 ---If the path passed to the function exists in the game and the save directory, it will list the files and directories from both places.
---- Returns a table with the names of files and subdirectories in the specified path. The table is not sorted in any way; the order is undefined.
----
----
----
----If the path passed to the function exists in the game and the save directory, it will list the files and directories from both places.
 --- @param dir string @The directory.
 --- @return table @A sequence with the names of all files and subdirectories as strings.
 --- @overload fun(dir: string, callback: function):table
@@ -263,16 +220,10 @@ function m.getDirectoryItems(dir) end
 ---
 ---
 ---Note that this only returns the name of the folder to store your files in, not the full path.
---- Gets the write directory name for your game. 
----
----
----
----Note that this only returns the name of the folder to store your files in, not the full path.
 --- @return string @The identity that is used as write directory.
 function m.getIdentity() end
 
 
---- Gets information about the specified file or directory.
 --- Gets information about the specified file or directory.
 --- @param path string @The file or directory path to check.
 --- @param filtertype FileType @If supplied, this parameter causes getInfo to only return the info table if the item at the given path matches the specified file type.
@@ -287,25 +238,11 @@ function m.getInfo(path, filtertype) end
 ---
 ---
 ---This can be used to determine whether a file is inside the save directory or the game's source .love.
---- Gets the platform-specific absolute path of the directory containing a filepath.
----
----
----
----This can be used to determine whether a file is inside the save directory or the game's source .love.
 --- @param filepath string @The filepath to get the directory of.
 --- @return string @The platform-specific full path of the directory containing the filepath.
 function m.getRealDirectory(filepath) end
 
 
---- Gets the filesystem paths that will be searched when require is called.
----
----
----
----The paths string returned by this function is a sequence of path templates separated by semicolons. The argument passed to ''require'' will be inserted in place of any question mark ('?') character in each template (after the dot characters in the argument passed to ''require'' are replaced by directory separators.)
----
----
----
----The paths are relative to the game's source and save directories, as well as any paths mounted with love.filesystem.mount.
 --- Gets the filesystem paths that will be searched when require is called.
 ---
 ---
@@ -328,20 +265,10 @@ function m.getRequirePath() end
 ---
 ---
 ---read or write in the save directory.
---- Gets the full path to the designated save directory.
----
----
----
----This can be useful if you want to use the standard io library (or something else) to
----
----
----
----read or write in the save directory.
 --- @return string @The absolute path to the save directory.
 function m.getSaveDirectory() end
 
 
---- Returns the full path to the the .love file or directory. If the game is fused to the LÖVE executable, then the executable is returned.
 --- Returns the full path to the the .love file or directory. If the game is fused to the LÖVE executable, then the executable is returned.
 --- @return string @The full platform-dependent path of the .love file or directory.
 function m.getSource() end
@@ -352,28 +279,20 @@ function m.getSource() end
 ---
 ---
 ---If love.filesystem.isFused is true, the path returned by this function can be passed to love.filesystem.mount, which will make the directory containing the main game (e.g. C:\Program Files\coolgame\) readable by love.filesystem.
---- Returns the full path to the directory containing the .love file. If the game is fused to the LÖVE executable, then the directory containing the executable is returned.
----
----
----
----If love.filesystem.isFused is true, the path returned by this function can be passed to love.filesystem.mount, which will make the directory containing the main game (e.g. C:\Program Files\coolgame\) readable by love.filesystem.
 --- @return string @The full platform-dependent path of the directory containing the .love file.
 function m.getSourceBaseDirectory() end
 
 
---- Returns the path of the user's directory
 --- Returns the path of the user's directory
 --- @return string @The path of the user's directory
 function m.getUserDirectory() end
 
 
 --- Gets the current working directory.
---- Gets the current working directory.
 --- @return string @The current working directory.
 function m.getWorkingDirectory() end
 
 
---- Initializes love.filesystem, will be called internally, so should not be used explicitly.
 --- Initializes love.filesystem, will be called internally, so should not be used explicitly.
 --- @param appname string @The name of the application binary, typically love.
 function m.init(appname) end
@@ -388,20 +307,10 @@ function m.init(appname) end
 ---
 ---
 ---A game is in fused mode if the source .love has been fused to the executable (see Game Distribution), or if '--fused' has been given as a command-line argument when starting the game.
---- Gets whether the game is in fused mode or not.
----
----
----
----If a game is in fused mode, its save directory will be directly in the Appdata directory instead of Appdata/LOVE/. The game will also be able to load C Lua dynamic libraries which are located in the save directory.
----
----
----
----A game is in fused mode if the source .love has been fused to the executable (see Game Distribution), or if '--fused' has been given as a command-line argument when starting the game.
 --- @return boolean @True if the game is in fused mode, false otherwise.
 function m.isFused() end
 
 
---- Iterate over the lines in a file.
 --- Iterate over the lines in a file.
 --- @param name string @The name (and path) of the file
 --- @return function @A function that iterates over all the lines in the file
@@ -409,18 +318,12 @@ function m.lines(name) end
 
 
 --- Loads a Lua file (but does not run it).
---- Loads a Lua file (but does not run it).
 --- @param name string @The name (and path) of the file.
 --- @return function @The loaded chunk.
 --- @return string @The error message if file could not be opened.
 function m.load(name) end
 
 
---- Mounts a zip file or folder in the game's save directory for reading.
----
----
----
----It is also possible to mount love.filesystem.getSourceBaseDirectory if the game is in fused mode.
 --- Mounts a zip file or folder in the game's save directory for reading.
 ---
 ---
@@ -440,18 +343,12 @@ function m.mount(archive, mountpoint, appendToPath) end
 ---
 ---
 ---It needs to be opened before it can be accessed.
---- Creates a new File object. 
----
----
----
----It needs to be opened before it can be accessed.
 --- @param filename string @The filename of the file.
 --- @return File @The new File object.
 --- @overload fun(filename: string, mode: FileMode):File, string
 function m.newFile(filename) end
 
 
---- Creates a new FileData object from a file on disk, or from a string in memory.
 --- Creates a new FileData object from a file on disk, or from a string in memory.
 --- @param contents string @The contents of the file in memory represented as a string.
 --- @param name string @The name of the file. The extension may be parsed and used by LÖVE when passing the FileData object into love.audio.newSource.
@@ -461,7 +358,6 @@ function m.newFile(filename) end
 function m.newFileData(contents, name) end
 
 
---- Read the contents of a file.
 --- Read the contents of a file.
 --- @param name string @The name (and path) of the file.
 --- @param size number @How many bytes to read.
@@ -473,7 +369,6 @@ function m.newFileData(contents, name) end
 function m.read(name, size) end
 
 
---- Removes a file or empty directory.
 --- Removes a file or empty directory.
 --- @param name string @The file or directory to remove.
 --- @return boolean @True if the file/directory was removed, false otherwise.
@@ -489,24 +384,10 @@ function m.remove(name) end
 ---
 ---
 ---The paths are relative to the game's source and save directories, as well as any paths mounted with love.filesystem.mount.
---- Sets the filesystem paths that will be searched for c libraries when require is called.
----
----
----
----The paths string returned by this function is a sequence of path templates separated by semicolons. The argument passed to ''require'' will be inserted in place of any question mark ('?') character in each template (after the dot characters in the argument passed to ''require'' are replaced by directory separators.) Additionally, any occurrence of a double question mark ('??') will be replaced by the name passed to require and the default library extension for the platform.
----
----
----
----The paths are relative to the game's source and save directories, as well as any paths mounted with love.filesystem.mount.
 --- @param paths string @The paths that the ''require'' function will check in love's filesystem.
 function m.setCRequirePath(paths) end
 
 
---- Sets the write directory for your game. 
----
----
----
----Note that you can only set the name of the folder to store your files in, not the location.
 --- Sets the write directory for your game. 
 ---
 ---
@@ -526,39 +407,26 @@ function m.setIdentity(name) end
 ---
 ---
 ---The paths are relative to the game's source and save directories, as well as any paths mounted with love.filesystem.mount.
---- Sets the filesystem paths that will be searched when require is called.
----
----
----
----The paths string given to this function is a sequence of path templates separated by semicolons. The argument passed to ''require'' will be inserted in place of any question mark ('?') character in each template (after the dot characters in the argument passed to ''require'' are replaced by directory separators.)
----
----
----
----The paths are relative to the game's source and save directories, as well as any paths mounted with love.filesystem.mount.
 --- @param paths string @The paths that the ''require'' function will check in love's filesystem.
 function m.setRequirePath(paths) end
 
 
---- Sets the source of the game, where the code is present. This function can only be called once, and is normally automatically done by LÖVE.
 --- Sets the source of the game, where the code is present. This function can only be called once, and is normally automatically done by LÖVE.
 --- @param path string @Absolute path to the game's source folder.
 function m.setSource(path) end
 
 
 --- Sets whether love.filesystem follows symbolic links. It is enabled by default in version 0.10.0 and newer, and disabled by default in 0.9.2.
---- Sets whether love.filesystem follows symbolic links. It is enabled by default in version 0.10.0 and newer, and disabled by default in 0.9.2.
 --- @param enable boolean @Whether love.filesystem should follow symbolic links.
 function m.setSymlinksEnabled(enable) end
 
 
---- Unmounts a zip file or folder previously mounted for reading with love.filesystem.mount.
 --- Unmounts a zip file or folder previously mounted for reading with love.filesystem.mount.
 --- @param archive string @The folder or zip file in the game's save directory which is currently mounted.
 --- @return boolean @True if the archive was successfully unmounted, false otherwise.
 function m.unmount(archive) end
 
 
---- Write data to a file in the save directory. If the file existed already, it will be completely replaced by the new contents.
 --- Write data to a file in the save directory. If the file existed already, it will be completely replaced by the new contents.
 --- @param name string @The name (and path) of the file.
 --- @param data string @The string data to write to the file.

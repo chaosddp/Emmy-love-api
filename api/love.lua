@@ -13,16 +13,10 @@ local m = {}
 local Data = {}
 
 --- Creates a new copy of the Data object.
---- Creates a new copy of the Data object.
 --- @return Data @The new copy.
 function Data:clone() end
 
 
---- Gets an FFI pointer to the Data.
----
----
----
----This function should be preferred instead of Data:getPointer because the latter uses light userdata which can't store more all possible memory addresses on some new ARM64 architectures, when LuaJIT is used.
 --- Gets an FFI pointer to the Data.
 ---
 ---
@@ -33,18 +27,15 @@ function Data:getFFIPointer() end
 
 
 --- Gets a pointer to the Data. Can be used with libraries such as LuaJIT's FFI.
---- Gets a pointer to the Data. Can be used with libraries such as LuaJIT's FFI.
 --- @return lightuserdata @A raw pointer to the Data.
 function Data:getPointer() end
 
 
 --- Gets the Data's size in bytes.
---- Gets the Data's size in bytes.
 --- @return number @The size of the Data in bytes.
 function Data:getSize() end
 
 
---- Gets the full Data as a string.
 --- Gets the full Data as a string.
 --- @return string @The raw data.
 function Data:getString() end
@@ -59,22 +50,15 @@ local Object = {}
 ---
 ---
 ---This method can be used to immediately clean up resources without waiting for Lua's garbage collector.
---- Destroys the object's Lua reference. The object will be completely deleted if it's not referenced by any other LÖVE object or thread.
----
----
----
----This method can be used to immediately clean up resources without waiting for Lua's garbage collector.
 --- @return boolean @True if the object was released by this call, false if it had been previously released.
 function Object:release() end
 
 
 --- Gets the type of the object as a string.
---- Gets the type of the object as a string.
 --- @return string @The type as a string.
 function Object:type() end
 
 
---- Checks whether an object is of a certain type. If the object has the type with the specified name in its hierarchy, this function will return true.
 --- Checks whether an object is of a certain type. If the object has the type with the specified name in its hierarchy, this function will return true.
 --- @param name string @The name of the type to check for.
 --- @return boolean @True if the object is of the specified type, false otherwise.
@@ -343,7 +327,6 @@ m.wheelmoved = nil
 
 
 --- Gets the current running version of LÖVE.
---- Gets the current running version of LÖVE.
 --- @return number @The major version of LÖVE, i.e. 0 for version 0.9.1.
 --- @return number @The minor version of LÖVE, i.e. 9 for version 0.9.1.
 --- @return number @The revision version of LÖVE, i.e. 1 for version 0.9.1.
@@ -356,16 +339,10 @@ function m.getVersion() end
 ---
 ---
 ---When deprecation output is enabled, the first use of a formally deprecated LÖVE API will show a message at the bottom of the screen for a short time, and print the message to the console.
---- Gets whether LÖVE displays warnings when using deprecated functionality. It is disabled by default in fused mode, and enabled by default otherwise.
----
----
----
----When deprecation output is enabled, the first use of a formally deprecated LÖVE API will show a message at the bottom of the screen for a short time, and print the message to the console.
 --- @return boolean @Whether deprecation output is enabled.
 function m.hasDeprecationOutput() end
 
 
---- Gets whether the given version is compatible with the current running version of LÖVE.
 --- Gets whether the given version is compatible with the current running version of LÖVE.
 --- @param version string @The version to check (for example '11.3' or '0.10.2').
 --- @return boolean @Whether the given version is compatible with the current running version of LÖVE.
@@ -373,11 +350,6 @@ function m.hasDeprecationOutput() end
 function m.isVersionCompatible(version) end
 
 
---- Sets whether LÖVE displays warnings when using deprecated functionality. It is disabled by default in fused mode, and enabled by default otherwise.
----
----
----
----When deprecation output is enabled, the first use of a formally deprecated LÖVE API will show a message at the bottom of the screen for a short time, and print the message to the console.
 --- Sets whether LÖVE displays warnings when using deprecated functionality. It is disabled by default in fused mode, and enabled by default otherwise.
 ---
 ---

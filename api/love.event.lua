@@ -59,29 +59,14 @@ local m = {}
 
 
 --- Clears the event queue.
---- Clears the event queue.
 function m.clear() end
 
 
---- Returns an iterator for messages in the event queue.
 --- Returns an iterator for messages in the event queue.
 --- @return function @Iterator function usable in a for loop.
 function m.poll() end
 
 
---- Pump events into the event queue.
----
----
----
----This is a low-level function, and is usually not called by the user, but by love.run.
----
----
----
----Note that this does need to be called for any OS to think you're still running,
----
----
----
----and if you want to handle OS-generated events at all (think callbacks).
 --- Pump events into the event queue.
 ---
 ---
@@ -103,11 +88,6 @@ function m.pump() end
 ---
 ---
 ---From 0.10.0 onwards, you may pass an arbitrary amount of arguments with this function, though the default callbacks don't ever use more than six.
---- Adds an event to the event queue.
----
----
----
----From 0.10.0 onwards, you may pass an arbitrary amount of arguments with this function, though the default callbacks don't ever use more than six.
 --- @param n Event @The name of the event.
 --- @param a any @First event argument.
 --- @param b any @Second event argument.
@@ -124,17 +104,11 @@ function m.push(n, a, b, c, d, e, f, ...) end
 ---
 ---
 ---The quit event is a signal for the event handler to close LÖVE. It's possible to abort the exit process with the love.quit callback.
---- Adds the quit event to the queue.
----
----
----
----The quit event is a signal for the event handler to close LÖVE. It's possible to abort the exit process with the love.quit callback.
 --- @param exitstatus number @The program exit status to use when closing the application.
 --- @overload fun('restart': string):void
 function m.quit(exitstatus) end
 
 
---- Like love.event.poll(), but blocks until there is an event in the queue.
 --- Like love.event.poll(), but blocks until there is an event in the queue.
 --- @return Event @The name of event.
 --- @return any @First event argument.

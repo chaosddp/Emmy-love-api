@@ -54,7 +54,6 @@ local ByteData = {}
 local CompressedData = {}
 
 --- Gets the compression format of the CompressedData.
---- Gets the compression format of the CompressedData.
 --- @return CompressedDataFormat @The format of the CompressedData.
 function CompressedData:getFormat() end
 
@@ -64,7 +63,6 @@ function CompressedData:getFormat() end
 
 
 
---- Compresses a string or data using a specific compression algorithm.
 --- Compresses a string or data using a specific compression algorithm.
 --- @param container ContainerType @What type to return the compressed data as.
 --- @param format CompressedDataFormat @The format to use when compressing the string.
@@ -76,7 +74,6 @@ function m.compress(container, format, rawstring, level) end
 
 
 --- Decode Data or a string from any of the EncodeFormats to Data or string.
---- Decode Data or a string from any of the EncodeFormats to Data or string.
 --- @param container ContainerType @What type to return the decoded data as.
 --- @param format EncodeFormat @The format of the input data.
 --- @param sourceString string @The raw (encoded) data to decode.
@@ -86,7 +83,6 @@ function m.decode(container, format, sourceString) end
 
 
 --- Decompresses a CompressedData or previously compressed string or Data object.
---- Decompresses a CompressedData or previously compressed string or Data object.
 --- @param container ContainerType @What type to return the decompressed data as.
 --- @param compressedData CompressedData @The compressed data to decompress.
 --- @return Dataorstring @Data/string containing the raw decompressed data.
@@ -95,7 +91,6 @@ function m.decode(container, format, sourceString) end
 function m.decompress(container, compressedData) end
 
 
---- Encode Data or a string to a Data or string in one of the EncodeFormats.
 --- Encode Data or a string to a Data or string in one of the EncodeFormats.
 --- @param container ContainerType @What type to return the encoded data as.
 --- @param format EncodeFormat @The format of the output data.
@@ -111,17 +106,11 @@ function m.encode(container, format, sourceString, linelength) end
 ---
 ---
 ---This function behaves the same as Lua 5.3's string.packsize.
---- Gets the size in bytes that a given format used with love.data.pack will use.
----
----
----
----This function behaves the same as Lua 5.3's string.packsize.
 --- @param format string @A string determining how the values are packed. Follows the rules of Lua 5.3's string.pack format strings.
 --- @return number @The size in bytes that the packed data will use.
 function m.getPackedSize(format) end
 
 
---- Compute the message digest of a string using a specified hash algorithm.
 --- Compute the message digest of a string using a specified hash algorithm.
 --- @param hashFunction HashFunction @Hash algorithm to use.
 --- @param string string @String to hash.
@@ -135,11 +124,6 @@ function m.hash(hashFunction, string) end
 ---
 ---
 ---Data:getPointer along with LuaJIT's FFI can be used to manipulate the contents of the ByteData object after it has been created.
---- Creates a new Data object containing arbitrary bytes.
----
----
----
----Data:getPointer along with LuaJIT's FFI can be used to manipulate the contents of the ByteData object after it has been created.
 --- @param datastring string @The byte string to copy.
 --- @return ByteData @The new Data object.
 --- @overload fun(Data: Data, offset: number, size: number):ByteData
@@ -147,7 +131,6 @@ function m.hash(hashFunction, string) end
 function m.newByteData(datastring) end
 
 
---- Creates a new Data referencing a subsection of an existing Data object.
 --- Creates a new Data referencing a subsection of an existing Data object.
 --- @param data Data @The Data object to reference.
 --- @param offset number @The offset of the subsection to reference, in bytes.
@@ -161,11 +144,6 @@ function m.newDataView(data, offset, size) end
 ---
 ---
 ---This function behaves the same as Lua 5.3's string.pack.
---- Packs (serializes) simple Lua values.
----
----
----
----This function behaves the same as Lua 5.3's string.pack.
 --- @param container ContainerType @What type to return the encoded data as.
 --- @param format string @A string determining how the values are packed. Follows the rules of Lua 5.3's string.pack format strings.
 --- @param v1 numberorbooleanorstring @The first value (number, boolean, or string) to serialize.
@@ -174,11 +152,6 @@ function m.newDataView(data, offset, size) end
 function m.pack(container, format, v1, ...) end
 
 
---- Unpacks (deserializes) a byte-string or Data into simple Lua values.
----
----
----
----This function behaves the same as Lua 5.3's string.unpack.
 --- Unpacks (deserializes) a byte-string or Data into simple Lua values.
 ---
 ---
