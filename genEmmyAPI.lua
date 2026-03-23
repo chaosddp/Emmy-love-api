@@ -1,3 +1,4 @@
+---@diagnostic disable: invert-if
 local love_api = require "love-api.love_api"
 
 local module_annotation_template = table.concat({
@@ -13,6 +14,8 @@ local module_annotation_template = table.concat({
     "%s",            -- callback annotations
     "\n",
     "%s",            -- function annotations
+    "\n",
+    "%s",            -- field annotations
     "\n",
     "return m",      -- return the module table
 }, "\n")
@@ -70,8 +73,8 @@ local module_annotation_template = table.concat({
 --- @field modules? Module[] @modules of love
 --- @field enums? Enum[] @enums of love
 --- @field callbacks? Callback[] @callbacks of love
---- @field types table<string, any> @types of love
---- @field functions table<string, any> @functions of love
+--- @field types? table<string, any> @types of love
+--- @field functions? table<string, any> @functions of love
 
 --- check if a table has a field, return true if the table has the field
 --- @param t table @table to check
@@ -110,15 +113,17 @@ end
 
 
 --- @param func Function @function definition
-local function genFunction(func)
+--- @param parent_inst_name string @parent instance name, used to attach function to instance
+local function genFunction(func, parent_inst_name)
     -- use first variant as default variant, arguments description will be annotated under the description
     -- other variants will be 'overload', 'overload's do not have argument description
     -- if argument has field "default", then it is optional
-
-
     local annotation_list = {
         string.format("--- %s", safeDesc(func.description)),
     }
+
+    -- parameter list used to generate function
+    local param_name_list = {}
 
     -- generate variants if there is any
     if func.variants and #func.variants > 0 then
@@ -126,11 +131,95 @@ local function genFunction(func)
         local default_variant = func.variants[1]
 
 
-        -- generate overloads
-        for i = 1, #func.variants do
 
+        -- generate function description
+        table.insert(annotation_list, string.format("--- %s", safeDesc(func.description)))
+
+        -- function parameters
+        if default_variant.arguments then
+            -- default function parameters
+            for _, arg in ipairs(default_variant.arguments) do
+                local arg_name = arg.name
+                local arg_type = arg.type
+                local arg_description = arg.description
+
+                table.insert(param_name_list, arg_name)
+
+                table.insert(annotation_list,
+                    string.format(
+                        "--- @param %s %s @%s",
+                        arg_name,
+                        arg_type,
+                        safeDesc(arg_description)
+                    ))
+            end
+        end
+
+        -- function returns
+        if default_variant.returns then
+            for _, ret in ipairs(default_variant.returns) do
+                local ret_type = ret.type
+                local ret_description = ret.description
+
+                table.insert(annotation_list,
+                    string.format(
+                        "--- @return %s @%s",
+                        ret_type,
+                        safeDesc(ret_description)
+                    )
+                )
+            end
+        end
+
+        -- generate overloads
+        for i = 2, #func.variants do
+            local variant_param_list = {}
+            local variant_return_list = {}
+            local variant = func.variants[i]
+
+            if variant.arguments then
+                for j = 1, #variant.arguments do
+                    local arg = variant.arguments[j]
+                    local arg_type = arg.type
+                    local arg_name = arg.name
+
+                    table.insert(variant_param_list,
+                        string.format(
+                            "%s: %s",
+                            arg_name,
+                            arg_type
+                        )
+                    )
+                end
+
+                if variant.returns then
+                    for j = 1, #variant.returns do
+                        table.insert(variant_return_list, variant.returns[j].type)
+                    end
+                end
+            end
+
+            -- generate variant like: @overload fun(a: number, b: bool):void
+            table.insert(annotation_list,
+                string.format(
+                    "--- @overload fun(%s):%s",
+                    table.concat(variant_param_list, ", "),
+                    table.concat(variant_return_list, ", ")
+                )
+            )
         end
     end
+
+    -- function declaration
+    local func_decl = string.format(
+        "function %s.%s(%s) end",
+        parent_inst_name,
+        func.name,
+        table.concat(param_name_list, ", ")
+    )
+
+    table.insert(annotation_list, func_decl)
+    table.insert(annotation_list, "\n")
 
     return table.concat(annotation_list, "\n")
 end
@@ -285,6 +374,7 @@ local function genModule(type_name, module_name, definition, output_dir)
     local function_annotation_list = {}
     local enum_annotation_list = {}
     local class_annotation_list = {}
+    local fields_annotation_list = {} -- for submodules now
 
 
     -- generate callback annotations if there are any
@@ -311,6 +401,13 @@ local function genModule(type_name, module_name, definition, output_dir)
     end
 
     -- generate function annotations if there are any
+    if definition.functions then
+        for _, func in ipairs(definition.functions) do
+            local func_annotation = genFunction(func, "m") -- for module, function will attach to module "m"
+
+            table.insert(function_annotation_list, func_annotation)
+        end
+    end
 
     -- generate class annotations if there are any
 
@@ -319,8 +416,15 @@ local function genModule(type_name, module_name, definition, output_dir)
         for _, sub_module in ipairs(definition.modules) do
             if sub_module.name then
                 local sub_module_name = module_name .. "." .. sub_module.name
+                
                 -- submodule has same name and module path
                 genModule(sub_module_name, sub_module_name, sub_module, output_dir)
+
+                -- add submodule to as a field, so that it can be parsed correctly
+                table.insert(
+                    fields_annotation_list,
+                    string.format("--- @type %s\nm.%s = nil\n", sub_module_name,sub_module.name)
+                )
             end
         end
     end
@@ -330,6 +434,7 @@ local function genModule(type_name, module_name, definition, output_dir)
     local function_annotation_str = table.concat(function_annotation_list, "\n")
     local enum_annotation_str = table.concat(enum_annotation_list, "\n")
     local class_annotation_str = table.concat(class_annotation_list, "\n")
+    local field_annotation_str = table.concat(fields_annotation_list, "\n")
 
     local module_annotation_str = string.format(
         module_annotation_template,
@@ -338,7 +443,8 @@ local function genModule(type_name, module_name, definition, output_dir)
         enum_annotation_str,
         class_annotation_str,
         callback_annotation_str,
-        function_annotation_str
+        function_annotation_str,
+        field_annotation_str
     )
 
     -- write to file

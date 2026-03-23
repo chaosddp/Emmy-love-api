@@ -131,6 +131,36 @@ local m = {}
 
 
 
+--- Determines whether a file can be loaded as CompressedImageData.
+--- Determines whether a file can be loaded as CompressedImageData.
+--- @param filename string @The filename of the potentially compressed image file.
+--- @return boolean @Whether the file can be loaded as CompressedImageData or not.
+--- @overload fun(fileData: FileData):boolean
+function m.isCompressed(filename) end
+
+
+--- Create a new CompressedImageData object from a compressed image file. LÖVE supports several compressed texture formats, enumerated in the CompressedImageFormat page.
+--- Create a new CompressedImageData object from a compressed image file. LÖVE supports several compressed texture formats, enumerated in the CompressedImageFormat page.
+--- @param filename string @The filename of the compressed image file.
+--- @return CompressedImageData @The new CompressedImageData object.
+--- @overload fun(fileData: FileData):CompressedImageData
+function m.newCompressedData(filename) end
+
+
+--- Creates a new ImageData object.
+--- Creates a new ImageData object.
+--- @param width number @The width of the ImageData.
+--- @param height number @The height of the ImageData.
+--- @return ImageData @The new blank ImageData object. Each pixel's color values, (including the alpha values!) will be set to zero.
+--- @overload fun(width: number, height: number, format: PixelFormat, data: string):ImageData
+--- @overload fun(width: number, height: number, data: string):ImageData
+--- @overload fun(filename: string):ImageData
+--- @overload fun(filedata: FileData):ImageData
+function m.newImageData(width, height) end
+
+
+
+
 
 
 
