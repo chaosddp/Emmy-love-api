@@ -106,7 +106,7 @@ function File:open(mode) end
 --- @param bytes number @The number of bytes to read.
 --- @return string @The contents of the read bytes.
 --- @return number @How many bytes have been read.
---- @overload fun(container: ContainerType, bytes: number):FileDataorstring, number
+--- @overload fun(container: ContainerType, bytes: number):FileData|string, number
 function File:read(bytes) end
 
 
@@ -365,7 +365,7 @@ function m.newFileData(contents, name) end
 --- @return number @How many bytes have been read.
 --- @return nil @returns nil as content.
 --- @return string @returns an error message.
---- @overload fun(container: ContainerType, name: string, size: number):FileDataorstring, number, nil, string
+--- @overload fun(container: ContainerType, name: string, size: number):FileData|string, number, nil, string
 function m.read(name, size) end
 
 

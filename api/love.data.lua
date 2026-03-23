@@ -68,8 +68,8 @@ function CompressedData:getFormat() end
 --- @param format CompressedDataFormat @The format to use when compressing the string.
 --- @param rawstring string @The raw (un-compressed) string to compress.
 --- @param level number @The level of compression to use, between 0 and 9. -1 indicates the default level. The meaning of this argument depends on the compression format being used.
---- @return CompressedDataorstring @CompressedData/string which contains the compressed version of rawstring.
---- @overload fun(container: ContainerType, format: CompressedDataFormat, data: Data, level: number):CompressedDataorstring
+--- @return CompressedData|string @CompressedData/string which contains the compressed version of rawstring.
+--- @overload fun(container: ContainerType, format: CompressedDataFormat, data: Data, level: number):CompressedData|string
 function m.compress(container, format, rawstring, level) end
 
 
@@ -77,17 +77,17 @@ function m.compress(container, format, rawstring, level) end
 --- @param container ContainerType @What type to return the decoded data as.
 --- @param format EncodeFormat @The format of the input data.
 --- @param sourceString string @The raw (encoded) data to decode.
---- @return ByteDataorstring @ByteData/string which contains the decoded version of source.
---- @overload fun(container: ContainerType, format: EncodeFormat, sourceData: Data):ByteDataorstring
+--- @return ByteData|string @ByteData/string which contains the decoded version of source.
+--- @overload fun(container: ContainerType, format: EncodeFormat, sourceData: Data):ByteData|string
 function m.decode(container, format, sourceString) end
 
 
 --- Decompresses a CompressedData or previously compressed string or Data object.
 --- @param container ContainerType @What type to return the decompressed data as.
 --- @param compressedData CompressedData @The compressed data to decompress.
---- @return Dataorstring @Data/string containing the raw decompressed data.
---- @overload fun(container: ContainerType, format: CompressedDataFormat, compressedString: string):Dataorstring
---- @overload fun(container: ContainerType, format: CompressedDataFormat, data: Data):Dataorstring
+--- @return Data|string @Data/string containing the raw decompressed data.
+--- @overload fun(container: ContainerType, format: CompressedDataFormat, compressedString: string):Data|string
+--- @overload fun(container: ContainerType, format: CompressedDataFormat, data: Data):Data|string
 function m.decompress(container, compressedData) end
 
 
@@ -96,8 +96,8 @@ function m.decompress(container, compressedData) end
 --- @param format EncodeFormat @The format of the output data.
 --- @param sourceString string @The raw data to encode.
 --- @param linelength number @The maximum line length of the output. Only supported for base64, ignored if 0.
---- @return ByteDataorstring @ByteData/string which contains the encoded version of source.
---- @overload fun(container: ContainerType, format: EncodeFormat, sourceData: Data, linelength: number):ByteDataorstring
+--- @return ByteData|string @ByteData/string which contains the encoded version of source.
+--- @overload fun(container: ContainerType, format: EncodeFormat, sourceData: Data, linelength: number):ByteData|string
 function m.encode(container, format, sourceString, linelength) end
 
 
@@ -146,9 +146,9 @@ function m.newDataView(data, offset, size) end
 ---This function behaves the same as Lua 5.3's string.pack.
 --- @param container ContainerType @What type to return the encoded data as.
 --- @param format string @A string determining how the values are packed. Follows the rules of Lua 5.3's string.pack format strings.
---- @param v1 numberorbooleanorstring @The first value (number, boolean, or string) to serialize.
---- @param ... numberorbooleanorstring @Additional values to serialize.
---- @return Dataorstring @Data/string which contains the serialized data.
+--- @param v1 number|boolean|string @The first value (number, boolean, or string) to serialize.
+--- @param ... number|boolean|string @Additional values to serialize.
+--- @return Data|string @Data/string which contains the serialized data.
 function m.pack(container, format, v1, ...) end
 
 
@@ -160,10 +160,10 @@ function m.pack(container, format, v1, ...) end
 --- @param format string @A string determining how the values were packed. Follows the rules of Lua 5.3's string.pack format strings.
 --- @param datastring string @A string containing the packed (serialized) data.
 --- @param pos number @Where to start reading in the string. Negative values can be used to read relative from the end of the string.
---- @return numberorbooleanorstring @The first value (number, boolean, or string) that was unpacked.
---- @return numberorbooleanorstring @Additional unpacked values.
+--- @return number|boolean|string @The first value (number, boolean, or string) that was unpacked.
+--- @return number|boolean|string @Additional unpacked values.
 --- @return number @The index of the first unread byte in the data string.
---- @overload fun(format: string, data: Data, pos: number):numberorbooleanorstring, numberorbooleanorstring, number
+--- @overload fun(format: string, data: Data, pos: number):number|boolean|string, number|boolean|string, number
 function m.unpack(format, datastring, pos) end
 
 

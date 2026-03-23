@@ -106,8 +106,13 @@ local function correctType(type_name)
     if type_name == "Variant" then
         return "any"
     end
+    
+    -- replace "or" with "|" for union type
+    local s, _ = string.gsub(type_name, "%sor%s", "|")
 
-    return string.gsub(type_name, "%s+", "")
+    s, _ = string.gsub(s, "%s+", "")
+
+    return s
 end
 
 --- capitalize the first letter
@@ -119,7 +124,9 @@ end
 --- @param src string @string may contains multiple lines
 --- @return string @safe description
 local function safeDesc(src)
-    return string.gsub(src, "\n", "\n---\n---")
+    local s, _ = string.gsub(src, "\n", "\n---\n---")
+
+    return s
 end
 
 --- write content to file
