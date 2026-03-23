@@ -20,7 +20,10 @@ local module_annotation_template = table.concat({
 
 --- definitions
 
-
+--- @class Function
+--- @field name string @name of function
+--- @field description string @description of function
+--- @field variants? FunctionVariant[] @variants of function
 
 --- @class ArgumentTableField
 --- @field type string @type of a field
@@ -34,15 +37,22 @@ local module_annotation_template = table.concat({
 --- @field name string @name of argument
 --- @field description string @description of argument
 --- @field table? table @table definition for table argument, we have make this as a internal class type
+--- @field default? string @default value of argument
 
---- @class CallbackVariant
+--- @class FunctionReturn
+--- @field type string @type of return
+--- @field name string @name of return
+--- @field description string @description of return
+
+--- @class FunctionVariant
 --- @field description string @description of variant
---- @field arguments FunctionArgument[] @arguments of variant
+--- @field arguments? FunctionArgument[] @arguments of variant
+--- @field returns? FunctionReturn[] @returns of current variant
 
 --- @class Callback
 --- @field name string @name of callback
 --- @field description string @description of callback
---- @field variants CallbackVariant[] @variants of callback
+--- @field variants FunctionVariant[] @variants of callback
 
 --- @class EnumField
 --- @field name string @name of field
@@ -62,6 +72,20 @@ local module_annotation_template = table.concat({
 --- @field callbacks? Callback[] @callbacks of love
 --- @field types table<string, any> @types of love
 --- @field functions table<string, any> @functions of love
+
+--- check if a table has a field, return true if the table has the field
+--- @param t table @table to check
+--- @param k string @key to check
+--- @return boolean @true if the table has the field, even the field value is nil
+local function hasField(t, k)
+    for _k in pairs(t) do
+        if k == _k then
+            return true
+        end
+    end
+
+    return false
+end
 
 --- capitalize the first letter
 local function capitalize(str)
@@ -85,17 +109,36 @@ local function writeFile(content, file)
 end
 
 
-local function genFunction()
+--- @param func Function @function definition
+local function genFunction(func)
+    -- use first variant as default variant, arguments description will be annotated under the description
+    -- other variants will be 'overload', 'overload's do not have argument description
+    -- if argument has field "default", then it is optional
 
+
+    local annotation_list = {
+        string.format("--- %s", safeDesc(func.description)),
+    }
+
+    -- generate variants if there is any
+    if func.variants and #func.variants > 0 then
+        -- use first one to generate function annotation
+        local default_variant = func.variants[1]
+
+
+        -- generate overloads
+        for i = 1, #func.variants do
+
+        end
+    end
+
+    return table.concat(annotation_list, "\n")
 end
 
 local function genClass()
 
 end
 
-local function genType()
-
-end
 
 --- @param enum Enum @enum definition
 --- @return string @generated enum annotation
@@ -161,11 +204,10 @@ local function genInternalType(name, fields)
 
 
         local field_annotation_str = string.format(
-            "--- @field %s %s @%s, default is %s",
-            field_name .. "?", -- NOTE: we mark all the fields as optional
+            "--- @field %s %s @%s",
+            field_name,
             field_type,
-            safeDesc(field_description),
-            field_default or "nil"
+            safeDesc(field_description)
         )
 
         table.insert(field_annotation_list, field_annotation_str)
