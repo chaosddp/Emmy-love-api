@@ -254,7 +254,7 @@ function m.saveGamepadMappings(filename) end
 --- @param button GamepadButton @The virtual gamepad button to bind.
 --- @param inputtype JoystickInputType @The type of input to bind the virtual gamepad button to.
 --- @param inputindex number @The index of the axis, button, or hat to bind the virtual gamepad button to.
---- @param hatdir JoystickHat @The direction of the hat, if the virtual gamepad button will be bound to a hat. nil otherwise.
+--- @param hatdir? JoystickHat @The direction of the hat, if the virtual gamepad button will be bound to a hat. nil otherwise.
 --- @return boolean @Whether the virtual gamepad button was successfully bound.
 --- @overload fun(guid: string, axis: GamepadAxis, inputtype: JoystickInputType, inputindex: number, hatdir: JoystickHat):boolean
 function m.setGamepadMapping(guid, button, inputtype, inputindex, hatdir) end

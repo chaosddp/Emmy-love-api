@@ -125,7 +125,7 @@ function Rasterizer:hasGlyphs(glyph1, ...) end
 --- Creates a new BMFont Rasterizer.
 --- @param imageData ImageData @The image data containing the drawable pictures of font glyphs.
 --- @param glyphs string @The sequence of glyphs in the ImageData.
---- @param dpiscale number @DPI scale.
+--- @param dpiscale? number @DPI scale.
 --- @return Rasterizer @The rasterizer.
 --- @overload fun(fileName: string, glyphs: string, dpiscale: number):Rasterizer
 function m.newBMFontRasterizer(imageData, glyphs, dpiscale) end
@@ -140,8 +140,8 @@ function m.newGlyphData(rasterizer, glyph) end
 --- Creates a new Image Rasterizer.
 --- @param imageData ImageData @Font image data.
 --- @param glyphs string @String containing font glyphs.
---- @param extraSpacing number @Font extra spacing.
---- @param dpiscale number @Font DPI scale.
+--- @param extraSpacing? number @Font extra spacing.
+--- @param dpiscale? number @Font DPI scale.
 --- @return Rasterizer @The rasterizer.
 function m.newImageRasterizer(imageData, glyphs, extraSpacing, dpiscale) end
 
@@ -159,9 +159,9 @@ function m.newRasterizer(filename) end
 
 
 --- Creates a new TrueType Rasterizer.
---- @param size number @The font size.
---- @param hinting HintingMode @True Type hinting mode.
---- @param dpiscale number @The font DPI scale.
+--- @param size? number @The font size.
+--- @param hinting? HintingMode @True Type hinting mode.
+--- @param dpiscale? number @The font DPI scale.
 --- @return Rasterizer @The rasterizer.
 --- @overload fun(fileName: string, size: number, hinting: HintingMode, dpiscale: number):Rasterizer
 --- @overload fun(fileData: FileData, size: number, hinting: HintingMode, dpiscale: number):Rasterizer

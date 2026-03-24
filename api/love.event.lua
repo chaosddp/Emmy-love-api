@@ -89,13 +89,13 @@ function m.pump() end
 ---
 ---From 0.10.0 onwards, you may pass an arbitrary amount of arguments with this function, though the default callbacks don't ever use more than six.
 --- @param n Event @The name of the event.
---- @param a any @First event argument.
---- @param b any @Second event argument.
---- @param c any @Third event argument.
---- @param d any @Fourth event argument.
---- @param e any @Fifth event argument.
---- @param f any @Sixth event argument.
---- @param ... any @Further event arguments may follow.
+--- @param a? any @First event argument.
+--- @param b? any @Second event argument.
+--- @param c? any @Third event argument.
+--- @param d? any @Fourth event argument.
+--- @param e? any @Fifth event argument.
+--- @param f? any @Sixth event argument.
+--- @param ...? any @Further event arguments may follow.
 function m.push(n, a, b, c, d, e, f, ...) end
 
 
@@ -104,7 +104,7 @@ function m.push(n, a, b, c, d, e, f, ...) end
 ---
 ---
 ---The quit event is a signal for the event handler to close LÖVE. It's possible to abort the exit process with the love.quit callback.
---- @param exitstatus number @The program exit status to use when closing the application.
+--- @param exitstatus? number @The program exit status to use when closing the application.
 --- @overload fun('restart': string):void
 function m.quit(exitstatus) end
 

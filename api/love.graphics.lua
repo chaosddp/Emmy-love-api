@@ -412,7 +412,7 @@ function Font:setFallbacks(fallbackfont1, ...) end
 --- Sets the filter mode for a font.
 --- @param min FilterMode @How to scale a font down.
 --- @param mag FilterMode @How to scale a font up.
---- @param anisotropy number @Maximum amount of anisotropic filtering used.
+--- @param anisotropy? number @Maximum amount of anisotropic filtering used.
 function Font:setFilter(min, mag, anisotropy) end
 
 
@@ -449,11 +449,11 @@ function Image:isFormatLinear() end
 
 --- Replace the contents of an Image.
 --- @param data ImageData @The new ImageData to replace the contents with.
---- @param slice number @Which cubemap face, array index, or volume layer to replace, if applicable.
---- @param mipmap number @The mimap level to replace, if the Image has mipmaps.
---- @param x number @The x-offset in pixels from the top-left of the image to replace. The given ImageData's width plus this value must not be greater than the pixel width of the Image's specified mipmap level.
---- @param y number @The y-offset in pixels from the top-left of the image to replace. The given ImageData's height plus this value must not be greater than the pixel height of the Image's specified mipmap level.
---- @param reloadmipmaps boolean @Whether to generate new mipmaps after replacing the Image's pixels. True by default if the Image was created with automatically generated mipmaps, false by default otherwise.
+--- @param slice? number @Which cubemap face, array index, or volume layer to replace, if applicable.
+--- @param mipmap? number @The mimap level to replace, if the Image has mipmaps.
+--- @param x? number @The x-offset in pixels from the top-left of the image to replace. The given ImageData's width plus this value must not be greater than the pixel width of the Image's specified mipmap level.
+--- @param y? number @The y-offset in pixels from the top-left of the image to replace. The given ImageData's height plus this value must not be greater than the pixel height of the Image's specified mipmap level.
+--- @param reloadmipmaps? boolean @Whether to generate new mipmaps after replacing the Image's pixels. True by default if the Image was created with automatically generated mipmaps, false by default otherwise.
 function Image:replacePixels(data, slice, mipmap, x, y, reloadmipmaps) end
 
 
@@ -616,8 +616,8 @@ function Mesh:setVertexMap(map) end
 
 --- Replaces a range of vertices in the Mesh with new ones. The total number of vertices in a Mesh cannot be changed after it has been created. This is often more efficient than calling Mesh:setVertex in a loop.
 --- @param vertices table @The table filled with vertex information tables for each vertex, in the form of {vertex, ...} where each vertex is a table in the form of {attributecomponent, ...}.
---- @param startvertex number @The index of the first vertex to replace.
---- @param count number @Amount of vertices to replace.
+--- @param startvertex? number @The index of the first vertex to replace.
+--- @param count? number @Amount of vertices to replace.
 --- @overload fun(data: Data, startvertex: number):void
 --- @overload fun(vertices: table):void
 function Mesh:setVertices(vertices, startvertex, count) end
@@ -854,7 +854,7 @@ function ParticleSystem:setBufferSize(size) end
 --- @param r1 number @First color, red component (0-1).
 --- @param g1 number @First color, green component (0-1).
 --- @param b1 number @First color, blue component (0-1).
---- @param a1 number @First color, alpha component (0-1).
+--- @param a1? number @First color, alpha component (0-1).
 --- @param ... number @Additional colors.
 --- @overload fun(rgba1: table, ...: table):void
 function ParticleSystem:setColors(r1, g1, b1, a1, ...) end
@@ -869,8 +869,8 @@ function ParticleSystem:setDirection(direction) end
 --- @param distribution AreaSpreadDistribution @The type of distribution for new particles.
 --- @param dx number @The maximum spawn distance from the emitter along the x-axis for uniform distribution, or the standard deviation along the x-axis for normal distribution.
 --- @param dy number @The maximum spawn distance from the emitter along the y-axis for uniform distribution, or the standard deviation along the y-axis for normal distribution.
---- @param angle number @The angle in radians of the emission area.
---- @param directionRelativeToCenter boolean @True if newly spawned particles will be oriented relative to the center of the emission area, false otherwise.
+--- @param angle? number @The angle in radians of the emission area.
+--- @param directionRelativeToCenter? boolean @True if newly spawned particles will be oriented relative to the center of the emission area, false otherwise.
 function ParticleSystem:setEmissionArea(distribution, dx, dy, angle, directionRelativeToCenter) end
 
 
@@ -896,14 +896,14 @@ function ParticleSystem:setInsertMode(mode) end
 ---Every particle created will accelerate along the x and y axes between xmin,ymin and xmax,ymax.
 --- @param xmin number @The minimum acceleration along the x axis.
 --- @param ymin number @The minimum acceleration along the y axis.
---- @param xmax number @The maximum acceleration along the x axis.
---- @param ymax number @The maximum acceleration along the y axis.
+--- @param xmax? number @The maximum acceleration along the x axis.
+--- @param ymax? number @The maximum acceleration along the y axis.
 function ParticleSystem:setLinearAcceleration(xmin, ymin, xmax, ymax) end
 
 
 --- Sets the amount of linear damping (constant deceleration) for particles.
 --- @param min number @The minimum amount of linear damping applied to particles.
---- @param max number @The maximum amount of linear damping applied to particles.
+--- @param max? number @The maximum amount of linear damping applied to particles.
 function ParticleSystem:setLinearDamping(min, max) end
 
 
@@ -919,7 +919,7 @@ function ParticleSystem:setOffset(x, y) end
 
 --- Sets the lifetime of the particles.
 --- @param min number @The minimum life of the particles (in seconds).
---- @param max number @The maximum life of the particles (in seconds).
+--- @param max? number @The maximum life of the particles (in seconds).
 function ParticleSystem:setParticleLifetime(min, max) end
 
 
@@ -938,7 +938,7 @@ function ParticleSystem:setQuads(quad1, ...) end
 
 --- Set the radial acceleration (away from the emitter).
 --- @param min number @The minimum acceleration.
---- @param max number @The maximum acceleration.
+--- @param max? number @The maximum acceleration.
 function ParticleSystem:setRadialAcceleration(min, max) end
 
 
@@ -949,7 +949,7 @@ function ParticleSystem:setRelativeRotation(enable) end
 
 --- Sets the rotation of the image upon particle creation (in radians).
 --- @param min number @The minimum initial angle (radians).
---- @param max number @The maximum initial angle (radians).
+--- @param max? number @The maximum initial angle (radians).
 function ParticleSystem:setRotation(min, max) end
 
 
@@ -964,20 +964,20 @@ function ParticleSystem:setSizeVariation(variation) end
 ---
 ---At least one size must be specified. A maximum of eight may be used.
 --- @param size1 number @The first size.
---- @param size2 number @The second size.
---- @param size8 number @The eighth size.
+--- @param size2? number @The second size.
+--- @param size8? number @The eighth size.
 function ParticleSystem:setSizes(size1, size2, size8) end
 
 
 --- Sets the speed of the particles.
 --- @param min number @The minimum linear speed of the particles.
---- @param max number @The maximum linear speed of the particles.
+--- @param max? number @The maximum linear speed of the particles.
 function ParticleSystem:setSpeed(min, max) end
 
 
 --- Sets the spin of the sprite.
 --- @param min number @The minimum spin (radians per second).
---- @param max number @The maximum spin (radians per second).
+--- @param max? number @The maximum spin (radians per second).
 function ParticleSystem:setSpin(min, max) end
 
 
@@ -993,7 +993,7 @@ function ParticleSystem:setSpread(spread) end
 
 --- Sets the tangential acceleration (acceleration perpendicular to the particle's direction).
 --- @param min number @The minimum acceleration.
---- @param max number @The maximum acceleration.
+--- @param max? number @The maximum acceleration.
 function ParticleSystem:setTangentialAcceleration(min, max) end
 
 
@@ -1042,8 +1042,8 @@ function Quad:getViewport() end
 --- @param y number @The top-left corner along the y-axis.
 --- @param w number @The width of the viewport.
 --- @param h number @The height of the viewport.
---- @param sw number @Optional new reference width, the width of the Texture. Must be greater than 0 if set.
---- @param sh number @Optional new reference height, the height of the Texture. Must be greater than 0 if set.
+--- @param sw? number @Optional new reference width, the width of the Texture. Must be greater than 0 if set.
+--- @param sh? number @Optional new reference height, the height of the Texture. Must be greater than 0 if set.
 function Quad:setViewport(x, y, w, h, sw, sh) end
 
 
@@ -1163,13 +1163,13 @@ local SpriteBatch = {}
 --- Adds a sprite to the batch. Sprites are drawn in the order they are added.
 --- @param x number @The position to draw the object (x-axis).
 --- @param y number @The position to draw the object (y-axis).
---- @param r number @Orientation (radians).
---- @param sx number @Scale factor (x-axis).
---- @param sy number @Scale factor (y-axis).
---- @param ox number @Origin offset (x-axis).
---- @param oy number @Origin offset (y-axis).
---- @param kx number @Shear factor (x-axis).
---- @param ky number @Shear factor (y-axis).
+--- @param r? number @Orientation (radians).
+--- @param sx? number @Scale factor (x-axis).
+--- @param sy? number @Scale factor (y-axis).
+--- @param ox? number @Origin offset (x-axis).
+--- @param oy? number @Origin offset (y-axis).
+--- @param kx? number @Shear factor (x-axis).
+--- @param ky? number @Shear factor (y-axis).
 --- @return number @An identifier for the added sprite.
 --- @overload fun(quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):number
 function SpriteBatch:add(x, y, r, sx, sy, ox, oy, kx, ky) end
@@ -1177,15 +1177,15 @@ function SpriteBatch:add(x, y, r, sx, sy, ox, oy, kx, ky) end
 
 --- Adds a sprite to a batch created with an Array Texture.
 --- @param layerindex number @The index of the layer to use for this sprite.
---- @param x number @The position to draw the sprite (x-axis).
---- @param y number @The position to draw the sprite (y-axis).
---- @param r number @Orientation (radians).
---- @param sx number @Scale factor (x-axis).
---- @param sy number @Scale factor (y-axis).
---- @param ox number @Origin offset (x-axis).
---- @param oy number @Origin offset (y-axis).
---- @param kx number @Shearing factor (x-axis).
---- @param ky number @Shearing factor (y-axis).
+--- @param x? number @The position to draw the sprite (x-axis).
+--- @param y? number @The position to draw the sprite (y-axis).
+--- @param r? number @Orientation (radians).
+--- @param sx? number @Scale factor (x-axis).
+--- @param sy? number @Scale factor (y-axis).
+--- @param ox? number @Origin offset (x-axis).
+--- @param oy? number @Origin offset (y-axis).
+--- @param kx? number @Shearing factor (x-axis).
+--- @param ky? number @Shearing factor (y-axis).
 --- @return number @The index of the added sprite, for use with SpriteBatch:set or SpriteBatch:setLayer.
 --- @overload fun(layerindex: number, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):number
 --- @overload fun(layerindex: number, transform: Transform):number
@@ -1254,13 +1254,13 @@ function SpriteBatch:getTexture() end
 --- @param spriteindex number @The index of the sprite that will be changed.
 --- @param x number @The position to draw the object (x-axis).
 --- @param y number @The position to draw the object (y-axis).
---- @param r number @Orientation (radians).
---- @param sx number @Scale factor (x-axis).
---- @param sy number @Scale factor (y-axis).
---- @param ox number @Origin offset (x-axis).
---- @param oy number @Origin offset (y-axis).
---- @param kx number @Shear factor (x-axis).
---- @param ky number @Shear factor (y-axis).
+--- @param r? number @Orientation (radians).
+--- @param sx? number @Scale factor (x-axis).
+--- @param sy? number @Scale factor (y-axis).
+--- @param ox? number @Origin offset (x-axis).
+--- @param oy? number @Origin offset (y-axis).
+--- @param kx? number @Shear factor (x-axis).
+--- @param ky? number @Shear factor (y-axis).
 --- @overload fun(spriteindex: number, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
 function SpriteBatch:set(spriteindex, x, y, r, sx, sy, ox, oy, kx, ky) end
 
@@ -1277,7 +1277,7 @@ function SpriteBatch:set(spriteindex, x, y, r, sx, sy, ox, oy, kx, ky) end
 --- @param r number @The amount of red.
 --- @param g number @The amount of green.
 --- @param b number @The amount of blue.
---- @param a number @The amount of alpha.
+--- @param a? number @The amount of alpha.
 --- @overload fun():void
 function SpriteBatch:setColor(r, g, b, a) end
 
@@ -1292,15 +1292,15 @@ function SpriteBatch:setDrawRange(start, count) end
 --- Changes a sprite previously added with add or addLayer, in a batch created with an Array Texture.
 --- @param spriteindex number @The index of the existing sprite to replace.
 --- @param layerindex number @The index of the layer in the Array Texture to use for this sprite.
---- @param x number @The position to draw the sprite (x-axis).
---- @param y number @The position to draw the sprite (y-axis).
---- @param r number @Orientation (radians).
---- @param sx number @Scale factor (x-axis).
---- @param sy number @Scale factor (y-axis).
---- @param ox number @Origin offset (x-axis).
---- @param oy number @Origin offset (y-axis).
---- @param kx number @Shearing factor (x-axis).
---- @param ky number @Shearing factor (y-axis).
+--- @param x? number @The position to draw the sprite (x-axis).
+--- @param y? number @The position to draw the sprite (y-axis).
+--- @param r? number @Orientation (radians).
+--- @param sx? number @Scale factor (x-axis).
+--- @param sy? number @Scale factor (y-axis).
+--- @param ox? number @Origin offset (x-axis).
+--- @param oy? number @Origin offset (y-axis).
+--- @param kx? number @Shearing factor (x-axis).
+--- @param ky? number @Shearing factor (y-axis).
 --- @overload fun(spriteindex: number, layerindex: number, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
 --- @overload fun(spriteindex: number, layerindex: number, transform: Transform):void
 --- @overload fun(spriteindex: number, layerindex: number, quad: Quad, transform: Transform):void
@@ -1318,15 +1318,15 @@ local Text = {}
 
 --- Adds additional colored text to the Text object at the specified position.
 --- @param textstring string @The text to add to the object.
---- @param x number @The position of the new text on the x-axis.
---- @param y number @The position of the new text on the y-axis.
---- @param angle number @The orientation of the new text in radians.
---- @param sx number @Scale factor on the x-axis.
---- @param sy number @Scale factor on the y-axis.
---- @param ox number @Origin offset on the x-axis.
---- @param oy number @Origin offset on the y-axis.
---- @param kx number @Shearing / skew factor on the x-axis.
---- @param ky number @Shearing / skew factor on the y-axis.
+--- @param x? number @The position of the new text on the x-axis.
+--- @param y? number @The position of the new text on the y-axis.
+--- @param angle? number @The orientation of the new text in radians.
+--- @param sx? number @Scale factor on the x-axis.
+--- @param sy? number @Scale factor on the y-axis.
+--- @param ox? number @Origin offset on the x-axis.
+--- @param oy? number @Origin offset on the y-axis.
+--- @param kx? number @Shearing / skew factor on the x-axis.
+--- @param ky? number @Shearing / skew factor on the y-axis.
 --- @return number @An index number that can be used with Text:getWidth or Text:getHeight.
 --- @overload fun(coloredtext: table, x: number, y: number, angle: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):number
 function Text:add(textstring, x, y, angle, sx, sy, ox, oy, kx, ky) end
@@ -1342,13 +1342,13 @@ function Text:add(textstring, x, y, angle, sx, sy, ox, oy, kx, ky) end
 --- @param align AlignMode @The alignment of the text.
 --- @param x number @The position of the new text (x-axis).
 --- @param y number @The position of the new text (y-axis).
---- @param angle number @Orientation (radians).
---- @param sx number @Scale factor (x-axis).
---- @param sy number @Scale factor (y-axis).
---- @param ox number @Origin offset (x-axis).
---- @param oy number @Origin offset (y-axis).
---- @param kx number @Shearing / skew factor (x-axis).
---- @param ky number @Shearing / skew factor (y-axis).
+--- @param angle? number @Orientation (radians).
+--- @param sx? number @Scale factor (x-axis).
+--- @param sy? number @Scale factor (y-axis).
+--- @param ox? number @Origin offset (x-axis).
+--- @param oy? number @Origin offset (y-axis).
+--- @param kx? number @Shearing / skew factor (x-axis).
+--- @param ky? number @Shearing / skew factor (y-axis).
 --- @return number @An index number that can be used with Text:getWidth or Text:getHeight.
 --- @overload fun(coloredtext: table, wraplimit: number, align: AlignMode, x: number, y: number, angle: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):number
 function Text:addf(textstring, wraplimit, align, x, y, angle, sx, sy, ox, oy, kx, ky) end
@@ -1548,8 +1548,8 @@ function Texture:setDepthSampleMode(compare) end
 
 --- Sets the filter mode of the Texture.
 --- @param min FilterMode @Filter mode to use when minifying the texture (rendering it at a smaller size on-screen than its size in pixels).
---- @param mag FilterMode @Filter mode to use when magnifying the texture (rendering it at a larger size on-screen than its size in pixels).
---- @param anisotropy number @Maximum amount of anisotropic filtering to use.
+--- @param mag? FilterMode @Filter mode to use when magnifying the texture (rendering it at a larger size on-screen than its size in pixels).
+--- @param anisotropy? number @Maximum amount of anisotropic filtering to use.
 function Texture:setFilter(min, mag, anisotropy) end
 
 
@@ -1567,7 +1567,7 @@ function Texture:setFilter(min, mag, anisotropy) end
 ---
 ---Due to hardware restrictions and driver bugs, in versions prior to 0.10.0 images that weren't loaded from a CompressedData must have power-of-two dimensions (64x64, 512x256, etc.) to use mipmaps.
 --- @param filtermode FilterMode @The filter mode to use in between mipmap levels. 'nearest' will often give better performance.
---- @param sharpness number @A positive sharpness value makes the texture use a more detailed mipmap level when drawing, at the expense of performance. A negative value does the reverse.
+--- @param sharpness? number @A positive sharpness value makes the texture use a more detailed mipmap level when drawing, at the expense of performance. A negative value does the reverse.
 --- @overload fun():void
 function Texture:setMipmapFilter(filtermode, sharpness) end
 
@@ -1582,8 +1582,8 @@ function Texture:setMipmapFilter(filtermode, sharpness) end
 ---
 ---Clamped textures appear only once (with the edges of the texture stretching to fill the extent of the Quad), whereas repeated ones repeat as many times as there is room in the Quad.
 --- @param horiz WrapMode @Horizontal wrapping mode of the texture.
---- @param vert WrapMode @Vertical wrapping mode of the texture.
---- @param depth WrapMode @Wrapping mode for the z-axis of a Volume texture.
+--- @param vert? WrapMode @Vertical wrapping mode of the texture.
+--- @param depth? WrapMode @Wrapping mode for the z-axis of a Volume texture.
 function Texture:setWrap(horiz, vert, depth) end
 
 
@@ -1649,12 +1649,12 @@ function Video:seek(offset) end
 --- Sets the scaling filters used when drawing the Video.
 --- @param min FilterMode @The filter mode used when scaling the Video down.
 --- @param mag FilterMode @The filter mode used when scaling the Video up.
---- @param anisotropy number @Maximum amount of anisotropic filtering used.
+--- @param anisotropy? number @Maximum amount of anisotropic filtering used.
 function Video:setFilter(min, mag, anisotropy) end
 
 
 --- Sets the audio Source used for playing back the video's audio. The audio Source also controls playback speed and synchronization.
---- @param source Source @The audio Source used for audio playback, or nil to disable audio synchronization.
+--- @param source? Source @The audio Source used for audio playback, or nil to disable audio synchronization.
 function Video:setSource(source) end
 
 
@@ -1684,7 +1684,7 @@ function m.applyTransform(transform) end
 --- @param radius number @Radius of the arc.
 --- @param angle1 number @The angle at which the arc begins.
 --- @param angle2 number @The angle at which the arc terminates.
---- @param segments number @The number of segments used for drawing the arc.
+--- @param segments? number @The number of segments used for drawing the arc.
 --- @overload fun(drawmode: DrawMode, arctype: ArcType, x: number, y: number, radius: number, angle1: number, angle2: number, segments: number):void
 function m.arc(drawmode, x, y, radius, angle1, angle2, segments) end
 
@@ -1741,8 +1741,8 @@ function m.clear() end
 ---
 ---
 ---On some desktop systems this function may do nothing.
---- @param discardcolor boolean @Whether to discard the texture(s) of the active Canvas(es) (the contents of the screen if no Canvas is active.)
---- @param discardstencil boolean @Whether to discard the contents of the stencil buffer of the screen / active Canvas.
+--- @param discardcolor? boolean @Whether to discard the texture(s) of the active Canvas(es) (the contents of the screen if no Canvas is active.)
+--- @param discardstencil? boolean @Whether to discard the contents of the stencil buffer of the screen / active Canvas.
 --- @overload fun(discardcolors: table, discardstencil: boolean):void
 function m.discard(discardcolor, discardstencil) end
 
@@ -1769,15 +1769,15 @@ function m.discard(discardcolor, discardstencil) end
 ---
 ---When using the default shader anything drawn with this function will be tinted according to the currently selected color.  Set it to pure white to preserve the object's original colors.
 --- @param drawable Drawable @A drawable object.
---- @param x number @The position to draw the object (x-axis).
---- @param y number @The position to draw the object (y-axis).
---- @param r number @Orientation (radians).
---- @param sx number @Scale factor (x-axis).
---- @param sy number @Scale factor (y-axis).
---- @param ox number @Origin offset (x-axis).
---- @param oy number @Origin offset (y-axis).
---- @param kx number @Shearing factor (x-axis).
---- @param ky number @Shearing factor (y-axis).
+--- @param x? number @The position to draw the object (x-axis).
+--- @param y? number @The position to draw the object (y-axis).
+--- @param r? number @Orientation (radians).
+--- @param sx? number @Scale factor (x-axis).
+--- @param sy? number @Scale factor (y-axis).
+--- @param ox? number @Origin offset (x-axis).
+--- @param oy? number @Origin offset (y-axis).
+--- @param kx? number @Shearing factor (x-axis).
+--- @param ky? number @Shearing factor (y-axis).
 --- @overload fun(texture: Texture, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
 --- @overload fun(drawable: Drawable, transform: Transform):void
 --- @overload fun(texture: Texture, quad: Quad, transform: Transform):void
@@ -1795,15 +1795,15 @@ function m.draw(drawable, x, y, r, sx, sy, ox, oy, kx, ky) end
 ---Instancing is not supported by some older GPUs that are only capable of using OpenGL ES 2 or OpenGL 2. Use love.graphics.getSupported to check.
 --- @param mesh Mesh @The mesh to render.
 --- @param instancecount number @The number of instances to render.
---- @param x number @The position to draw the instances (x-axis).
---- @param y number @The position to draw the instances (y-axis).
---- @param r number @Orientation (radians).
---- @param sx number @Scale factor (x-axis).
---- @param sy number @Scale factor (y-axis).
---- @param ox number @Origin offset (x-axis).
---- @param oy number @Origin offset (y-axis).
---- @param kx number @Shearing factor (x-axis).
---- @param ky number @Shearing factor (y-axis).
+--- @param x? number @The position to draw the instances (x-axis).
+--- @param y? number @The position to draw the instances (y-axis).
+--- @param r? number @Orientation (radians).
+--- @param sx? number @Scale factor (x-axis).
+--- @param sy? number @Scale factor (y-axis).
+--- @param ox? number @Origin offset (x-axis).
+--- @param oy? number @Origin offset (y-axis).
+--- @param kx? number @Shearing factor (x-axis).
+--- @param ky? number @Shearing factor (y-axis).
 --- @overload fun(mesh: Mesh, instancecount: number, transform: Transform):void
 function m.drawInstanced(mesh, instancecount, x, y, r, sx, sy, ox, oy, kx, ky) end
 
@@ -1811,15 +1811,15 @@ function m.drawInstanced(mesh, instancecount, x, y, r, sx, sy, ox, oy, kx, ky) e
 --- Draws a layer of an Array Texture.
 --- @param texture Texture @The Array Texture to draw.
 --- @param layerindex number @The index of the layer to use when drawing.
---- @param x number @The position to draw the texture (x-axis).
---- @param y number @The position to draw the texture (y-axis).
---- @param r number @Orientation (radians).
---- @param sx number @Scale factor (x-axis).
---- @param sy number @Scale factor (y-axis).
---- @param ox number @Origin offset (x-axis).
---- @param oy number @Origin offset (y-axis).
---- @param kx number @Shearing factor (x-axis).
---- @param ky number @Shearing factor (y-axis).
+--- @param x? number @The position to draw the texture (x-axis).
+--- @param y? number @The position to draw the texture (y-axis).
+--- @param r? number @Orientation (radians).
+--- @param sx? number @Scale factor (x-axis).
+--- @param sy? number @Scale factor (y-axis).
+--- @param ox? number @Origin offset (x-axis).
+--- @param oy? number @Origin offset (y-axis).
+--- @param kx? number @Shearing factor (x-axis).
+--- @param ky? number @Shearing factor (y-axis).
 --- @overload fun(texture: Texture, layerindex: number, quad: Quad, x: number, y: number, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
 --- @overload fun(texture: Texture, layerindex: number, transform: Transform):void
 --- @overload fun(texture: Texture, layerindex: number, quad: Quad, transform: Transform):void
@@ -2169,7 +2169,7 @@ function m.line(x1, y1, x2, y2, ...) end
 ---
 ---To use an array image in a Shader, it must be declared as a ArrayImage or sampler2DArray type (instead of Image or sampler2D). The Texel(ArrayImage image, vec3 texturecoord) shader function must be used to get pixel colors from a slice of the array image. The vec3 argument contains the texture coordinate in the first two components, and the 0-based slice index in the third component.
 --- @param slices table @A table containing filepaths to images (or File, FileData, ImageData, or CompressedImageData objects), in an array. Each sub-image must have the same dimensions. A table of tables can also be given, where each sub-table contains all mipmap levels for the slice index of that sub-table.
---- @param settings table @Optional table of settings to configure the array image, containing the following fields:
+--- @param settings? table @Optional table of settings to configure the array image, containing the following fields:
 --- @return Image @An Array Image object.
 function m.newArrayImage(slices, settings) end
 
@@ -2268,7 +2268,7 @@ function m.newCanvas() end
 ---
 ---+x -x +y -y +z -z
 --- @param filename string @The filepath to a cubemap image file (or a File, FileData, or ImageData).
---- @param settings table @Optional table of settings to configure the cubemap image, containing the following fields:
+--- @param settings? table @Optional table of settings to configure the cubemap image, containing the following fields:
 --- @return Image @An cubemap Image object.
 --- @overload fun(faces: table, settings: table):Image
 function m.newCubeImage(filename, settings) end
@@ -2289,7 +2289,7 @@ function m.newFont(filename) end
 
 --- Creates a new Image from a filepath, FileData, an ImageData, or a CompressedImageData, and optionally generates or specifies mipmaps for the image.
 --- @param filename string @The filepath to the image file.
---- @param settings table @A table containing the following fields:
+--- @param settings? table @A table containing the following fields:
 --- @return Image @A new Image object which can be drawn on screen.
 --- @overload fun(fileData: FileData, settings: table):Image
 --- @overload fun(imageData: ImageData, settings: table):Image
@@ -2320,8 +2320,8 @@ function m.newImageFont(filename, glyphs) end
 ---
 ---In versions prior to 11.0, color and byte component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param vertices table @The table filled with vertex information tables for each vertex as follows:
---- @param mode MeshDrawMode @How the vertices are used when drawing. The default mode 'fan' is sufficient for simple convex polygons.
---- @param usage SpriteBatchUsage @The expected usage of the Mesh. The specified usage mode affects the Mesh's memory usage and performance.
+--- @param mode? MeshDrawMode @How the vertices are used when drawing. The default mode 'fan' is sufficient for simple convex polygons.
+--- @param usage? SpriteBatchUsage @The expected usage of the Mesh. The specified usage mode affects the Mesh's memory usage and performance.
 --- @return Mesh @The new mesh.
 --- @overload fun(vertexcount: number, mode: MeshDrawMode, usage: SpriteBatchUsage):Mesh
 --- @overload fun(vertexformat: table, vertices: table, mode: MeshDrawMode, usage: SpriteBatchUsage):Mesh
@@ -2332,7 +2332,7 @@ function m.newMesh(vertices, mode, usage) end
 
 --- Creates a new ParticleSystem.
 --- @param image Image @The image to use.
---- @param buffer number @The max number of particles at the same time.
+--- @param buffer? number @The max number of particles at the same time.
 --- @return ParticleSystem @A new ParticleSystem.
 --- @overload fun(texture: Texture, buffer: number):ParticleSystem
 function m.newParticleSystem(image, buffer) end
@@ -2367,7 +2367,7 @@ function m.newShader(code) end
 
 --- Creates a new SpriteBatch object.
 --- @param image Image @The Image to use for the sprites.
---- @param maxsprites number @The maximum number of sprites that the SpriteBatch can contain at any given time. Since version 11.0, additional sprites added past this number will automatically grow the spritebatch.
+--- @param maxsprites? number @The maximum number of sprites that the SpriteBatch can contain at any given time. Since version 11.0, additional sprites added past this number will automatically grow the spritebatch.
 --- @return SpriteBatch @The new SpriteBatch.
 --- @overload fun(image: Image, maxsprites: number, usage: SpriteBatchUsage):SpriteBatch
 --- @overload fun(texture: Texture, maxsprites: number, usage: SpriteBatchUsage):SpriteBatch
@@ -2376,7 +2376,7 @@ function m.newSpriteBatch(image, maxsprites) end
 
 --- Creates a new drawable Text object.
 --- @param font Font @The font to use for the text.
---- @param textstring string @The initial string of text that the new Text object will contain. May be nil.
+--- @param textstring? string @The initial string of text that the new Text object will contain. May be nil.
 --- @return Text @The new drawable Text object.
 --- @overload fun(font: Font, coloredtext: table):Text
 function m.newText(font, textstring) end
@@ -2410,7 +2410,7 @@ function m.newVideo(filename) end
 ---
 ---Array images are a much better choice than volume images for storing multiple different sprites in a single array image for directly drawing them.
 --- @param layers table @A table containing filepaths to images (or File, FileData, ImageData, or CompressedImageData objects), in an array. A table of tables can also be given, where each sub-table represents a single mipmap level and contains all layers for that mipmap.
---- @param settings table @Optional table of settings to configure the volume image, containing the following fields:
+--- @param settings? table @Optional table of settings to configure the volume image, containing the following fields:
 --- @return Image @A volume Image object.
 function m.newVolumeImage(layers, settings) end
 
@@ -2473,15 +2473,15 @@ function m.present() end
 ---
 ---In versions prior to 11.0, color and byte component values were within the range of 0 to 255 instead of 0 to 1.
 --- @param text string @The text to draw.
---- @param x number @The position to draw the object (x-axis).
---- @param y number @The position to draw the object (y-axis).
---- @param r number @Orientation (radians).
---- @param sx number @Scale factor (x-axis).
---- @param sy number @Scale factor (y-axis).
---- @param ox number @Origin offset (x-axis).
---- @param oy number @Origin offset (y-axis).
---- @param kx number @Shearing factor (x-axis).
---- @param ky number @Shearing factor (y-axis).
+--- @param x? number @The position to draw the object (x-axis).
+--- @param y? number @The position to draw the object (y-axis).
+--- @param r? number @Orientation (radians).
+--- @param sx? number @Scale factor (x-axis).
+--- @param sy? number @Scale factor (y-axis).
+--- @param ox? number @Origin offset (x-axis).
+--- @param oy? number @Origin offset (y-axis).
+--- @param kx? number @Shearing factor (x-axis).
+--- @param ky? number @Shearing factor (y-axis).
 --- @overload fun(coloredtext: table, x: number, y: number, angle: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
 --- @overload fun(text: string, transform: Transform):void
 --- @overload fun(coloredtext: table, transform: Transform):void
@@ -2511,14 +2511,14 @@ function m.print(text, x, y, r, sx, sy, ox, oy, kx, ky) end
 --- @param x number @The position on the x-axis.
 --- @param y number @The position on the y-axis.
 --- @param limit number @Wrap the line after this many horizontal pixels.
---- @param align AlignMode @The alignment.
---- @param r number @Orientation (radians).
---- @param sx number @Scale factor (x-axis).
---- @param sy number @Scale factor (y-axis).
---- @param ox number @Origin offset (x-axis).
---- @param oy number @Origin offset (y-axis).
---- @param kx number @Shearing factor (x-axis).
---- @param ky number @Shearing factor (y-axis).
+--- @param align? AlignMode @The alignment.
+--- @param r? number @Orientation (radians).
+--- @param sx? number @Scale factor (x-axis).
+--- @param sy? number @Scale factor (y-axis).
+--- @param ox? number @Origin offset (x-axis).
+--- @param oy? number @Origin offset (y-axis).
+--- @param kx? number @Shearing factor (x-axis).
+--- @param ky? number @Shearing factor (y-axis).
 --- @overload fun(text: string, font: Font, x: number, y: number, limit: number, align: AlignMode, r: number, sx: number, sy: number, ox: number, oy: number, kx: number, ky: number):void
 --- @overload fun(text: string, transform: Transform, limit: number, align: AlignMode):void
 --- @overload fun(text: string, font: Font, transform: Transform, limit: number, align: AlignMode):void
@@ -2588,7 +2588,7 @@ function m.rotate(angle) end
 ---
 ---Scaling lasts until love.draw() exits.
 --- @param sx number @The scaling in the direction of the x-axis.
---- @param sy number @The scaling in the direction of the y-axis. If omitted, it defaults to same as parameter sx.
+--- @param sy? number @The scaling in the direction of the y-axis. If omitted, it defaults to same as parameter sx.
 function m.scale(sx, sy) end
 
 
@@ -2596,7 +2596,7 @@ function m.scale(sx, sy) end
 --- @param red number @The red component (0-1).
 --- @param green number @The green component (0-1).
 --- @param blue number @The blue component (0-1).
---- @param alpha number @The alpha component (0-1).
+--- @param alpha? number @The alpha component (0-1).
 --- @overload fun(rgba: table):void
 function m.setBackgroundColor(red, green, blue, alpha) end
 
@@ -2609,7 +2609,7 @@ function m.setBlendMode(mode) end
 
 --- Captures drawing operations to a Canvas.
 --- @param canvas Canvas @The new target.
---- @param mipmap number @The mipmap level to render to, for Canvases with mipmaps.
+--- @param mipmap? number @The mipmap level to render to, for Canvases with mipmaps.
 --- @overload fun():void
 --- @overload fun(canvas1: Canvas, canvas2: Canvas, ...: Canvas):void
 --- @overload fun(canvas: Canvas, slice: number, mipmap: number):void
@@ -2625,7 +2625,7 @@ function m.setCanvas(canvas, mipmap) end
 --- @param red number @The amount of red.
 --- @param green number @The amount of green.
 --- @param blue number @The amount of blue.
---- @param alpha number @The amount of alpha.  The alpha value will be applied to all subsequent draw operations, even the drawing of an image.
+--- @param alpha? number @The amount of alpha.  The alpha value will be applied to all subsequent draw operations, even the drawing of an image.
 --- @overload fun(rgba: table):void
 function m.setColor(red, green, blue, alpha) end
 
@@ -2641,8 +2641,8 @@ function m.setColorMask(red, green, blue, alpha) end
 
 --- Sets the default scaling filters used with Images, Canvases, and Fonts.
 --- @param min FilterMode @Filter mode used when scaling the image down.
---- @param mag FilterMode @Filter mode used when scaling the image up.
---- @param anisotropy number @Maximum amount of Anisotropic Filtering used.
+--- @param mag? FilterMode @Filter mode used when scaling the image up.
+--- @param anisotropy? number @Maximum amount of Anisotropic Filtering used.
 function m.setDefaultFilter(min, mag, anisotropy) end
 
 
@@ -2704,7 +2704,7 @@ function m.setMeshCullMode(mode) end
 
 
 --- Creates and sets a new Font.
---- @param size number @The size of the font.
+--- @param size? number @The size of the font.
 --- @return Font @The new font.
 --- @overload fun(filename: string, size: number):Font
 --- @overload fun(file: File, size: number):Font
@@ -2773,9 +2773,9 @@ function m.shear(kx, ky) end
 ---
 ---Stencil values are integers within the range of 255.
 --- @param stencilfunction function @Function which draws geometry. The stencil values of pixels, rather than the color of each pixel, will be affected by the geometry.
---- @param action StencilAction @How to modify any stencil values of pixels that are touched by what's drawn in the stencil function.
---- @param value number @The new stencil value to use for pixels if the 'replace' stencil action is used. Has no effect with other stencil actions. Must be between 0 and 255.
---- @param keepvalues boolean @True to preserve old stencil values of pixels, false to re-set every pixel's stencil value to 0 before executing the stencil function. love.graphics.clear will also re-set all stencil values.
+--- @param action? StencilAction @How to modify any stencil values of pixels that are touched by what's drawn in the stencil function.
+--- @param value? number @The new stencil value to use for pixels if the 'replace' stencil action is used. Has no effect with other stencil actions. Must be between 0 and 255.
+--- @param keepvalues? boolean @True to preserve old stencil values of pixels, false to re-set every pixel's stencil value to 0 before executing the stencil function. love.graphics.clear will also re-set all stencil values.
 function m.stencil(stencilfunction, action, value, keepvalues) end
 
 

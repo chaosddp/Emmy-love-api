@@ -105,7 +105,7 @@ function SoundData:setSample(i, sample) end
 
 --- Attempts to find a decoder for the encoded sound data in the specified file.
 --- @param file File @The file with encoded sound data.
---- @param buffer number @The size of each decoded chunk, in bytes.
+--- @param buffer? number @The size of each decoded chunk, in bytes.
 --- @return Decoder @A new Decoder object.
 --- @overload fun(filename: string, buffer: number):Decoder
 function m.newDecoder(file, buffer) end

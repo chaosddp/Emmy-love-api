@@ -182,13 +182,14 @@ local function genFunction(func, parent_inst_name, is_class)
                 local arg_name = arg.name
                 local arg_type = correctType(arg.type)
                 local arg_description = arg.description
+                local has_default_value = hasField(arg, "default")
 
                 table.insert(param_name_list, arg_name)
 
                 table.insert(annotation_list,
                     string.format(
                         "--- @param %s %s @%s",
-                        arg_name,
+                        has_default_value and arg_name .. "?" or arg_name,
                         arg_type,
                         safeDesc(arg_description)
                     ))

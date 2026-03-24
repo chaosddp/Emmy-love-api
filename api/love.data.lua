@@ -67,7 +67,7 @@ function CompressedData:getFormat() end
 --- @param container ContainerType @What type to return the compressed data as.
 --- @param format CompressedDataFormat @The format to use when compressing the string.
 --- @param rawstring string @The raw (un-compressed) string to compress.
---- @param level number @The level of compression to use, between 0 and 9. -1 indicates the default level. The meaning of this argument depends on the compression format being used.
+--- @param level? number @The level of compression to use, between 0 and 9. -1 indicates the default level. The meaning of this argument depends on the compression format being used.
 --- @return CompressedData|string @CompressedData/string which contains the compressed version of rawstring.
 --- @overload fun(container: ContainerType, format: CompressedDataFormat, data: Data, level: number):CompressedData|string
 function m.compress(container, format, rawstring, level) end
@@ -95,7 +95,7 @@ function m.decompress(container, compressedData) end
 --- @param container ContainerType @What type to return the encoded data as.
 --- @param format EncodeFormat @The format of the output data.
 --- @param sourceString string @The raw data to encode.
---- @param linelength number @The maximum line length of the output. Only supported for base64, ignored if 0.
+--- @param linelength? number @The maximum line length of the output. Only supported for base64, ignored if 0.
 --- @return ByteData|string @ByteData/string which contains the encoded version of source.
 --- @overload fun(container: ContainerType, format: EncodeFormat, sourceData: Data, linelength: number):ByteData|string
 function m.encode(container, format, sourceString, linelength) end
@@ -159,7 +159,7 @@ function m.pack(container, format, v1, ...) end
 ---This function behaves the same as Lua 5.3's string.unpack.
 --- @param format string @A string determining how the values were packed. Follows the rules of Lua 5.3's string.pack format strings.
 --- @param datastring string @A string containing the packed (serialized) data.
---- @param pos number @Where to start reading in the string. Negative values can be used to read relative from the end of the string.
+--- @param pos? number @Where to start reading in the string. Negative values can be used to read relative from the end of the string.
 --- @return number|boolean|string @The first value (number, boolean, or string) that was unpacked.
 --- @return number|boolean|string @Additional unpacked values.
 --- @return number @The index of the first unread byte in the data string.
