@@ -349,7 +349,7 @@ function m.getPointer() end
 ---@param settings FileDialogSettings
 function m.showFileDialog(type, callback, settings) end
 
----@alias ShowDialogCallback fun(files: string[], filtername: table|nil, errorstring: string|nil):void
+---@alias ShowDialogCallback fun(files: string[], filtername: table|nil, errorstring: string|nil)
 
 ---Possible types of file dialogs.
 ---@alias FileDialogType

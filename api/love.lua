@@ -139,97 +139,97 @@ function Object:typeOf(name) end
 --- @field thread boolean @Enable the thread module.
 
 --- If a file called conf.lua is present in your game folder (or .love file), it is run before the LÖVE modules are loaded. You can use this file to overwrite the love.conf function, which is later called by the LÖVE 'boot' script. Using the love.conf function, you can set some configuration options, and change things like the default size of the window, which modules are loaded, and other stuff.
---- @type fun(t: Conf):void
+--- @type fun(t: Conf)
 m.conf = nil
 
 
 --- Callback function triggered when a directory is dragged and dropped onto the window.
---- @type fun(path: string):void
+--- @type fun(path: string)
 m.directorydropped = nil
 
 
 --- Called when the device display orientation changed, for example, user rotated their phone 180 degrees.
---- @type fun(index: number, orientation: DisplayOrientation):void
+--- @type fun(index: number, orientation: DisplayOrientation)
 m.displayrotated = nil
 
 
 --- Callback function used to draw on the screen every frame.
---- @type fun():void
+--- @type fun()
 m.draw = nil
 
 
 --- The error handler, used to display error messages.
---- @type fun(msg: string):void
+--- @type fun(msg: string)
 m.errorhandler = nil
 
 
 --- Callback function triggered when a file is dragged and dropped onto the window.
---- @type fun(file: DroppedFile):void
+--- @type fun(file: DroppedFile)
 m.filedropped = nil
 
 
 --- Callback function triggered when window receives or loses focus.
---- @type fun(focus: boolean):void
+--- @type fun(focus: boolean)
 m.focus = nil
 
 
 --- Called when a Joystick's virtual gamepad axis is moved.
---- @type fun(joystick: Joystick, axis: GamepadAxis, value: number):void
+--- @type fun(joystick: Joystick, axis: GamepadAxis, value: number)
 m.gamepadaxis = nil
 
 
 --- Called when a Joystick's virtual gamepad button is pressed.
---- @type fun(joystick: Joystick, button: GamepadButton):void
+--- @type fun(joystick: Joystick, button: GamepadButton)
 m.gamepadpressed = nil
 
 
 --- Called when a Joystick's virtual gamepad button is released.
---- @type fun(joystick: Joystick, button: GamepadButton):void
+--- @type fun(joystick: Joystick, button: GamepadButton)
 m.gamepadreleased = nil
 
 
 --- Called when a Joystick is connected.
---- @type fun(joystick: Joystick):void
+--- @type fun(joystick: Joystick)
 m.joystickadded = nil
 
 
 --- Called when a joystick axis moves.
---- @type fun(joystick: Joystick, axis: number, value: number):void
+--- @type fun(joystick: Joystick, axis: number, value: number)
 m.joystickaxis = nil
 
 
 --- Called when a joystick hat direction changes.
---- @type fun(joystick: Joystick, hat: number, direction: JoystickHat):void
+--- @type fun(joystick: Joystick, hat: number, direction: JoystickHat)
 m.joystickhat = nil
 
 
 --- Called when a joystick button is pressed.
---- @type fun(joystick: Joystick, button: number):void
+--- @type fun(joystick: Joystick, button: number)
 m.joystickpressed = nil
 
 
 --- Called when a joystick button is released.
---- @type fun(joystick: Joystick, button: number):void
+--- @type fun(joystick: Joystick, button: number)
 m.joystickreleased = nil
 
 
 --- Called when a Joystick is disconnected.
---- @type fun(joystick: Joystick):void
+--- @type fun(joystick: Joystick)
 m.joystickremoved = nil
 
 
 --- Callback function triggered when a key is pressed.
---- @type fun(key: KeyConstant, scancode: Scancode, isrepeat: boolean):void
+--- @type fun(key: KeyConstant, scancode: Scancode, isrepeat: boolean)
 m.keypressed = nil
 
 
 --- Callback function triggered when a keyboard key is released.
---- @type fun(key: KeyConstant, scancode: Scancode):void
+--- @type fun(key: KeyConstant, scancode: Scancode)
 m.keyreleased = nil
 
 
 --- This function is called exactly once at the beginning of the game.
---- @type fun(arg: table, unfilteredArg: table):void
+--- @type fun(arg: table, unfilteredArg: table)
 m.load = nil
 
 
@@ -238,42 +238,42 @@ m.load = nil
 ---
 ---
 ---Mobile operating systems may forcefully kill the game if it uses too much memory, so any non-critical resource should be removed if possible (by setting all variables referencing the resources to '''nil'''), when this event is triggered. Sounds and images in particular tend to use the most memory.
---- @type fun():void
+--- @type fun()
 m.lowmemory = nil
 
 
 --- Callback function triggered when window receives or loses mouse focus.
---- @type fun(focus: boolean):void
+--- @type fun(focus: boolean)
 m.mousefocus = nil
 
 
 --- Callback function triggered when the mouse is moved.
---- @type fun(x: number, y: number, dx: number, dy: number, istouch: boolean):void
+--- @type fun(x: number, y: number, dx: number, dy: number, istouch: boolean)
 m.mousemoved = nil
 
 
 --- Callback function triggered when a mouse button is pressed.
---- @type fun(x: number, y: number, button: number, istouch: boolean, presses: number):void
+--- @type fun(x: number, y: number, button: number, istouch: boolean, presses: number)
 m.mousepressed = nil
 
 
 --- Callback function triggered when a mouse button is released.
---- @type fun(x: number, y: number, button: number, istouch: boolean, presses: number):void
+--- @type fun(x: number, y: number, button: number, istouch: boolean, presses: number)
 m.mousereleased = nil
 
 
 --- Callback function triggered when the game is closed.
---- @type fun():void
+--- @type fun()
 m.quit = nil
 
 
 --- Called when the window is resized, for example if the user resizes the window, or if love.window.setMode is called with an unsupported width or height in fullscreen and the window chooses the closest appropriate size.
---- @type fun(w: number, h: number):void
+--- @type fun(w: number, h: number)
 m.resize = nil
 
 
 --- The main function, containing the main loop. A sensible default is used when left out.
---- @type fun():void
+--- @type fun()
 m.run = nil
 
 
@@ -282,47 +282,47 @@ m.run = nil
 ---
 ---
 ---The candidate text is not the final text that the user will eventually choose. Use love.textinput for that.
---- @type fun(text: string, start: number, length: number):void
+--- @type fun(text: string, start: number, length: number)
 m.textedited = nil
 
 
 --- Called when text has been entered by the user. For example if shift-2 is pressed on an American keyboard layout, the text '@' will be generated.
---- @type fun(text: string):void
+--- @type fun(text: string)
 m.textinput = nil
 
 
 --- Callback function triggered when a Thread encounters an error.
---- @type fun(thread: Thread, errorstr: string):void
+--- @type fun(thread: Thread, errorstr: string)
 m.threaderror = nil
 
 
 --- Callback function triggered when a touch press moves inside the touch screen.
---- @type fun(id: lightuserdata, x: number, y: number, dx: number, dy: number, pressure: number):void
+--- @type fun(id: lightuserdata, x: number, y: number, dx: number, dy: number, pressure: number)
 m.touchmoved = nil
 
 
 --- Callback function triggered when the touch screen is touched.
---- @type fun(id: lightuserdata, x: number, y: number, dx: number, dy: number, pressure: number):void
+--- @type fun(id: lightuserdata, x: number, y: number, dx: number, dy: number, pressure: number)
 m.touchpressed = nil
 
 
 --- Callback function triggered when the touch screen stops being touched.
---- @type fun(id: lightuserdata, x: number, y: number, dx: number, dy: number, pressure: number):void
+--- @type fun(id: lightuserdata, x: number, y: number, dx: number, dy: number, pressure: number)
 m.touchreleased = nil
 
 
 --- Callback function used to update the state of the game every frame.
---- @type fun(dt: number):void
+--- @type fun(dt: number)
 m.update = nil
 
 
 --- Callback function triggered when window is minimized/hidden or unminimized by the user.
---- @type fun(visible: boolean):void
+--- @type fun(visible: boolean)
 m.visible = nil
 
 
 --- Callback function triggered when the mouse wheel is moved.
---- @type fun(x: number, y: number):void
+--- @type fun(x: number, y: number)
 m.wheelmoved = nil
 
 
@@ -421,38 +421,38 @@ m.window = nil
 
 
 ---Callback function triggered when the user's system locale preferences have changed.
----@type fun():void
+---@type fun()
 m.localechanged = nil
 
 ---Callback function triggered when a file or folder is first dragged onto the window, before the user drops it.
 ---
 ---This can be used to change the cursor to something indicating a drag-and-drop operation, for example.
----@type fun(): void
+---@type fun()
 m.dropbegan = nil
 
 ---Callback function triggered when an in-progress file or folder drag-and-drop operation changes position within the window.
----@type fun(x: number, y: number):void
+---@type fun(x: number, y: number)
 m.dropmoved = nil
 
 ---Callback function triggered when a file or folder is done being dragged and dropped into the window.
----@type fun(x: number, y: number):void
+---@type fun(x: number, y: number)
 m.dropcompleted = nil
 
 ---Called when the active audio device is disconnected (e.g. physically unplugging headphones).
 ---
 ---All audio are stopped and loses their playback position when this callback is called.
----@type fun(sources:Source[]):void
+---@type fun(sources:Source[])
 m.audiodisconnected = nil
 
 ---Called when the in-device sensor is updated with new values.
 ---Only sensors enabled with love.sensor.setEnabled will trigger this event.
----@type fun(sensorType:SensorType, x: number, y: number, z: number):void
+---@type fun(sensorType:SensorType, x: number, y: number, z: number)
 m.sensorupdated = nil
 
 ---Called when a Joystick's sensor is updated with new values.
 ---
 ---Only Joystick sensors enabled with Joystick:setSensorEnabled will trigger this event.
----@type fun(joystick: Joystick, sensorType: SensorType, x: number, y: number, z: number):void
+---@type fun(joystick: Joystick, sensorType: SensorType, x: number, y: number, z: number)
 m.joysticksensorupdated = nil
 
 ---Callback function triggered when the window is completely covered by other windows.
@@ -460,13 +460,13 @@ m.joysticksensorupdated = nil
 ---An occluded window is distinct from a window which is not visible.
 ---
 ---If the window is uncovered after being covered, the love.exposed callback will be called.
----@type fun():void
+---@type fun()
 m.occluded = nil
 
 ---Callback function triggered when the window is uncovered.
 ---
 ---If the window is covered after being uncovered, the love.occluded callback will be called.
----@type fun():void
+---@type fun()
 m.exposed = nil
 
 

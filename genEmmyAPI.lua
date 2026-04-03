@@ -427,7 +427,7 @@ local function genCallback(module, callback)
     end
 
     local params_str = table.concat(params_list, ", ")
-    local fun_type_str = string.format("fun(%s):void", params_str)
+    local fun_type_str = string.format("fun(%s)", params_str)
 
     local annotation = string.format("%s\n\n--- %s\n--- @type %s\n%s.%s = nil",
         table.concat(interval_types, "\n\n"),
