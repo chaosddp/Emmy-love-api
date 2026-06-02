@@ -187,6 +187,7 @@ function RandomGenerator:setState(state) end
 
 
 --- @class Transform: Object
+--- @operator mul(Transform): Transform
 --- Object containing a coordinate system transformation.
 ---
 ---
@@ -337,6 +338,11 @@ function Transform:transformPoint(globalX, globalY) end
 function Transform:translate(dx, dy) end
 
 
+--- result = tA * tB is equivalent to result = tA:clone():apply(tB). It maps to the matrix multiplication operation that Transform:apply performs.
+--- The * operator creates a new Transform object, so it is not recommended to use it heavily in per-frame code.
+--- @param other Transform
+--- @return Transform
+function Transform:__mul(other) end
 
 
 

@@ -19,76 +19,75 @@ local module_annotation_template = table.concat({
     "\n",
     "%s",            -- love12 patch
     "\n",
-    "return m",      -- return the module table
+    "return m"       -- return the module table
 }, "\n")
-
 
 --- definitions
 
---- @class Function
---- @field name string @name of function
---- @field description string @description of function
---- @field variants? FunctionVariant[] @variants of function
+---@class Function
+---@field name        string            @name of function
+---@field description string            @description of function
+---@field variants?   FunctionVariant[] @variants of function
 
---- @class ArgumentTableField
---- @field type string @type of a field
---- @field name string @name of field
---- @field description string @description of field
---- @field default? string @default value of field
---- @field table? ArgumentTableField[] @table definition for table argument, we have make this as a internal class type
+---@class ArgumentTableField
+---@field type        string               @type of a field
+---@field name        string               @name of field
+---@field description string               @description of field
+---@field default?    string               @default value of field
+---@field table?      ArgumentTableField[] @table definition for table argument, we have make this as a internal class type
 
---- @class FunctionArgument
---- @field type string @type of argument
---- @field name string @name of argument
---- @field description string @description of argument
---- @field table? table @table definition for table argument, we have make this as a internal class type
---- @field default? string @default value of argument
+---@class FunctionArgument
+---@field type        string @type of argument
+---@field name        string @name of argument
+---@field description string @description of argument
+---@field table?      table  @table definition for table argument, we have make this as a internal class type
+---@field default?    string @default value of argument
 
---- @class FunctionReturn
---- @field type string @type of return
---- @field name string @name of return
---- @field description string @description of return
+---@class FunctionReturn
+---@field type        string @type of return
+---@field name        string @name of return
+---@field description string @description of return
 
---- @class FunctionVariant
---- @field description string @description of variant
---- @field arguments? FunctionArgument[] @arguments of variant
---- @field returns? FunctionReturn[] @returns of current variant
+---@class FunctionVariant
+---@field description string             @description of variant
+---@field arguments?  FunctionArgument[] @arguments of variant
+---@field returns?    FunctionReturn[]   @returns of current variant
 
---- @class Callback
---- @field name string @name of callback
---- @field description string @description of callback
---- @field variants FunctionVariant[] @variants of callback
+---@class Callback
+---@field name        string            @name of callback
+---@field description string            @description of callback
+---@field variants    FunctionVariant[] @variants of callback
 
---- @class EnumField
---- @field name string @name of field
---- @field description string @description of field
+---@class EnumField
+---@field name        string @name of field
+---@field description string @description of field
 
---- @class Enum
---- @field name string @name of enum
---- @field description string @description of enum
---- @field constants EnumField[] @ fields of enum
+---@class Enum
+---@field name        string      @name of enum
+---@field description string      @description of enum
+---@field constants   EnumField[] @ fields of enum
 
---- @class ClassDef
---- @field name string @name of class
---- @field description string @description of class
---- @field constructors? string[] @constructors of class
---- @field supertypes? string[] @supertypes of class
---- @field functions? Function[] @functions of class
+---@class ClassDef
+---@field name          string     @name of class
+---@field description   string     @description of class
+---@field constructors? string[]   @constructors of class
+---@field supertypes?   string[]   @supertypes of class
+---@field functions?    Function[] @functions of class
 
---- @class Module
---- @field name? string @name of module
---- @field version? string @love version
---- @field description? string @description of love
---- @field modules? Module[] @modules of love
---- @field enums? Enum[] @enums of love
---- @field callbacks? Callback[] @callbacks of love
---- @field types? table<string, any> @types of love
---- @field functions? table<string, any> @functions of love
+---@class Module
+---@field name?        string             @name of module
+---@field version?     string             @love version
+---@field description? string             @description of love
+---@field modules?     Module[]           @modules of love
+---@field enums?       Enum[]             @enums of love
+---@field callbacks?   Callback[]         @callbacks of love
+---@field types?       table<string, any> @types of love
+---@field functions?   table<string, any> @functions of love
 
 --- check if a table has a field, return true if the table has the field
---- @param t table @table to check
---- @param k string @key to check
---- @return boolean @true if the table has the field, even the field value is nil
+---@param t table  @table to check
+---@param k string @key to check
+---@return boolean @true if the table has the field, even the field value is nil
 local function hasField(t, k)
     for _k in pairs(t) do
         if k == _k then
@@ -100,13 +99,13 @@ local function hasField(t, k)
 end
 
 --- correct type name
---- @param type_name string @type name to correct
---- @return string @corrected type name
+---@param type_name string @type name to correct
+---@return string @corrected type name
 local function correctType(type_name)
     if type_name == "Variant" then
         return "any"
     end
-    
+
     -- replace "or" with "|" for union type
     local s, _ = string.gsub(type_name, "%sor%s", "|")
 
@@ -121,8 +120,8 @@ local function capitalize(str)
 end
 
 --- convert the description to a valid one
---- @param src string @string may contains multiple lines
---- @return string @safe description
+---@param src string @string may contains multiple lines
+---@return string @safe description
 local function safeDesc(src)
     local s, _ = string.gsub(src, "\n", "\n---\n---")
 
@@ -130,8 +129,8 @@ local function safeDesc(src)
 end
 
 --- write content to file
---- @param content string @content to write
---- @param file string @file to write
+---@param content string @content to write
+---@param file    string @file to write
 local function writeFile(content, file)
     local f = assert(io.open(file, "w"))
     f:write(content)
@@ -139,8 +138,8 @@ local function writeFile(content, file)
 end
 
 --- read content from file
---- @param file string @file to read
---- @return string @content
+---@param file string @file to read
+---@return string @content
 local function readFile(file)
     local f = io.open(file, "r")
 
@@ -154,18 +153,15 @@ local function readFile(file)
     return content
 end
 
-
---- @param func Function @function definition
---- @param parent_inst_name string @parent instance name, used to attach function to instance
+---@param func             Function @function definition
+---@param parent_inst_name string   @parent instance name, used to attach function to instance
 local function genFunction(func, parent_inst_name, is_class)
     -- use first variant as default variant, arguments description will be annotated under the description
     -- other variants will be 'overload', 'overload's do not have argument description
     -- if argument has field "default", then it is optional
     local function_seperator = is_class and ":" or "."
 
-    local annotation_list = {
-        string.format("--- %s", safeDesc(func.description)),
-    }
+    local annotation_list = { string.format("--- %s", safeDesc(func.description)) }
 
     -- parameter list used to generate function
     local param_name_list = {}
@@ -186,13 +182,13 @@ local function genFunction(func, parent_inst_name, is_class)
 
                 table.insert(param_name_list, arg_name)
 
-                table.insert(annotation_list,
+                table.insert(
+                    annotation_list,
                     string.format(
-                        "--- @param %s %s @%s",
-                        has_default_value and arg_name .. "?" or arg_name,
-                        arg_type,
+                        "--- @param %s %s @%s", has_default_value and arg_name .. "?" or arg_name, arg_type,
                         safeDesc(arg_description)
-                    ))
+                    )
+                )
             end
         end
 
@@ -202,13 +198,7 @@ local function genFunction(func, parent_inst_name, is_class)
                 local ret_type = correctType(ret.type)
                 local ret_description = ret.description
 
-                table.insert(annotation_list,
-                    string.format(
-                        "--- @return %s @%s",
-                        ret_type,
-                        safeDesc(ret_description)
-                    )
-                )
+                table.insert(annotation_list, string.format("--- @return %s @%s", ret_type, safeDesc(ret_description)))
             end
         end
 
@@ -224,13 +214,7 @@ local function genFunction(func, parent_inst_name, is_class)
                     local arg_type = correctType(arg.type)
                     local arg_name = arg.name
 
-                    table.insert(variant_param_list,
-                        string.format(
-                            "%s: %s",
-                            arg_name,
-                            arg_type
-                        )
-                    )
+                    table.insert(variant_param_list, string.format("%s: %s", arg_name, arg_type))
                 end
 
                 if variant.returns then
@@ -247,10 +231,10 @@ local function genFunction(func, parent_inst_name, is_class)
             end
 
             -- generate variant like: @overload fun(a: number, b: bool):void
-            table.insert(annotation_list,
+            table.insert(
+                annotation_list,
                 string.format(
-                    "--- @overload fun(%s):%s",
-                    table.concat(variant_param_list, ", "),
+                    "--- @overload fun(%s):%s", table.concat(variant_param_list, ", "),
                     table.concat(variant_return_list, ", ")
                 )
             )
@@ -259,11 +243,7 @@ local function genFunction(func, parent_inst_name, is_class)
 
     -- function declaration
     local func_decl = string.format(
-        "function %s%s%s(%s) end",
-        parent_inst_name,
-        function_seperator,
-        func.name,
-        table.concat(param_name_list, ", ")
+        "function %s%s%s(%s) end", parent_inst_name, function_seperator, func.name, table.concat(param_name_list, ", ")
     )
 
     table.insert(annotation_list, func_decl)
@@ -272,10 +252,40 @@ local function genFunction(func, parent_inst_name, is_class)
     return table.concat(annotation_list, "\n")
 end
 
---- @param cls ClassDef
---- @return string @annotation of class
+---@param cls ClassDef
+---@return string @annotation of class
 local function genClass(cls)
     local annotation_list = {}
+    local patched_fields = {}
+    local patched_methods = {}
+
+    -- if there is any class patch file?
+    local fs = io.open("patches/" .. cls.name .. ".lua")
+
+    if fs ~= nil then
+        local target = patched_fields
+
+        while true do
+            line = fs:read("l")
+
+            if line == nil then
+                break
+            end
+
+            -- the patch file should start with one of following segment to tell generator where to insert the patch:
+            -- "---class_fields---": insert the patch just after class definition
+            -- "---class_methods---": append the patch after class method definition
+            if #line == 0 then
+                -- do nothing, just ignore it
+            elseif line == "---class_fields---" then
+                target = patched_fields
+            elseif line == "---class_methods---" then
+                target = patched_methods
+            else
+                table.insert(target, line)
+            end
+        end
+    end
 
     local type_annotation = string.format("--- @class %s", cls.name)
 
@@ -286,6 +296,9 @@ local function genClass(cls)
     -- class type
     table.insert(annotation_list, type_annotation)
 
+    for _, item in ipairs(patched_fields) do
+        table.insert(annotation_list, item)
+    end
 
     -- class description
     table.insert(annotation_list, string.format("--- %s", safeDesc(cls.description)))
@@ -301,27 +314,25 @@ local function genClass(cls)
         end
     end
 
+    for _, item in ipairs(patched_methods) do
+        table.insert(annotation_list, item)
+    end
+
     return table.concat(annotation_list, "\n")
 end
 
-
---- @param enum Enum @enum definition
---- @return string @generated enum annotation
+---@param enum Enum @enum definition
+---@return string @generated enum annotation
 local function genEnum(enum)
     local annotation_list = {
-        string.format("--- %s", safeDesc(enum.description)),
-        string.format("--- @alias %s", enum.name),
+        string.format("--- %s", safeDesc(enum.description)), string.format("--- @alias %s", enum.name)
     } -- all the part of annotation
 
     for _, field in ipairs(enum.constants) do
         local field_name = field.name
         local field_description = field.description
 
-        local field_annotation = string.format(
-            "---| '%s' #%s",
-            field_name,
-            safeDesc(field_description)
-        )
+        local field_annotation = string.format("---| '%s' #%s", field_name, safeDesc(field_description))
 
         table.insert(annotation_list, field_annotation)
     end
@@ -331,11 +342,11 @@ end
 
 --- generate type annotation from a table field if the field type is table and has field "table",
 --- then we will generate a type for it recursively, name startswith function/callback name, such argument of love.conf
---- @param name string @name of internal type
---- @param fields ArgumentTableField[] @table field
---- @return string @name of internal type
---- @return string @generated internal type annotation
---- @return string[]? @generated nested internal type annotations
+---@param name   string               @name of internal type
+---@param fields ArgumentTableField[] @table field
+---@return string    @name of internal type
+---@return string    @generated internal type annotation
+---@return string[]? @generated nested internal type annotations
 local function genInternalType(name, fields)
     local field_annotation_list = {}       -- field of current type
     local nested_type_annotation_list = {} -- nested type annotation
@@ -354,8 +365,9 @@ local function genInternalType(name, fields)
             field_type = type_name .. capitalize(field_name)
 
             -- generate nested types
-            local _, sub_field_internal_annotation, nested_fields_internal_annotations = genInternalType(field_type,
-                field_table)
+            local _, sub_field_internal_annotation, nested_fields_internal_annotations = genInternalType(
+                field_type, field_table
+            )
 
             table.insert(nested_type_annotation_list, sub_field_internal_annotation)
 
@@ -366,29 +378,21 @@ local function genInternalType(name, fields)
             end
         end
 
-
         local field_annotation_str = string.format(
-            "--- @field %s %s @%s",
-            field_name,
-            field_type,
-            safeDesc(field_description)
+            "--- @field %s %s @%s", field_name, field_type, safeDesc(field_description)
         )
 
         table.insert(field_annotation_list, field_annotation_str)
     end
 
-    local annotation = string.format(
-        "--- @class %s\n%s",
-        type_name,
-        table.concat(field_annotation_list, "\n")
-    )
+    local annotation = string.format("--- @class %s\n%s", type_name, table.concat(field_annotation_list, "\n"))
 
     return type_name, annotation, nested_type_annotation_list
 end
 
---- @param module string @name of parent module, callbacks will be generated under this module
---- @param callback Callback @callback definition
---- @return string @generated callback annotation
+---@param module   string   @name of parent module, callbacks will be generated under this module
+---@param callback Callback @callback definition
+---@return string @generated callback annotation
 local function genCallback(module, callback)
     -- NOTE: we will ignore variants more than 2 for callbacks, and callback has no return value
 
@@ -429,21 +433,18 @@ local function genCallback(module, callback)
     local params_str = table.concat(params_list, ", ")
     local fun_type_str = string.format("fun(%s)", params_str)
 
-    local annotation = string.format("%s\n\n--- %s\n--- @type %s\n%s.%s = nil",
-        table.concat(interval_types, "\n\n"),
-        safeDesc(description),
-        fun_type_str,
-        module,
-        name
+    local annotation = string.format(
+        "%s\n\n--- %s\n--- @type %s\n%s.%s = nil", table.concat(interval_types, "\n\n"), safeDesc(description),
+        fun_type_str, module, name
     )
 
     return annotation
 end
 
---- @param type_name string @type name of module, like Image, Texture
---- @param module_name string @absolute name of module, like love.graphics
---- @param definition Module @module definition
---- @param output_dir string @output directory
+---@param type_name   string @type name of module, like Image, Texture
+---@param module_name string @absolute name of module, like love.graphics
+---@param definition  Module @module definition
+---@param output_dir  string @output directory
 local function genModule(type_name, module_name, definition, output_dir)
     local callback_annotation_list = {}
     local function_annotation_list = {}
@@ -451,11 +452,9 @@ local function genModule(type_name, module_name, definition, output_dir)
     local class_annotation_list = {}
     local fields_annotation_list = {} -- for submodules now
 
-
     -- generate callback annotations if there are any
     if definition.callbacks then
         local callbacks = definition.callbacks
-
 
         for _, callback in ipairs(callbacks) do
             -- since we will make love as m locally, use m as module name for generated callback annotation
@@ -520,15 +519,8 @@ local function genModule(type_name, module_name, definition, output_dir)
     local module_patch = readFile("love12/" .. module_name .. ".lua")
 
     local module_annotation_str = string.format(
-        module_annotation_template,
-        type_name,
-        type_name,
-        enum_annotation_str,
-        class_annotation_str,
-        callback_annotation_str,
-        function_annotation_str,
-        field_annotation_str,
-        module_patch
+        module_annotation_template, type_name, type_name, enum_annotation_str, class_annotation_str,
+        callback_annotation_str, function_annotation_str, field_annotation_str, module_patch
     )
 
     -- write to file
