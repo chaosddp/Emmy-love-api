@@ -518,6 +518,11 @@ local function genModule(type_name, module_name, definition, output_dir)
     local field_annotation_str = table.concat(fields_annotation_list, "\n")
     local module_patch = readFile("love12/" .. module_name .. ".lua")
 
+    -- if it is 'love', then we add a global variable love at the end, so LSP (like emmylua) can find love is a global variable with type love
+    if type_name == "love" then
+        module_patch = module_patch .. "\n\n" .. "love = m"
+    end
+
     local module_annotation_str = string.format(
         module_annotation_template, type_name, type_name, enum_annotation_str, class_annotation_str,
         callback_annotation_str, function_annotation_str, field_annotation_str, module_patch

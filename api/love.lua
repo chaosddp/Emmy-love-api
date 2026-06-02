@@ -469,5 +469,7 @@ m.occluded = nil
 ---@type fun()
 m.exposed = nil
 
+love = m
+
 
 return m
